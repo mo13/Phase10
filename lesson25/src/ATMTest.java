@@ -12,7 +12,7 @@ public class ATMTest {
 		
 		// create a task, in which ATM1 is used to access the 
 		// checking account, display balance and withdrawl all funds
-		Runnable r1 = new Runnable(){
+		 Runnable r1 = new Runnable(){
 			public void run(){
 				atm1.useAccount(checking, "John");
 				atm1.getBalance();

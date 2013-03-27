@@ -6,11 +6,12 @@ public class Account {
 	// Constructor
 	public Account(int initialDeposit){
 		total = initialDeposit;
+
 	}
 	
 	// Getters & Setters
 	
-	public boolean deduct(int withdrawlAmount){		
+	public synchronized boolean deduct(int withdrawlAmount){		
 		if (total >= withdrawlAmount){
 	
 			// simulate delay in the system
@@ -23,11 +24,11 @@ public class Account {
 			return false;	
 	}	
 	
-	public void add(int depositAmount){
+	public synchronized void add(int depositAmount){
 		total += depositAmount;		
 	}
 
-	public int getBalance(){
+	public synchronized int getBalance(){
 		return total;
 	}
 }
