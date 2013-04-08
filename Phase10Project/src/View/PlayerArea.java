@@ -1,6 +1,9 @@
+package View;
+
+
 public class PlayerArea {
 
-  public Player player;
+
 
   public void showPhase() {
   }

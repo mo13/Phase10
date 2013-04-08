@@ -1,4 +1,8 @@
+package Model;
+
 import java.util.*;
+
+import Strategy.Strategy;
 
 public class Player {
 

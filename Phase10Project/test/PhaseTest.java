@@ -1,8 +1,12 @@
 import static org.junit.Assert.*;
+import Model.*;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import Model.Card;
+import Model.Phase;
 
 
 public class PhaseTest {

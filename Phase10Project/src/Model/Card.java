@@ -1,16 +1,17 @@
+package Model;
 import java.util.*;
 
 public class Card {
 
-	 final private int number; // invariant numbers between 1 and 12
-	 final private cardColor color; // look for colors
-	 final private type type; // look up enumerators
+	 private int number; // invariant numbers between 1 and 12
+	 private cardColor color; // look for colors
+	 private type type; // look up enumerators
 	
-	static  enum cardColor {
+	public static  enum cardColor {
 		Red,Blue,Green,Yellow,Black
 	}
 	
-	static enum type {
+	public static enum type {
 		Normal,Wild,Skip
 	}
 
@@ -53,6 +54,15 @@ public class Card {
 		sb.append(" ");
 		sb.append(this.type);
 		return sb.toString();
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	public void setColor(cardColor color) {
+		this.color = color;
+	}
+	public void setType(type type) {
+		this.type = type;
 	}
 }
 

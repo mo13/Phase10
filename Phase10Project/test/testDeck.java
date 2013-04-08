@@ -2,6 +2,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import Model.Card;
+import Model.Deck;
+
 
 public class testDeck {
 	Deck deck = new Deck();

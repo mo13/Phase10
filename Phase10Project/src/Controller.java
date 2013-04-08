@@ -1,3 +1,5 @@
+import Model.Player;
+
 public class Controller {
 
   public Player Player1;
