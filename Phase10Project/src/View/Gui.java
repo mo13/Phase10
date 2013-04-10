@@ -5,8 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+
 
 
 public class Gui implements ActionListener {
@@ -15,7 +14,7 @@ public class Gui implements ActionListener {
 	}
 	private JFrame frame;
 	private JButton button;
-	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel, gridPanel;
+	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 	private JLabel img;
 	private JMenuBar menuBar;
 	private JMenuItem setupMenuItem, exitMenuItem, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
@@ -180,12 +179,11 @@ public class Gui implements ActionListener {
 		
 		button = new JButton("Set Place Holder");
 		bottomPanel.add(button);
-		img = new JLabel(new ImageIcon("IronMan.jpg"));
+		img = new JLabel(new ImageIcon("obi-wan.jpeg"));
 		bottomPanel.add(img);
 		button = new JButton("Run Place Holder");
 		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,300,0,0));
 		bottomPanel.add(button);
-			
 		
 		
 		contentPane.add(bottomPanel, BorderLayout.PAGE_END);
@@ -198,6 +196,11 @@ public class Gui implements ActionListener {
 		//frame.add(contentPane);
 		frame.setJMenuBar(menuBar);
 		frame.pack();
+	}
+	
+	public void addPlayerArea(Player player, PlayerName)
+	{
+	  new PlayerArea.setPlayer(player);
 	}
 	
 
