@@ -18,6 +18,8 @@ public class Hand extends ArrayList<Card> {
 	  this.remove(index);
   }
   
+  
+  
   public void orderHand(){
 	  Card biggerCard;
 	  Card smallerCard;

@@ -118,8 +118,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="Strategy.PhaseSearcher" project="Phase10Project" 
-    file="/Phase10Project/src/Strategy/PhaseSearcher.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="Strategy.RecklessPlayer" project="Phase10Project" 
+    file="/Phase10Project/src/Strategy/RecklessPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="583" y="372"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -127,8 +127,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="Strategy.cardCounter" project="Phase10Project" 
-    file="/Phase10Project/src/Strategy/cardCounter.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="15" language="java" name="Strategy.DrunkPlayer" project="Phase10Project" 
+    file="/Phase10Project/src/Strategy/DrunkPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="737" y="372"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

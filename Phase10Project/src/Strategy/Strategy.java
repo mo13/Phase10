@@ -1,7 +1,17 @@
 package Strategy;
+import Model.*;
 public class Strategy {
 
-  public Integer newAttr;
-
+  public void chooseDiscard(){
+	  
+  }
+  
+  public void chooseDraw(){
+	  
+  }
+  
+  public void analyzeHand(){
+	  
+  }
   
 }

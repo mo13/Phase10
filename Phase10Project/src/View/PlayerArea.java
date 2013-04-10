@@ -10,23 +10,23 @@ import Model.*;
 
 public class PlayerArea implements ActionListener {
 
-	private JPanel Player0Area;
 	Player player;// =new Player("Cortona");
 
 	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	
 
-	public void Player1Area(){
+	public  PlayerArea(Player player){
 		
-	//PlayerArea
-			Player0Area = new JPanel();
+			JPanel Player0Area = new JPanel();
 			Player0Area.setLayout(new BoxLayout(Player0Area, BoxLayout.X_AXIS));
 			Player0Area.setBorder(BorderFactory.createEmptyBorder(100,600,0,0));
 			Player0Area.setPreferredSize(new Dimension(600,600));
 			System.out.println("Phase:" + player.getPhaseNumber());
 			Player0Area.setBackground(Color.BLACK);
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
   public void showPhase() {
@@ -34,6 +34,23 @@ public class PlayerArea implements ActionListener {
 
   public void showHand() {
   }
+  
+//  public void addPlayerArea(Player player)
+//	{
+//	  PlayerArea player1Area = new PlayerArea();
+//	  player1Area.setPlayer(player);
+//	  
+//	  PlayerArea player2Area = new PlayerArea();
+//	  player2Area.setPlayer(player);
+//	  
+//	  PlayerArea player3Area = new PlayerArea();
+//	  player3Area.setPlayer(player);
+//	  
+//	  PlayerArea player4Area = new PlayerArea();
+//	  player4Area.setPlayer(player);
+//	  
+//	
+//	}
 
 
 

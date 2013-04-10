@@ -13,10 +13,8 @@ public class Gui implements ActionListener {
 	public Gui() {
 		createUI();
 	}
-	private PlayerArea player1Area = new PlayerArea();
-	private PlayerArea player2Area = new PlayerArea();
-	private PlayerArea player3Area = new PlayerArea();
-	private PlayerArea player4Area = new PlayerArea();
+	private PlayerArea player1Area, player2Area,player3Area, player4Area;
+
 	
 	private JFrame frame;
 	private JButton button;
@@ -163,7 +161,7 @@ public class Gui implements ActionListener {
 		leftPanel.add(button);
 	//center
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+		centerPanel.setLayout(new BorderLayout(centerPanel));
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		centerPanel.setPreferredSize(new Dimension(600,600));
 		centerPanel.setBackground(Color.RED);
@@ -207,22 +205,7 @@ public class Gui implements ActionListener {
 		frame.pack();
 	}
 	
-	public void addPlayerArea(Player player)
-	{
-	  PlayerArea player1Area = new PlayerArea();
-	  player1Area.setPlayer(player);
-	  
-	  PlayerArea player2Area = new PlayerArea();
-	  player2Area.setPlayer(player);
-	  
-	  PlayerArea player3Area = new PlayerArea();
-	  player3Area.setPlayer(player);
-	  
-	  PlayerArea player4Area = new PlayerArea();
-	  player4Area.setPlayer(player);
-	  
 	
-	}
 	
 
 

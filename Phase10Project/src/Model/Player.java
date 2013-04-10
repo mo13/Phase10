@@ -7,16 +7,21 @@ import Strategy.*;
 public class Player {
 
   private String name;
-
   public Strategy strategy;
-
   public  Hand hand;
-
   private int phaseNumber;
-
   private int score;
+  public boolean phasedOut;
+  
+  // the phase info
+  
+  public int numSets;
 
-  public  PhaseCollections<Card> currPhase;
+  public int colorSets;
+  public int setSize;
+  public int secondSetSize;
+  public int runSize;
+  Phase phase = new Phase();
 
 
   public Player(String name){
@@ -25,6 +30,7 @@ public class Player {
 	  this.phaseNumber = 1;
 	  this.score = 0;
 	  this.hand = new Hand();
+	  this.phasedOut = false;
 	  
   }
   
@@ -67,7 +73,27 @@ public class Player {
 	}
 	
 	public void checkHand(){
-		
+		Card possibleCard;
+		ArrayList<Boolean> phaseStatus = new ArrayList<Boolean>();
+		if(this.numSets > 0){
+			for(int i = 0; i < this.hand.size()-1; i++){
+		//		possibleCard = this.hand.remove(i);
+				if(this.hand.get(i).getType() == Card.type.Normal){
+					if(this.hand.get(i).getNumber() == this.hand.get(i+1).getNumber()){
+						phaseStatus.add(true);				
+					} else{
+						phaseStatus.add(false);
+					}
+				} else if (this.hand.get(i).getType() == Card.type.Wild){
+					phaseStatus.add(true);
+				}
+				
+			}
+		}
+	}
+	
+	public void getPhaseInfo(){
+		phase.checkPhase(this.getPhaseNumber(), this);
 	}
   
   
