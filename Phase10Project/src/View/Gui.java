@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Model.*;
 
 
 
@@ -12,6 +13,10 @@ public class Gui implements ActionListener {
 	public Gui() {
 		createUI();
 	}
+	private PlayerArea player1Area = new PlayerArea();
+	private PlayerArea player2Area = new PlayerArea();
+	private PlayerArea player3Area = new PlayerArea();
+	private PlayerArea player4Area = new PlayerArea();
 	private JFrame frame;
 	private JButton button;
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
@@ -113,7 +118,7 @@ public class Gui implements ActionListener {
 		hit = new JMenuItem("Hit");
 		hit.addActionListener(unimplementedMenu_Click("This will make the player hit a collection someone already played."));
 		playerOptions.add(hit);
-		
+
 		playPhase = new JMenuItem("Phase Out");
 		playPhase.addActionListener(unimplementedMenu_Click("This will make the player phase out when he has a phase completed."));
 		playerOptions.add(playPhase);
@@ -198,9 +203,10 @@ public class Gui implements ActionListener {
 		frame.pack();
 	}
 	
-	public void addPlayerArea(Player player, PlayerName)
+	public void addPlayerArea(Player player)
 	{
-	  new PlayerArea.setPlayer(player);
+	  PlayerArea player1Area = new PlayerArea();
+	  player1Area.setPlayer(player);
 	}
 	
 
