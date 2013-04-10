@@ -53,14 +53,6 @@ public class Player {
 		return name;
 	}
 	
-	public void drawCard(Deck deck) {
-		Card tempCard = deck.draw();
-		this.hand.add(tempCard);
-	}
-	
-	public void discardCard() {
-		
-	}
 	  
 	public void phaseOut(){
 		  
