@@ -25,7 +25,9 @@ public class testCard {
 	@Test
 	public void testToString() {
 		Card card = new Card(12, Card.cardColor.Red, Card.type.Normal);
+		String ans = "12 Red Normal";
 		System.out.println(card.toString());
+		assertEquals(card.toString(), ans);
 	}
 	
 	@Test 

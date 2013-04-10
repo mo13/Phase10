@@ -55,14 +55,6 @@ public class Card {
 		sb.append(this.type);
 		return sb.toString();
 	}
-	public void setNumber(int number) {
-		this.number = number;
-	}
-	public void setColor(cardColor color) {
-		this.color = color;
-	}
-	public void setType(type type) {
-		this.type = type;
-	}
+
 }
 

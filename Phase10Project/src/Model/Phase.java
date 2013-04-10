@@ -62,7 +62,7 @@ public void checkPhase(int curPhase, ArrayList<Card> phaseCards){
 		// Phase 10 is 1 set of 5 and 1 set of 3
 		numSets = 2;
 		setSize = 5;
-		secondSetSize = 3;
+		secondSetSize = 3;                 
 		runSize = 0;
 	}
 	
@@ -76,9 +76,13 @@ public static Boolean checkNumSet(ArrayList<Card> numSet, int setSize){
 	int numCheck = numSet.get(0).getNumber();
 	if (numSet.size() == setSize){
 		for(int i = 0; i < setSize; i++){
-			if (numCheck != numSet.get(i).getNumber()){
-				setStatus = false;
+			if(numSet.get(i).getType() == Card.type.Wild){
+				setStatus = true;
 			}
+			else if (numCheck != numSet.get(i).getNumber()){
+				setStatus = false;
+				break;
+			} 
 		}
 	} else {
 		setStatus = false;
@@ -91,8 +95,11 @@ public static Boolean checkColorSet(ArrayList<Card> colorSet, int setSize){
 	Card.cardColor colorCheck = colorSet.get(0).getColor();
 	if (colorSet.size() == setSize){
 		for(int i = 0; i < setSize; i++){
-			if (colorCheck != colorSet.get(i).getColor()){
+			if(colorSet.get(i).getType() == Card.type.Wild){
+				setStatus = true;
+			} else if (colorCheck != colorSet.get(i).getColor()){
 				setStatus = false;
+				break;
 			}
 		}
 	} else {
@@ -108,8 +115,11 @@ public static Boolean checkRun(ArrayList<Card> run, int runSize){
 	int runStart = run.get(0).getNumber();
 	if (run.size() == runSize){
 		for(int i = 1; i < runSize; i++){
-			if(runStart != run.get(i).getNumber()-1){
+			if(run.get(i).getType() == Card.type.Wild){
+				runStatus = true;
+			} else if(runStart != run.get(i).getNumber()-1){
 				runStatus = false;
+				break;
 			}
 			runStart++;
 		}

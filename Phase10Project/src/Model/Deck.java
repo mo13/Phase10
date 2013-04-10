@@ -7,11 +7,14 @@ import java.util.ArrayList;
 
 public class Deck extends ArrayList<Card> {
 	private ArrayList<Card.cardColor> colors = new ArrayList<Card.cardColor>();	
+	private deckType type;
+	public enum deckType{
+		DrawPile, DiscardPile
+	}
 	
-	
-//	public enum cardColor{
-//		Red,Blue,Green,Yellow,Black
-//	}
+	public Deck(deckType type){
+		this.type = type;
+	}
 	
 	public void createDeck(){
 		colors.add(Card.cardColor.Red);
@@ -46,4 +49,45 @@ public class Deck extends ArrayList<Card> {
 		}
 		return result.toString();
 	}
+	
+	public Card draw(){
+		int index;
+		if(this.type == deckType.DrawPile){
+			index = (int)Math.round(Math.random()*(this.size()-1));
+		} else {
+			index = this.size()-1;
+			
+		}
+		
+		Card tempCard = this.get(index);
+		this.remove(index);
+		
+		return tempCard;
+	}
+	
+	public Card draw(int index){
+		return this.remove(index);
+	}
+	
+
+	
+	public void shuffle(){
+		int mid = this.size()/2;
+		for(int begin = 0; begin<mid; begin++){
+//			for(int end = mid; end <this.size(); end++){
+//				
+//			}
+			int num1 = begin;
+			int num2 = mid + begin-1;
+			this.swap(num1, num2);
+		}
+	}
+	
+	public void swap(int index1, int index2){
+		Card tempCard1 = this.remove(index1);
+		Card tempCard2 = this.remove(index2);
+		this.add(index2, tempCard1);
+		this.add(index1, tempCard2);		
+	}
+	
 }
