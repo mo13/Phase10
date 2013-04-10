@@ -17,6 +17,7 @@ public class Gui implements ActionListener {
 	private PlayerArea player2Area = new PlayerArea();
 	private PlayerArea player3Area = new PlayerArea();
 	private PlayerArea player4Area = new PlayerArea();
+	
 	private JFrame frame;
 	private JButton button;
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
@@ -143,6 +144,7 @@ public class Gui implements ActionListener {
 		
 		topPanel.add(button);
 		img = new JLabel(new ImageIcon("darthvader.jpg"));
+		img.setSize(new Dimension(100,100));
 		topPanel.add(img);
 		button = new JButton("Run Place Holder");
 		topPanel.setBorder(BorderFactory.createEmptyBorder(0,300,0,0));
@@ -154,6 +156,7 @@ public class Gui implements ActionListener {
 		button = new JButton("Set Place Holder");
 		leftPanel.add(button);
 		img = new JLabel(new ImageIcon("wolverine.jpg"));
+		img.setSize(new Dimension(100,100));
 		leftPanel.add(img);
 		button = new JButton("Run Place Holder");
 		leftPanel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
@@ -185,6 +188,7 @@ public class Gui implements ActionListener {
 		button = new JButton("Set Place Holder");
 		bottomPanel.add(button);
 		img = new JLabel(new ImageIcon("obi-wan.jpeg"));
+		img.setSize(new Dimension(100,100));
 		bottomPanel.add(img);
 		button = new JButton("Run Place Holder");
 		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,300,0,0));
@@ -207,6 +211,17 @@ public class Gui implements ActionListener {
 	{
 	  PlayerArea player1Area = new PlayerArea();
 	  player1Area.setPlayer(player);
+	  
+	  PlayerArea player2Area = new PlayerArea();
+	  player2Area.setPlayer(player);
+	  
+	  PlayerArea player3Area = new PlayerArea();
+	  player3Area.setPlayer(player);
+	  
+	  PlayerArea player4Area = new PlayerArea();
+	  player4Area.setPlayer(player);
+	  
+	
 	}
 	
 
