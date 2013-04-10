@@ -161,7 +161,7 @@ public class Gui implements ActionListener {
 		leftPanel.add(button);
 	//center
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new BorderLayout(centerPanel));
+		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		centerPanel.setPreferredSize(new Dimension(600,600));
 		centerPanel.setBackground(Color.RED);
