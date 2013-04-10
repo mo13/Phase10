@@ -1,3 +1,4 @@
+package Controller;
 import Model.Player;
 
 public class Controller {
@@ -11,6 +12,10 @@ public class Controller {
   public Player Player4;
 
   public Boolean endGame;
+  
+  public void dealCards() {
+	  
+  }
 
   public void scoreRound() {
   }
