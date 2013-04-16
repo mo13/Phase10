@@ -7,13 +7,26 @@ public class HandTest {
 	
 	Player cortona = new Player("Cortona");
 	Deck drawPile = new Deck(Deck.deckType.DrawPile);
+	@Test 
+	public void testHandCreate(){
+		fail("Not yet implemented");
+	}
 	@Test
-	public void testDraw() {
+	public void testGoodDraw() {
 		drawPile.createDeck();
 		cortona.hand.draw(drawPile);
 		assertSame(drawPile.size(), 107);
 		assertSame(cortona.hand.size(), 1);
 			
+		}
+	
+	@Test
+	public void testBadDraw() {
+//		drawPile.createDeck();
+//		cortona.hand.draw(drawPile);
+//		assertSame(drawPile.size(), 107);
+//		assertSame(cortona.hand.size(), 1);
+		fail("Not yet implemented.");
 		}
 
 	@Test
@@ -22,9 +35,12 @@ public class HandTest {
 		cortona.hand.draw(drawPile);
 		cortona.hand.draw(drawPile);
 		cortona.hand.draw(drawPile);
+		// the size of the drawPile decreased by three because of the draw methods. 
 		assertSame(drawPile.size(),105);
+		// the players hand grew by three because of the three draws.
 		assertSame(cortona.hand.size(), 3);
 		cortona.hand.discard(1);
+		// 
 		assertSame(cortona.hand.size(),2);
 		
 	}

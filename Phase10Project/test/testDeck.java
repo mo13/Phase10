@@ -53,8 +53,8 @@ public class testDeck {
 	@Test 
 	public void testDrawFromDrawPile(){
 		drawPile.createDeck();
-		Card testCards = drawPile.get(5);
-		assertEquals(testCards, drawPile.draw(5));
+		drawPile.draw();
+		assertEquals(drawPile.size(), 107);
 	}
 	
 	@Test 
@@ -85,8 +85,11 @@ public class testDeck {
 		assertTrue(checkCard1 != drawPile.get(1));
 		assertTrue(checkCard2 != drawPile.get(48));
 		assertTrue(checkCard3 != drawPile.get(107));
-		
-		
+	}
+	
+	@Test 
+	public void testRefillDrawPile(){
+		fail("Not yet implemented.");
 	}
 
 }

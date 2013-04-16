@@ -13,8 +13,6 @@ public class PlayerArea implements ActionListener {
 	Player player;// =new Player("Cortona");
 
 	
-	
-
 	public  PlayerArea(Player player){
 		
 			JPanel Player0Area = new JPanel();
@@ -30,31 +28,13 @@ public class PlayerArea implements ActionListener {
 	}
 
   public void showPhase() {
+  
   }
 
   public void showHand() {
+
   }
   
-//  public void addPlayerArea(Player player)
-//	{
-//	  PlayerArea player1Area = new PlayerArea();
-//	  player1Area.setPlayer(player);
-//	  
-//	  PlayerArea player2Area = new PlayerArea();
-//	  player2Area.setPlayer(player);
-//	  
-//	  PlayerArea player3Area = new PlayerArea();
-//	  player3Area.setPlayer(player);
-//	  
-//	  PlayerArea player4Area = new PlayerArea();
-//	  player4Area.setPlayer(player);
-//	  
-//	
-//	}
-
-
-
-
 
 @Override
 public void actionPerformed(ActionEvent e) {

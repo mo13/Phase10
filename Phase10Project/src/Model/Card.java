@@ -46,8 +46,6 @@ public class Card {
 	}
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-//		String output = "";
-//		output+= this.number + " " + this.color + " " + this.type;
 		sb.append(this.number);
 		sb.append(" ");
 		sb.append(this.color);

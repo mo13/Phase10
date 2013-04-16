@@ -5,7 +5,7 @@ import java.util.*;
 import Strategy.*;
 
 public class Player {
-
+	
   private String name;
   public Strategy strategy;
   public  Hand hand;
@@ -16,22 +16,32 @@ public class Player {
   // the phase info
   
   public int numSets;
-
   public int colorSets;
   public int setSize;
   public int secondSetSize;
   public int runSize;
   Phase phase = new Phase();
-
-
+  
+  public Player(){
+	  
+  }
+  
   public Player(String name){
+	  this.name = name;
+	  this.phaseNumber = 1;
+	  this.score = 0;
+	  this.hand = new Hand();
+	  this.phasedOut = false;
+	  
+  }
+  
+  public Player(String name, Strategy strategy){
 	  this.name = name;
 	  this.strategy = strategy;
 	  this.phaseNumber = 1;
 	  this.score = 0;
 	  this.hand = new Hand();
 	  this.phasedOut = false;
-	  
   }
   
   	public Strategy getStrategy() {
@@ -72,7 +82,7 @@ public class Player {
 		  
 	}
 	
-	public void checkHand(){
+	public ArrayList<ArrayList<Card>> checkHand(Card newCard){
 		Card possibleCard;
 		ArrayList<Boolean> phaseStatus = new ArrayList<Boolean>();
 		if(this.numSets > 0){
@@ -90,6 +100,7 @@ public class Player {
 				
 			}
 		}
+		return null;
 	}
 	
 	public void getPhaseInfo(){

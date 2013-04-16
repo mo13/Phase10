@@ -1,5 +1,4 @@
 package Model;
-import java.awt.Color;
 import java.util.ArrayList;
 
 
@@ -23,8 +22,8 @@ public class Deck extends ArrayList<Card> {
 		colors.add(Card.cardColor.Yellow);
 		for(int i = 0; i < colors.size(); i++){
 			for(int num = 0; num <= 11; num ++){
-				Card numCards = new Card((num % 12)+1, colors.get(i),  Card.type.Normal);
-				Card numCardstwo = new Card((num % 12)+1, colors.get(i),  Card.type.Normal);
+				Card numCards = new Card(num+1, colors.get(i),  Card.type.Normal);
+				Card numCardstwo = new Card(num+1, colors.get(i),  Card.type.Normal);
 				this.add(numCards);
 				this.add(numCardstwo);
 			}
@@ -49,14 +48,13 @@ public class Deck extends ArrayList<Card> {
 		}
 		return result.toString();
 	}
-	
+	// this draw is for the Draw Pile
 	public Card draw(){
-		int index;
+		int index = 0;
 		if(this.type == deckType.DrawPile){
 			index = (int)Math.round(Math.random()*(this.size()-1));
 		} else {
 			index = this.size()-1;
-			
 		}
 		
 		Card tempCard = this.get(index);
@@ -65,23 +63,23 @@ public class Deck extends ArrayList<Card> {
 		return tempCard;
 	}
 	
-	public Card draw(int index){
-		return this.remove(index);
-	}
-	
 
-	
 	public void shuffle(){
 		int mid = this.size()/2;
 		for(int begin = 0; begin<mid; begin++){
-//			for(int end = mid; end <this.size(); end++){
-//				
-//			}
 			int num1 = begin;
 			int num2 = mid + begin-1;
 			this.swap(num1, num2);
 		}
 	}
+	
+	public void refillDrawPile(){
+		
+	}
+	
+	
+	
+	
 	
 	public void swap(int index1, int index2){
 		Card tempCard1 = this.remove(index1);
