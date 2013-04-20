@@ -33,12 +33,85 @@ public class Controller {
   }
 
   public void scoreRound() {
+	  
   }
 
   public void checkRound() {
+	  
   }
 
   public void doTurn() {
+	  
+  }
+  
+  public void showBoard() {
+	  
+  }
+  
+  public void scorePlayers(){
+	  
+  }
+
+  public void phasetracker(){
+	  
+  }
+  
+  public void displayScore(){
+	  
+  }
+
+  public void exitRound(){
+	  
+  }
+  
+  public void exitGame(){
+	  
+  }
+  
+  public void showOrder(){
+	  
+  }
+  
+  public void setupBoard(){
+	  
+  }
+  
+  public void resetDrawPile(){
+	  
+  }
+  
+  public void draw(){
+	  
+  }
+  
+  public void phaseOut(){
+	  
+  }
+  
+  public void checkPhase(){
+	  
+  }
+  
+  public void hit(){
+	  
+  }
+  
+  public void checkHit(){
+	  
+  }
+  
+  public void discard(){
+	  
+  }
+  
+  public void finishTurn(){
+	  
+  }
+
+  public void setStrategy(){
+	  
   }
 
 }
+
+

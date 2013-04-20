@@ -13,27 +13,31 @@ public class Gui implements ActionListener {
 	public Gui() {
 		createUI();
 	}
+    
 	private PlayerArea player1Area, player2Area,player3Area, player4Area;
 
-	
+	private JTextField textField;
 	private JFrame frame;
 	private JButton button;
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 	private JLabel img;
 	private JMenuBar menuBar;
-	private JMenuItem setupMenuItem, exitMenuItem, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
+	private JMenuItem setupMenuItem, exitMenu, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
 					  scorePlayers, phaseTracker, displayScore, exitRound, showOrder, resetOrder, resetDrawPile, draw, playPhase, hit,
 					  checkHit, discard, finishTurn, playerStrategy, player1, player2, player3, player4;
-	private JMenu menu, strategies, round, playerOptions, scoring;
+	private JMenu menu, round, playerOptions, scoring;
+	
 	public void createUI() {
 	// Frame
 		frame = new JFrame();
 		frame.setTitle("Phase 10");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(600,400);
+		frame.setVisible(true);
+	    frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH); 
 		
 		contentPane = new JPanel(new BorderLayout());
 
+	
 		
 	// The Menu Bar
 		menuBar = new JMenuBar();
@@ -43,12 +47,9 @@ public class Gui implements ActionListener {
 		menu = new JMenu("Game");
 		menuBar.add(menu);		
 		setupMenuItem = new JMenuItem("Setup Board");
-		setupMenuItem.addActionListener(unimplementedMenu_Click("This will display the board. "));
+		setupMenuItem.addActionListener(this);
 		menu.add(setupMenuItem);
-		
-		exitMenuItem = new JMenuItem("Exit game");
-		exitMenuItem.addActionListener(unimplementedMenu_Click("This will exit the game. "));
-		menu.add(exitMenuItem);
+
 		
 	//round Menu
 		round = new JMenu("Round Options");
@@ -150,6 +151,12 @@ public class Gui implements ActionListener {
 		cardCounterStrategy.addActionListener(unimplementedMenu_Click("This will implement the card counter strategy."));
 		player1.add(cardCounterStrategy);
 		
+		exitMenu = new JMenu("Exit game");
+		exitMenu.addActionListener(this);
+		menuBar.add(exitMenu);
+		
+
+		
 	//top
 		topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
@@ -161,7 +168,7 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		topPanel.add(img);
 		button = new JButton("Run Place Holder");
-		topPanel.setBorder(BorderFactory.createEmptyBorder(0,600,0,0));
+		topPanel.setBorder(BorderFactory.createEmptyBorder(0,1000,0,0));
 		topPanel.add(button);
 	//left
 		leftPanel = new JPanel();
@@ -173,13 +180,13 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		leftPanel.add(img);
 		button = new JButton("Run Place Holder");
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
+		leftPanel.setBorder(BorderFactory.createEmptyBorder(500, 0, 0, 0));
 		leftPanel.add(button);
 	//center
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		centerPanel.setPreferredSize(new Dimension(600,600));
+		centerPanel.setSize(new Dimension(200,200));
 		centerPanel.setBackground(Color.RED);
 		
 	//right
@@ -191,7 +198,7 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		rightPanel.add(img);
 		button = new JButton("Run Place Holder");
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(150,0,0,0));
+		rightPanel.setBorder(BorderFactory.createEmptyBorder(500,0,0,0));
 		rightPanel.setBackground(Color.BLUE);
 		rightPanel.add(button);
 	//bottom
@@ -205,7 +212,7 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		bottomPanel.add(img);
 		button = new JButton("Run Place Holder");
-		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,600,0,0));
+		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,1000,0,0));
 		bottomPanel.add(button);
 		
 		
@@ -218,22 +225,31 @@ public class Gui implements ActionListener {
 		frame.setContentPane(contentPane);
 		//frame.add(contentPane);
 		frame.setJMenuBar(menuBar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 	}
-	
 	
 	
 
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-	}
+	public void actionPerformed(ActionEvent event){
+		   if (event.getSource() == setupMenuItem){
+				textField.setText("Board reset.");
+			}
+			else if (event.getSource() == exitMenu){
+				frame.setVisible(false);
+				frame.dispose();
+				System.exit(0);
+			}
+			
+		}
 	
 	public static ActionListener unimplementedMenu_Click(final String message) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				JOptionPane.showMessageDialog(null, message);
+				System.out.println(message);
 			}
 		};
 	}
