@@ -23,7 +23,7 @@ public class Gui implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenuItem setupMenuItem, exitMenuItem, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
 					  scorePlayers, phaseTracker, displayScore, exitRound, showOrder, resetOrder, resetDrawPile, draw, playPhase, hit,
-					  checkHit, discard, finishTurn;
+					  checkHit, discard, finishTurn, playerStrategy, player1, player2, player3, player4;
 	private JMenu menu, strategies, round, playerOptions, scoring;
 	public void createUI() {
 	// Frame
@@ -49,26 +49,6 @@ public class Gui implements ActionListener {
 		exitMenuItem = new JMenuItem("Exit game");
 		exitMenuItem.addActionListener(unimplementedMenu_Click("This will exit the game. "));
 		menu.add(exitMenuItem);
-		
-	//Strategies Menu
-		strategies = new JMenu("Strategies");
-		menuBar.add(strategies);
-		
-		phaseSearcherStrategy = new JMenuItem("Phase Searcher Strategy");
-		phaseSearcherStrategy.addActionListener(unimplementedMenu_Click("This will implement the phase searcher strategy."));
-		strategies.add(phaseSearcherStrategy);
-		
-		preventerStrategy = new JMenuItem("Preventer Strategy");
-		preventerStrategy.addActionListener(unimplementedMenu_Click("This will implement the preventer strategy."));
-		strategies.add(preventerStrategy);
-		
-		lowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
-		lowestScoreStrategy.addActionListener(unimplementedMenu_Click("This will implement the lowest score strategy."));
-		strategies.add(lowestScoreStrategy);
-		
-		cardCounterStrategy = new JMenuItem("Card Counter Strategy");
-		cardCounterStrategy.addActionListener(unimplementedMenu_Click("This will implement the card counter strategy."));
-		strategies.add(cardCounterStrategy);
 		
 	//round Menu
 		round = new JMenu("Round Options");
@@ -134,6 +114,42 @@ public class Gui implements ActionListener {
 		finishTurn.addActionListener(unimplementedMenu_Click("This will make the player end his turn."));
 		playerOptions.add(finishTurn);
 		
+		playerStrategy = new JMenu("Set Player Strategy");
+		playerStrategy.addActionListener(unimplementedMenu_Click("This will set allow you to set player strategies."));
+		playerOptions.add(playerStrategy);
+		
+		player1 = new JMenu("Master Chief");
+		player1.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		playerStrategy.add(player1);
+		
+		player2 = new JMenu("Cortona");
+		player2.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		playerStrategy.add(player2);
+		
+		player3 = new JMenu("Johnson");
+		player3.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		playerStrategy.add(player3);
+		
+		player4 = new JMenu("Arbiter");
+		player4.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		playerStrategy.add(player4);
+		
+		phaseSearcherStrategy = new JMenuItem("Phase Searcher Strategy");
+		phaseSearcherStrategy.addActionListener(unimplementedMenu_Click("This will implement the phase searcher strategy."));
+		player1.add(phaseSearcherStrategy);
+		
+		preventerStrategy = new JMenuItem("Preventer Strategy");
+		preventerStrategy.addActionListener(unimplementedMenu_Click("This will implement the preventer strategy."));
+		player1.add(preventerStrategy);
+		
+		lowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
+		lowestScoreStrategy.addActionListener(unimplementedMenu_Click("This will implement the lowest score strategy."));
+		player1.add(lowestScoreStrategy);
+		
+		cardCounterStrategy = new JMenuItem("Card Counter Strategy");
+		cardCounterStrategy.addActionListener(unimplementedMenu_Click("This will implement the card counter strategy."));
+		player1.add(cardCounterStrategy);
+		
 	//top
 		topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
@@ -145,7 +161,7 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		topPanel.add(img);
 		button = new JButton("Run Place Holder");
-		topPanel.setBorder(BorderFactory.createEmptyBorder(0,300,0,0));
+		topPanel.setBorder(BorderFactory.createEmptyBorder(0,600,0,0));
 		topPanel.add(button);
 	//left
 		leftPanel = new JPanel();
@@ -189,7 +205,7 @@ public class Gui implements ActionListener {
 		img.setSize(new Dimension(100,100));
 		bottomPanel.add(img);
 		button = new JButton("Run Place Holder");
-		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,300,0,0));
+		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,600,0,0));
 		bottomPanel.add(button);
 		
 		
