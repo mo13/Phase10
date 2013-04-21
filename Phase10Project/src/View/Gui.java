@@ -44,6 +44,7 @@ public class Gui implements ActionListener {
 				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 				topPanel.setBackground(Color.BLUE);
 				topPanel.setPreferredSize(new Dimension(200,150));
+				topPanel.setBorder(BorderFactory.createLineBorder(Color.white));
 				img = new JLabel(new ImageIcon("chief.jpg"));
 				topPanel.add(img);
 		
@@ -79,6 +80,7 @@ public class Gui implements ActionListener {
 				bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 				bottomPanel.setBackground(Color.BLUE);
 				bottomPanel.setPreferredSize(new Dimension(200,150));
+				bottomPanel.setBorder(BorderFactory.createLineBorder(Color.white));
 				img = new JLabel(new ImageIcon("arbiter.jpg"));
 				bottomPanel.add(img);
 
