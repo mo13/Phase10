@@ -18,12 +18,12 @@ public class Gui implements ActionListener {
 
 	private JTextField textField;
 	private JFrame frame;
-	private JButton button;
+	private JButton button1, button2, button3, button4, button5, button6, button7, button8;
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 	private JLabel img;
 	private JMenuBar menuBar;
 	private JMenuItem setupMenuItem, exitMenu, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
-					  scorePlayers, phaseTracker, displayScore, exitRound, showOrder, resetOrder, resetDrawPile, draw, playPhase, hit,
+					  scorePlayers, phaseTracker, displayScore, exitRound, showOrder, resetDrawPile, draw, playPhase, hit,
 					  checkHit, discard, finishTurn, playerStrategy, player1, player2, player3, player4;
 	private JMenu menu, round, playerOptions, scoring;
 	
@@ -31,13 +31,70 @@ public class Gui implements ActionListener {
 	// Frame
 		frame = new JFrame();
 		frame.setTitle("Phase 10");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-	    frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH); 
+		frame.setSize(1280,700);
+		
 		
 		contentPane = new JPanel(new BorderLayout());
 
+		//top
+		
+		
+				topPanel = new JPanel();
+				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+				topPanel.setBackground(Color.BLUE);
+				topPanel.setPreferredSize(new Dimension(200,150));
+				topPanel.setBorder(BorderFactory.createLineBorder(Color.white));
+				img = new JLabel(new ImageIcon("chief.jpg"));
+				topPanel.add(img);
+		
+				
+				
+				
+				
+			//left
+				leftPanel = new JPanel();
+				leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+				leftPanel.setBackground(Color.BLUE);
+				leftPanel.setPreferredSize(new Dimension(150,200));
+				img = new JLabel(new ImageIcon("cortona.jpg"));
+				leftPanel.add(img);
+
+			//center
+				centerPanel = new JPanel();
+				centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+				centerPanel.setBackground(Color.BLACK);
+				
+			//right
+				rightPanel = new JPanel();
+				rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+				rightPanel.setBackground(Color.BLUE);
+				rightPanel.setPreferredSize(new Dimension(150,200));
+				img = new JLabel(new ImageIcon("johnson.jpg"));
+				rightPanel.add(img);
+
+				
+				
+			//bottom
+				bottomPanel = new JPanel();
+				bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+				bottomPanel.setBackground(Color.BLUE);
+				bottomPanel.setPreferredSize(new Dimension(200,150));
+				bottomPanel.setBorder(BorderFactory.createLineBorder(Color.white));
+				img = new JLabel(new ImageIcon("arbiter.jpg"));
+				bottomPanel.add(img);
+
+				
 	
+				
+				contentPane.add(bottomPanel, BorderLayout.PAGE_END);
+				contentPane.add(leftPanel,BorderLayout.LINE_START);
+				contentPane.add(topPanel, BorderLayout.PAGE_START);
+				contentPane.add(rightPanel, BorderLayout.LINE_END);
+				contentPane.add(centerPanel, BorderLayout.CENTER);
+	
+				frame.setVisible(true);
+				frame.setContentPane(contentPane);
 		
 	// The Menu Bar
 		menuBar = new JMenuBar();
@@ -58,10 +115,6 @@ public class Gui implements ActionListener {
 		showOrder = new JMenuItem("Show Order");
 		showOrder.addActionListener(unimplementedMenu_Click("This will show the player order for this round."));
 		round.add(showOrder);
-		
-		resetOrder = new JMenuItem("Reset Order");
-		resetOrder.addActionListener(unimplementedMenu_Click("This will reset the player order."));
-		round.add(resetOrder);
 		
 		resetDrawPile = new JMenuItem("Reset Draw Pile");
 		resetDrawPile.addActionListener(unimplementedMenu_Click("This will reset the draw pile. "));
@@ -154,81 +207,14 @@ public class Gui implements ActionListener {
 		exitMenu = new JMenu("Exit game");
 		exitMenu.addActionListener(this);
 		menuBar.add(exitMenu);
-		
-
-		
-	//top
-		topPanel = new JPanel();
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-		topPanel.setBackground(Color.BLUE);
-		button = new JButton("Set Place Holder");
-		
-		topPanel.add(button);
-		img = new JLabel(new ImageIcon("darthvader.jpg"));
-		img.setSize(new Dimension(100,100));
-		topPanel.add(img);
-		button = new JButton("Run Place Holder");
-		topPanel.setBorder(BorderFactory.createEmptyBorder(0,1000,0,0));
-		topPanel.add(button);
-	//left
-		leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBackground(Color.BLUE);
-		button = new JButton("Set Place Holder");
-		leftPanel.add(button);
-		img = new JLabel(new ImageIcon("wolverine.jpg"));
-		img.setSize(new Dimension(100,100));
-		leftPanel.add(img);
-		button = new JButton("Run Place Holder");
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(500, 0, 0, 0));
-		leftPanel.add(button);
-	//center
-		centerPanel = new JPanel();
-		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-		centerPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		centerPanel.setSize(new Dimension(200,200));
-		centerPanel.setBackground(Color.RED);
-		
-	//right
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		button = new JButton("Set Place Holder");
-		rightPanel.add(button);
-		img = new JLabel(new ImageIcon("yoda.jpg"));
-		img.setSize(new Dimension(100,100));
-		rightPanel.add(img);
-		button = new JButton("Run Place Holder");
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(500,0,0,0));
-		rightPanel.setBackground(Color.BLUE);
-		rightPanel.add(button);
-	//bottom
-		bottomPanel = new JPanel();
-		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-		bottomPanel.setBackground(Color.BLUE);
-		
-		button = new JButton("Set Place Holder");
-		bottomPanel.add(button);
-		img = new JLabel(new ImageIcon("obi-wan.jpeg"));
-		img.setSize(new Dimension(100,100));
-		bottomPanel.add(img);
-		button = new JButton("Run Place Holder");
-		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0,1000,0,0));
-		bottomPanel.add(button);
-		
-		
-		contentPane.add(bottomPanel, BorderLayout.PAGE_END);
-		contentPane.add(leftPanel,BorderLayout.LINE_START);
-		contentPane.add(topPanel, BorderLayout.PAGE_START);
-		contentPane.add(rightPanel, BorderLayout.LINE_END);
-		contentPane.add(centerPanel, BorderLayout.CENTER);
-		frame.setVisible(true);
-		frame.setContentPane(contentPane);
-		//frame.add(contentPane);
+	
 		frame.setJMenuBar(menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
 	}
 	
+
+		
+
 	
 
 
