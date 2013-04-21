@@ -88,4 +88,10 @@ public class Deck extends ArrayList<Card> {
 		this.add(index1, tempCard2);		
 	}
 	
+	
+	public void dealCards(){
+		
+	}
+	
 }
+

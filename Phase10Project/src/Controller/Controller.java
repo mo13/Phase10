@@ -24,7 +24,6 @@ public class Controller {
   public void dealCards() {
 	  for(int i = 0; i < 10; i++){
 		  for(int player = 0; player < playerList.size(); player++){
-			  
 		  }
 		 
 	  }
@@ -33,6 +32,12 @@ public class Controller {
   }
 
   public void scoreRound() {
+	  for(int player = 0; player < playerList.size(); player++){
+		  for (int CardsinHand = 0; CardsinHand < Player.hand.size(); CardsinHand++){
+			  
+			  
+		  }
+	  }
 	  
   }
 
