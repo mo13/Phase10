@@ -14,7 +14,7 @@ public class Card {
 	public static enum type {
 		Normal,Wild,Skip
 	}
-
+	
 	public Card(int number, cardColor color, type type) {
 		if (type == type.Normal){
 			if (number <= 12 & number >= 1){
