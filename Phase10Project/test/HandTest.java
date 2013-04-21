@@ -1,5 +1,5 @@
 import static org.junit.Assert.*;
-
+import java.util.*;
 import org.junit.Test;
 import Model.*;
 
@@ -7,6 +7,8 @@ public class HandTest {
 	
 	Player cortona = new Player("Cortona");
 	Deck drawPile = new Deck(Deck.deckType.DrawPile);
+	
+	
 	@Test 
 	public void testHandCreate(){
 		fail("Not yet implemented");
@@ -22,11 +24,15 @@ public class HandTest {
 	
 	@Test
 	public void testBadDraw() {
-//		drawPile.createDeck();
-//		cortona.hand.draw(drawPile);
-//		assertSame(drawPile.size(), 107);
-//		assertSame(cortona.hand.size(), 1);
-		fail("Not yet implemented.");
+		drawPile.createDeck();
+		for(int i = 0; i < 107; i++){
+			drawPile.draw();
+		}
+		assertSame(drawPile.size(), 1);
+		cortona.hand.draw(drawPile);
+		cortona.hand.draw(drawPile);
+		assertSame(cortona.hand.size(), 1);
+		
 		}
 
 	@Test
@@ -67,5 +73,27 @@ public class HandTest {
 		assertSame(hand.get(3), tempCard2);
 		//assertSame(hand.get(3), tempCard4);
 		//assertSame(hand.get(4), tempCard5);
+	}
+	@Test
+	public void testCheckSet(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Red, Card.type.Normal);	Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		
+		ArrayList<ArrayList<Card>> possibleSets = new ArrayList<ArrayList<Card>>();
+		possibleSets = chief.hand.checkSet(2,3);
+		System.out.println("look here " + possibleSets.toString());
+		System.out.println("look here " + possibleSets.get(1).toString());
+		
+		
+		
 	}
 }

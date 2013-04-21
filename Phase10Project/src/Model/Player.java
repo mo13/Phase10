@@ -82,26 +82,7 @@ public class Player {
 		  
 	}
 	
-	public ArrayList<ArrayList<Card>> checkHand(Card newCard){
-		Card possibleCard;
-		ArrayList<Boolean> phaseStatus = new ArrayList<Boolean>();
-		if(this.numSets > 0){
-			for(int i = 0; i < this.hand.size()-1; i++){
-		//		possibleCard = this.hand.remove(i);
-				if(this.hand.get(i).getType() == Card.type.Normal){
-					if(this.hand.get(i).getNumber() == this.hand.get(i+1).getNumber()){
-						phaseStatus.add(true);				
-					} else{
-						phaseStatus.add(false);
-					}
-				} else if (this.hand.get(i).getType() == Card.type.Wild){
-					phaseStatus.add(true);
-				}
-				
-			}
-		}
-		return null;
-	}
+	
 	
 	public void getPhaseInfo(){
 		phase.checkPhase(this.getPhaseNumber(), this);

@@ -19,6 +19,7 @@ public class Controller {
 		playerList.add(player2);
 		playerList.add(player3);
 		playerList.add(player4);
+		
 	}
   
   public void dealCards() {

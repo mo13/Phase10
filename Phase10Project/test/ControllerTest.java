@@ -65,7 +65,7 @@ public class ControllerTest {
 	}
 	@Test
 	public void testCheckPhase(){
-		
+		fail("Not yet implemented");
 	}
 	@Test 
 	public void testhit(){
