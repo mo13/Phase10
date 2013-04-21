@@ -43,17 +43,19 @@ public class PlayerTest {
 		assertSame(cortona.getName(), "Cortona");
 	}
 
-//	@Test
-//	public void testDrawCard() {
-//		Deck drawPile = new Deck(Deck.deckType.DrawPile);
-//		drawPile.createDeck();
-//		System.out.println(drawPile.size());
-//		System.out.println(drawPile.draw());
-//		System.out.println(drawPile.size());
-//		cortona.drawCard(drawPile);
-//		cortona.hand.add(new Card(6, Card.cardColor.Red, Card.type.Normal));
-//		assertSame(cortona.hand.size(), 2 );
-//	}
+	@Test
+	public void testDrawCard() {
+		Deck drawPile = new Deck(Deck.deckType.DrawPile);
+		drawPile.createDeck();
+		System.out.println(drawPile.size());
+		System.out.println(drawPile.draw());
+		System.out.println(drawPile.size());
+		cortona.hand.draw(drawPile);
+		Card card1 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		cortona.hand.add(card1);
+		assertSame(cortona.hand.size(), 2 );
+		assertEquals(cortona.hand.get(1),card1);
+	}
 //
 //	@Test
 //	public void testDiscardCard() {
