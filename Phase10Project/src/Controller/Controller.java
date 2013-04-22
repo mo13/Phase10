@@ -41,16 +41,17 @@ public class Controller {
 		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
 			  if (Card.getType() == Card.type.Normal){
 					if (Card.number < 10){
-	
+	//add 5 points
 					}
 					}else if (Card.getType() == Card.type.Normal){
 						if (Card.number > 10){
-							
+	//add 10 points
 						}
 						else if (Card.getType() == Card.type.Wild){
-							
+	//add 25 points
 						}
 					}		else if (Card.getType() == Card.type.Skip){ 
+	//add 15 points
 					}
 			
 		  }
