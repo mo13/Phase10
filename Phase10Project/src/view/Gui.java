@@ -1,11 +1,12 @@
-package View;
+package view;
 
 import javax.swing.*;
+
+import model.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Model.*;
 
 
 
@@ -17,15 +18,18 @@ public class Gui implements ActionListener {
 	private PlayerArea player1Area, player2Area,player3Area, player4Area;
 
 	private JTextField textField;
-	private JFrame frame;
+	public static JFrame frame;
 	private JButton button1, button2, button3, button4, button5, button6, button7, button8;
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 	private JLabel img;
 	private JMenuBar menuBar;
-	private JMenuItem setupMenuItem, exitMenu, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
-					  scorePlayers, phaseTracker, displayScore, exitRound, showOrder, resetDrawPile, draw, playPhase, hit,
+	private JMenuItem setupMenuItem, phaseSearcherStrategy, preventerStrategy, lowestScoreStrategy, cardCounterStrategy,
+					  scorePlayers, phaseTracker, displayScore, showOrder, resetDrawPile, draw, playPhase, hit,
 					  checkHit, discard, finishTurn, playerStrategy, player1, player2, player3, player4;
 	private JMenu menu, round, playerOptions, scoring;
+	public JMenuItem exitRound;
+
+	public static JMenuItem exitMenu;
 	
 	public void createUI() {
 	// Frame

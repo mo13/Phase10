@@ -1,8 +1,9 @@
 import static org.junit.Assert.*;
 import java.util.*;
 
+import model.*;
+
 import org.junit.Test;
-import Model.*;
 
 public class HandTest {
 	

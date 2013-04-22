@@ -1,3 +1,3 @@
-package Strategy;
+package strategy;
 public class RecklessPlayer extends Strategy {
 }

@@ -1,12 +1,12 @@
 import static org.junit.Assert.*;
-import Model.*;
 
 import java.util.ArrayList;
+
+import model.*;
 
 import org.junit.Test;
 
 
-import Model.*;
 
 
 public class PhaseTest {

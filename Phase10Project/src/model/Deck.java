@@ -1,4 +1,4 @@
-package Model;
+package model;
 import java.util.ArrayList;
 
 
@@ -72,7 +72,14 @@ public class Deck extends ArrayList<Card> {
 			this.swap(num1, num2);
 		}
 	}
-
+	
+	public void refillDrawPile(){
+	}
+	
+	
+	
+	
+	
 	public void swap(int index1, int index2){
 		Card tempCard1 = this.remove(index1);
 		Card tempCard2 = this.remove(index2);
@@ -85,8 +92,5 @@ public class Deck extends ArrayList<Card> {
 		
 	}
 	
-	public void refillDrawPile(){
-	}
-
 }
 

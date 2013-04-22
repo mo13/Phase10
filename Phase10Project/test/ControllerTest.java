@@ -1,10 +1,12 @@
 
 
 import static org.junit.Assert.*;
+import model.*;
+
 import org.junit.Test;
-import Model.*;
-import View.*;
-import Strategy.*;
+
+import strategy.*;
+import view.*;
 public class ControllerTest {
 	
 	@Test

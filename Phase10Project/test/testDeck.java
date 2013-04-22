@@ -1,9 +1,10 @@
 import static org.junit.Assert.*;
 
+import model.Card;
+import model.Deck;
+
 import org.junit.Test;
 
-import Model.Card;
-import Model.Deck;
 
 
 public class testDeck {

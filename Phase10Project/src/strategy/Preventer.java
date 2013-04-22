@@ -1,3 +1,3 @@
-package Strategy;
+package strategy;
 public class Preventer extends Strategy {
 }

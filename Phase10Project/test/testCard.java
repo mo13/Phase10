@@ -1,8 +1,9 @@
 import static org.junit.Assert.*;
 
+import model.Card;
+
 import org.junit.Test;
 
-import Model.Card;
 
 public class testCard {
 	

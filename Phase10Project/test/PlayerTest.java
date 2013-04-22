@@ -2,9 +2,11 @@
 
 import static org.junit.Assert.*;
 
+import model.*;
+
 import org.junit.Test;
-import Model.*;
-import Strategy.*;
+
+import strategy.*;
 
 public class PlayerTest {
 	
