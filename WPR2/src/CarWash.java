@@ -47,9 +47,11 @@ public class CarWash implements Runnable {
 			// there are no more dirty cars
 			while (count < MAX_CARS && parkingLot.dirtyCount() > 0) {
 				// Get a dirty car from the parking lot and wash it
+				// Thread confinement. the car is instantiated in the runnable part
 				Car car = parkingLot.removeNextDirtyCar();
 				if (car != null) {
 					System.out.println(this + " Starting");
+					synchronized(this){
 					spray(car);
 					scrub(car);
 					rinse(car);
@@ -59,6 +61,7 @@ public class CarWash implements Runnable {
 					parkingLot.add(car);
 					System.out.println(this + " Finished car #" + count
 							+ " of " + MAX_CARS);
+					}
 				} else {
 					System.out.println(this + " Waiting for dirty car.");
 					Thread.sleep(2000);

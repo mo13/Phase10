@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ParkingLot {
-	final Queue<Car> carQueue = new LinkedList<Car>();
+	final private Queue<Car> carQueue = new LinkedList<Car>();
 
 	public ParkingLot(String fileName) throws Exception {
 		loadFromCSV(fileName);
 	}
 
-	public Car removeNextDirtyCar() {
+	public synchronized Car removeNextDirtyCar() {
 		for (Car car : carQueue) {
 			if (car.isDirty()) {
 				carQueue.remove(car);
@@ -20,7 +20,7 @@ public class ParkingLot {
 		return null;
 	}
 
-	public int dirtyCount() {
+	public synchronized int dirtyCount() {
 		int dirty = 0;
 		for (Car car : carQueue) {
 			if (car.isDirty()) {
@@ -30,7 +30,7 @@ public class ParkingLot {
 		return dirty;
 	}
 
-	public int cleanCount() {
+	public synchronized int cleanCount() {
 		int clean = 0;
 		for (Car car : carQueue) {
 			if (car.isClean()) {
@@ -40,11 +40,11 @@ public class ParkingLot {
 		return clean;
 	}
 
-	public int count() {
+	public synchronized int count() {
 		return carQueue.size();
 	}
 
-	public boolean add(Car car) {
+	public synchronized boolean add(Car car) {
 		return carQueue.add(car);
 	}
 

@@ -73,6 +73,7 @@ public class Player {
 	public void checkPhase(){
 		
 	}
+
 	  
 	public void phaseOut(){
 		  

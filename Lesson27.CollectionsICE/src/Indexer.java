@@ -1,13 +1,13 @@
 import java.io.File;
-import java.util.Queue;
+import java.util.*;
 
 public class Indexer implements Runnable {
 
-	private final Queue<File> fileQueue;
+	private final Queue<File> blockingQueue;
 
 	public Indexer(Queue<File> fileQueue) {
 		super();
-		this.fileQueue = fileQueue;
+		this.blockingQueue = fileQueue;
 	}
 
 	private void indexFile(File file) throws InterruptedException {
@@ -21,7 +21,7 @@ public class Indexer implements Runnable {
 	public void run() {
 		try {
 			while (true)
-				indexFile(fileQueue.poll());
+				indexFile(blockingQueue.poll());
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}

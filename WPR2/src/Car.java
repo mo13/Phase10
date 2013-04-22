@@ -1,4 +1,4 @@
-public class Car {
+ public class Car {
 
 	private boolean clean = true;
 	final private String licensePlate;
@@ -44,23 +44,23 @@ public class Car {
 		this.rate = rate;
 	}
 
-	public void clean() {
+	public   void clean() {
 		this.clean = true;
 	}
 
-	public void dirty() {
+	public  void dirty() {
 		this.clean = false;
 	}
 
-	public String getLicensePlate() {
+	public  String getLicensePlate() {
 		return licensePlate;
 	}
 
-	public String getMake() {
+	public  String getMake() {
 		return make;
 	}
 
-	public String getModel() {
+	public  String getModel() {
 		return model;
 	}
 
@@ -71,8 +71,8 @@ public class Car {
 	public int getYear() {
 		return year;
 	}
-
-	public boolean isClean() {
+// should probably synchronize the isClean() and isDirty()
+	public  boolean isClean() {
 		return clean;
 	}
 

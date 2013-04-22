@@ -8,7 +8,7 @@ public class BoundedBufferTest {
 
 		// create a task to fill up a bounded buffer with 20 integers
 		Runnable producer = new Runnable() {
-			public void run() {
+			public void run()  {
 				for (int i = 0; i < 20; i++) {
 					buffer.put(i);
 				}

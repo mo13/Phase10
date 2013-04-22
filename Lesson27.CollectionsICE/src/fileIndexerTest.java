@@ -1,7 +1,8 @@
 import java.io.File;
 import java.io.FileFilter;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.*;
+
 
 public class fileIndexerTest {
 
@@ -24,7 +25,7 @@ public class fileIndexerTest {
 	}
 
 	public static void startIndexing(File[] roots) {
-		final Queue<File> fileQueue = new LinkedList<File>();
+		final BlockingQueue<File> fileQueue = new BlockingQueue<File>();
 
 		// accept all files
 		FileFilter filter = new FileFilter() {

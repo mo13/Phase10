@@ -3,13 +3,22 @@ public class CrazyBoundedBuffer<V> extends BaseBoundedBuffer<V> {
 		super(size);
 	}
 
-	public void put(V v) {
+	public synchronized void put(V v) throws InterruptedException {
+		while (isFull()) 
+			wait();
+			doPut(v);
+			notifyAll();
+		
 		doPut(v);
 	}
 
-	public V take() {
-		return doTake();
-
+	public synchronized V take() throws InterruptedException {
+		while (isEmpty())
+			wait();
+			V v= doTake();
+			notifyAll();
+			return v;
+		
 	}
 
 }

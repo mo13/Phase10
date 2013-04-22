@@ -1,8 +1,8 @@
 public abstract class BaseBoundedBuffer<V> {
 	private final V[] buf;
-	private int tail;
-	private int head;
-	private int count;
+	private int tail; // the end of the Buffer
+	private int head; // the beginnning of the Buffer
+	private int count; // the size of the buffer
 	
 	static final int SLEEP_GRANULARITY = 1;
 
@@ -12,10 +12,10 @@ public abstract class BaseBoundedBuffer<V> {
 	}
 
 	protected synchronized final void doPut(V v) {
-		buf[tail] = v;
-		if (++tail == buf.length)
+		buf[tail] = v; // add what ever you are adding to the end of the buffer
+		if (++tail == buf.length) // if incrementing the tail is equal to the length then set it equal to 0 
 			tail = 0;
-		++count;
+		++count; // increment the size by 1. 
 	}
 
 	protected synchronized final V doTake() {

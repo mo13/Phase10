@@ -60,13 +60,7 @@ public class Controller {
 	  }
   }
 
-  public void checkRound() {
-	  
-  }
 
-  public void doTurn() {
-	  
-  }
   
   public void scorePlayers(){
 	  
@@ -76,13 +70,7 @@ public class Controller {
 	  
   }
   
-  public void displayScore(){
-	  
-  }
 
-  public void exitRound(){
-	  
-  }
   
   public void exitGame(){
 				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
@@ -96,18 +84,34 @@ public class Controller {
   public void showOrder(){
 	  setPlayerOrder();
   }
+    
+  
+
+
+  public void checkRound() {
+	  
+  }
+
+  public void doTurn() {
+	  
+  }
+  
+  public void displayScore(){
+	  
+  }
+
+  public void exitRound(){
+	  
+  }
+  
+
   
   public void resetDrawPile(){
 	  
   }
   
   
-  public void checkPhase(){
-//	  Model.checkPhase(0, player1);
-//	  Model.checkPhase(0, player2);
-//	  Model.checkPhase(0, player3);
-//	  Model.checkPhase(0, player4);
-  }
+
  
   
   public void checkHit(){

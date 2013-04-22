@@ -1,24 +1,26 @@
 
 
 import static org.junit.Assert.*;
+
+import view.*;
+import strategy.*;
 import model.*;
 
 import org.junit.Test;
 
+
 import strategy.*;
 import view.*;
+
 public class ControllerTest {
 	
-	@Test
-	public void testShowBoard(){
-		fail("Not yet implemented");
-	}
+	Player cortona = new Player("Cortona");
+	Player chief = new Player("Chief");
+	Player johnson = new Player("Johnson");
+	Player arbiter = new Player("Arbiter");
+
 	@Test
 	public void testsetPlayerArea(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testscorePlayers(){
 		fail("Not yet implemented");
 	}
 	@Test
@@ -28,6 +30,40 @@ public class ControllerTest {
 	@Test
 	public void testdisplayScore(){
 		fail("Not yet implemented");
+	}
+	@Test
+	public void scoreRound(){
+		Hand hand = new Hand();
+		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
+		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
+		
+		Card tempCard7 = new Card(12, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard8 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard9 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard10 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+		
+		cortona.hand.add(tempCard1);
+		cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);
+		cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);
+		cortona.hand.add(tempCard6);
+		cortona.hand.orderHand();
+		
+		chief.hand.add(tempCard7);
+		chief.hand.add(tempCard8);
+		chief.hand.add(tempCard9);
+		chief.hand.add(tempCard10);
+		chief.hand.orderHand();
+		
+//		assertSame(cortona.hand.get(0), );
+//		assertSame(chief.hand.get(1), );
+		assertSame(johnson.hand.get(2), tempCard1);
+		assertSame(arbiter.hand.get(3), tempCard2);
 	}
 	@Test
 	public void testexitRound(){
