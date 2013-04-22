@@ -42,17 +42,25 @@ public class Controller {
 		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
 			  if (playerList.get(player).hand.get(i).getType() == Card.type.Normal){
 					if (Card.number < 10){
-	//add 5 points
+						player.get(setScore) + 5);
+				
 					}
 					}else if (playerList.get(player).hand.get(i).getType()  == Card.type.Normal){
 						if (Card.number > 10){
-	//add 10 points
-						}
-						else if (playerList.get(player).hand.get(i).getType()  == Card.type.Wild){
-	//add 25 points
+							player.setScore(player.getScore()+ 10);
 						
-					}		else if (playerList.get(player).hand.get(i).getType()  == Card.type.Skip){ 
-	//add 15 points
+							
+						}
+						else if (playerList.get(player).hand.get(i).getType()  == Card.type.Skip){
+
+							player1.setScore(player1.getScore()+ 15);
+							
+						
+					}		else if (playerList.get(player).hand.get(i).getType()  == Card.type.Wild){ 
+						player1.setScore(player1.getScore()+ 25);
+						player2.setScore(player2.getScore()+ 25);
+						player3.setScore(player3.getScore()+ 25);
+						player4.setScore(player4.getScore()+ 25);
 					}
 				}
 		  }
@@ -67,14 +75,6 @@ public class Controller {
 	  
   }
   
-  public void scorePlayers(){
-	  
-  }
-
-  public void phasetracker(){
-	  
-  }
-  
   public void displayScore(){
 	  
   }
@@ -84,7 +84,7 @@ public class Controller {
   }
   
   public void exitGame(){
-				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
+				if (Gui.actionPerformed.event.getSource() == Gui.exitMenu){
 					Gui.frame.setVisible(false);
 					Gui.frame.dispose();
 					System.exit(0);
