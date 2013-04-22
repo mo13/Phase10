@@ -1,7 +1,8 @@
-package Model;
+package model;
 import java.util.*;
 
-import Model.Card.cardColor;
+import model.Card.cardColor;
+
 
 public class Hand extends ArrayList<Card> {
 

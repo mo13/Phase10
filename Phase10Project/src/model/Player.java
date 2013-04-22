@@ -1,8 +1,9 @@
-package Model;
+package model;
 
 import java.util.*;
 
-import Strategy.*;
+import strategy.*;
+
 
 public class Player {
 	

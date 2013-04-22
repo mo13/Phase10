@@ -1,5 +1,5 @@
-package Strategy;
-import Model.*;
+package strategy;
+import model.*;
 public class Strategy {
 
   public void chooseDiscard(){

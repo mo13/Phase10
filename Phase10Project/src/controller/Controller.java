@@ -1,10 +1,12 @@
-package Controller;
-import Model.*;
-import View.*;
-import Strategy.*;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.util.*;
+
+import strategy.*;
+import view.*;
+
+import model.*;
 
 public class Controller {
 	Deck drawPile = new Deck(Deck.deckType.DrawPile);
@@ -38,18 +40,18 @@ public class Controller {
 	  for(int player = 0; player < playerList.size(); player++){
 
 		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
-			  if (Card.getType() == Card.type.Normal){
+			  if (playerList.get(player).hand.get(i).getType() == Card.type.Normal){
 					if (Card.number < 10){
 	//add 5 points
 					}
-					}else if (Card.getType() == Card.type.Normal){
+					}else if (playerList.get(player).hand.get(i).getType()  == Card.type.Normal){
 						if (Card.number > 10){
 	//add 10 points
 						}
-						else if (Card.getType() == Card.type.Wild){
+						else if (playerList.get(player).hand.get(i).getType()  == Card.type.Wild){
 	//add 25 points
 						
-					}		else if (Card.getType() == Card.type.Skip){ 
+					}		else if (playerList.get(player).hand.get(i).getType()  == Card.type.Skip){ 
 	//add 15 points
 					}
 				}
