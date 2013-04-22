@@ -93,7 +93,7 @@ public class Controller {
   }
   
   public void showOrder(){
-	  
+	  setPlayerOrder();
   }
   
   public void resetDrawPile(){
