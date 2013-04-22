@@ -1,5 +1,8 @@
 package Controller;
 import Model.*;
+import View.*;
+
+import java.awt.event.ActionEvent;
 import java.util.*;
 
 public class Controller {
@@ -25,6 +28,7 @@ public class Controller {
   public void dealCards() {
 	  for(int i = 0; i < 10; i++){
 		  for(int player = 0; player < playerList.size(); player++){
+			  Deck.draw();
 		  }
 		 
 	  }
@@ -34,9 +38,11 @@ public class Controller {
 
   public void scoreRound() {
 	  for(int player = 0; player < playerList.size(); player++){
-		  for (int CardsinHand = 0; CardsinHand < Player.hand.size(); CardsinHand++){
-			  
-			  
+		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
+			  if (Card.getType() == Card.type.Normal){
+					if (Card.number <= 12 & Card.number >= 1){
+					}else
+			
 		  }
 	  }
 	  
@@ -71,14 +77,15 @@ public class Controller {
   }
   
   public void exitGame(){
-	  
+				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
+					Gui.frame.setVisible(false);
+					Gui.frame.dispose();
+					System.exit(0);
+				
+			}
   }
   
   public void showOrder(){
-	  
-  }
-  
-  public void setupBoard(){
 	  
   }
   
@@ -106,11 +113,21 @@ public class Controller {
 	  
   }
   
-  public void discard(){
+  public void finishTurn(){
 	  
   }
   
-  public void finishTurn(){
+  
+  
+  
+  //can't be implemented with out first finishing other parts.
+  
+  
+  public void setupBoard(){
+	  
+  }
+  
+  public void discard(){
 	  
   }
 
