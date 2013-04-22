@@ -10,10 +10,6 @@ public class HandTest {
 	Deck drawPile = new Deck(Deck.deckType.DrawPile);
 	
 	
-	@Test 
-	public void testHandCreate(){
-		fail("Not yet implemented");
-	}
 	@Test
 	public void testGoodDraw() {
 		drawPile.createDeck();
@@ -72,9 +68,9 @@ public class HandTest {
 		assertSame(hand.get(1), tempCard6);
 		assertSame(hand.get(2), tempCard1);
 		assertSame(hand.get(3), tempCard2);
-		//assertSame(hand.get(3), tempCard4);
-		//assertSame(hand.get(4), tempCard5);
+		
 	}
+	// with a wild in it
 	@Test
 	public void testCheckSet(){
 		Player chief = new Player("Chief");
@@ -93,14 +89,129 @@ public class HandTest {
 		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
 		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
 		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
-		
-		ArrayList<ArrayList<Card>> possibleSets = new ArrayList<ArrayList<Card>>();
+		chief.hand.orderHand();
+		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
 		possibleSets = chief.hand.checkSet(2,3);
-		for(int i = 0; i < possibleSets.size(); i++){
-		System.out.println("look here " + possibleSets.get(i).toString());
-		//System.out.println("look here " + possibleSets.get(1).toString());
-		}
+
+		assertSame(possibleSets.get(0),1);
+		assertSame(possibleSets.get(1),3);
+		assertSame(possibleSets.get(2),99);
+	}
+	@Test
+	public void testCheckSetNoWild(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard9 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCard9);
+		chief.hand.orderHand();
+		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
+		possibleSets = chief.hand.checkSet(2,3);
+
+		assertSame(possibleSets.get(0),1);
+		assertSame(possibleSets.get(1),3);
+		//assertSame(possibleSets.get(2),99);
+	}
+	@Test
+	public void testRunCheckEasy(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard6 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(5, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard9 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		//Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCard9);
+		chief.hand.orderHand();
+		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
+		possibleSets = chief.hand.checkSet(1,3);
+		ArrayList<Integer> possibleRun = new ArrayList<Integer>();
+		possibleRun = chief.hand.checkRun(possibleSets, 4);
 		
+ 
+		assertSame(possibleRun.get(0),2);
+		assertSame(possibleRun.get(1),3);
+		assertSame(possibleRun.get(2),4);
+		assertSame(possibleRun.get(3),5);
+	}
+	
+	@Test
+	public void testRunWildCheck(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(9 , Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard6 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(5, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		chief.hand.orderHand();
+		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
+		possibleSets = chief.hand.checkSet(1,3);
+		ArrayList<Integer> possibleRun = new ArrayList<Integer>();
+		possibleRun = chief.hand.checkRun(possibleSets, 4);
+		
+
+		assertSame(possibleRun.get(0),2);
+		assertSame(possibleRun.get(1),99);
+		assertSame(possibleRun.get(2),4);
+		assertSame(possibleRun.get(3),5);
+	}
+	
+	@Test
+	public void testCheckColorSet(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard5 = new Card(9 , Card.cardColor.Blue, Card.type.Normal);	
+		Card tempCard6 = new Card(4, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard7 = new Card(5, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		chief.hand.orderHand();
+		ArrayList<Integer> possibleColor = new ArrayList<Integer>();
+		possibleColor = chief.hand.checkColor();
+		assertSame(possibleColor.get(0), 4);
+		assertSame(possibleColor.get(1), 2);
+		assertSame(possibleColor.get(2), 2);
+		assertSame(possibleColor.get(3), 1);
+
 		
 	}
 }

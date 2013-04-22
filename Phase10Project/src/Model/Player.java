@@ -82,7 +82,9 @@ public class Player {
 		  
 	}
 	
+	public void discard(){
 	
+	}
 	
 	public void getPhaseInfo(){
 		phase.checkPhase(this.getPhaseNumber(), this);

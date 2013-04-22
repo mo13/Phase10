@@ -1,6 +1,7 @@
 package Controller;
 import Model.*;
 import View.*;
+import Strategy.*;
 
 import java.awt.event.ActionEvent;
 import java.util.*;
@@ -29,15 +30,13 @@ public class Controller {
 	  for(int i = 0; i < 10; i++){
 		  for(int player = 0; player < playerList.size(); player++){
 			  Deck.draw();
-		  }
-		 
+		  } 
 	  }
-	  
-	  
   }
 
   public void scoreRound() {
 	  for(int player = 0; player < playerList.size(); player++){
+
 		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
 			  if (Card.getType() == Card.type.Normal){
 					if (Card.number < 10){
@@ -49,14 +48,13 @@ public class Controller {
 						}
 						else if (Card.getType() == Card.type.Wild){
 	//add 25 points
-						}
+						
 					}		else if (Card.getType() == Card.type.Skip){ 
 	//add 15 points
 					}
-			
+				}
 		  }
 	  }
-	  
   }
 
   public void checkRound() {
