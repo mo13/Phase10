@@ -40,8 +40,18 @@ public class Controller {
 	  for(int player = 0; player < playerList.size(); player++){
 		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
 			  if (Card.getType() == Card.type.Normal){
-					if (Card.number <= 12 & Card.number >= 1){
-					}else
+					if (Card.number < 10){
+	
+					}
+					}else if (Card.getType() == Card.type.Normal){
+						if (Card.number > 10){
+							
+						}
+						else if (Card.getType() == Card.type.Wild){
+							
+						}
+					}		else if (Card.getType() == Card.type.Skip){ 
+					}
 			
 		  }
 	  }
@@ -53,10 +63,6 @@ public class Controller {
   }
 
   public void doTurn() {
-	  
-  }
-  
-  public void showBoard() {
 	  
   }
   
@@ -93,21 +99,14 @@ public class Controller {
 	  
   }
   
-  public void draw(){
-	  
-  }
-  
-  public void phaseOut(){
-	  
-  }
   
   public void checkPhase(){
-	  
+	  Model.checkPhase(0, player1);
+	  Model.checkPhase(0, player2);
+	  Model.checkPhase(0, player3);
+	  Model.checkPhase(0, player4);
   }
-  
-  public void hit(){
-	  
-  }
+ 
   
   public void checkHit(){
 	  
@@ -120,8 +119,16 @@ public class Controller {
   
   
   
-  //can't be implemented with out first finishing other parts.
+ //can't be implemented with out first finishing other parts.
   
+  
+ public void draw(){
+	  
+  }
+  
+  public void hit(){
+	  
+  }
   
   public void setupBoard(){
 	  
@@ -132,6 +139,10 @@ public class Controller {
   }
 
   public void setStrategy(){
+	  
+  }
+  
+ public void phaseOut(){
 	  
   }
 
