@@ -34,7 +34,7 @@ public class Controller {
 
   public void scoreRound() {
 	  for(int player = 0; player < playerList.size(); player++){
-		  for (int CardsinHand = 0; CardsinHand < Player.hand.size(); CardsinHand++){
+		  for (int CardsinHand = 0; CardsinHand < playerList.get(player).hand.size(); CardsinHand++){
 			  
 			  
 		  }

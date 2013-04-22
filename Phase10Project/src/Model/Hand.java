@@ -138,8 +138,8 @@ public class Hand extends ArrayList<Card> {
 	  Hand tempHand = new Hand();
 	  for(int i = 0; i < this.size(); i++){
 		  if (this.get(i).getType() == Card.type.Wild ){
-			  if (setNumbers.contains(99)){
-			  tempHand.add(this.get(i));
+			  if (!setNumbers.contains(99)){
+				  tempHand.add(this.get(i));
 			  }
 		  } else if (this.get(i).getType() == Card.type.Normal){
 			  if(this.get(i).getNumber() != setNumbers.get(0)){
@@ -150,33 +150,90 @@ public class Hand extends ArrayList<Card> {
 			  tempHand.add(this.get(i));
 		  }
 	  }
-	  System.out.println(tempHand.toString());
+
 	  int previousNumber = 0;
-	  Boolean runCheck = false;
 	  int tempRunSize = runSize;
+	  int wildCount = 0;
+	  for(int i = 0; i < tempHand.size(); i++){
+		  if( tempHand.get(i).getType() == Card.type.Wild){
+			  wildCount++;
+		  }
+	  }
 	  ArrayList<Integer> possibleRun = new ArrayList<Integer>();
 	  for(int runIndex = 0; runIndex < tempHand.size(); runIndex++){
 		  if(tempRunSize != 0){
-			  if(runIndex == tempHand.size()-1){
-				  break;
-			  } else if (runIndex == 0){
+//			  if(runIndex == tempHand.size()-1){
+//				  break;
+//			  } else 
+				  if (runIndex == 0){
 				  previousNumber = tempHand.get(runIndex).getNumber();
 				  possibleRun.add(previousNumber);
 				  tempRunSize--;
 			  } else{
-				  if(tempHand.get(runIndex).getNumber() -1 == previousNumber){
+				  if(tempHand.get(runIndex).getNumber() == previousNumber+1){
 					  previousNumber = tempHand.get(runIndex).getNumber();
 					  possibleRun.add(previousNumber);
 					  tempRunSize--;
-				  } else {
+				  } else if (tempHand.get(runIndex).getNumber() == previousNumber){
+					  // left blank intentionally
+				  } else if (tempHand.get(runIndex).getType() == Card.type.Wild | wildCount > 0){ 
+					  if(wildCount > 0){
+						  previousNumber = previousNumber + 1;
+						  possibleRun.add(99);
+						  wildCount--;
+						  tempRunSize--;
+						  runIndex--;;
+					  }
+//					  }else {
+//						  previousNumber = tempHand.get(runIndex).getNumber();
+//						  possibleRun = new ArrayList<Integer>();
+//						  tempRunSize = runSize;
+//						  }
+				  } else if (tempHand.get(runIndex).getType() == Card.type.Skip){
+					  //left blank intentionally
+				  }
+				  else {
 					  previousNumber = tempHand.get(runIndex).getNumber();
 					  possibleRun = new ArrayList<Integer>();
 					  tempRunSize = runSize;
-				  }
+					  }
 			  }
 		  }
 	  }
-	  System.out.println(possibleRun.toString());
 	  return possibleRun;
+  }
+  
+  public ArrayList<Integer> checkColor(){
+	  int maxIndex = 0;
+	  int maxNumber =0;
+	  ArrayList<Card.cardColor> colorArray = new ArrayList<Card.cardColor>();
+	  colorArray.add(Card.cardColor.Red);
+	  colorArray.add(Card.cardColor.Blue);
+	  colorArray.add(Card.cardColor.Green);
+	  colorArray.add(Card.cardColor.Yellow);
+	  ArrayList<Integer> numberArray = new ArrayList<Integer>();
+	  for (int i = 0; i < colorArray.size(); i++){
+		  int tempNumber = 0;
+		  for(int j = 0; j < this.size(); j++){
+			  if(this.get(j).getColor() == colorArray.get(i)){
+				  tempNumber++;
+			  } 
+			   
+		  }
+		  numberArray.add(i, tempNumber);
+	  }
+	  for(int j = 0; j < this.size(); j++){
+		  if(this.get(j).getType() == Card.type.Wild){
+			  for(int numberIndex = 0; numberIndex < numberArray.size(); numberIndex++){
+				  if(numberArray.get(numberIndex) >= maxNumber){
+					  maxIndex = numberIndex;
+					  maxNumber = numberArray.get(numberIndex);
+				  }
+			  }
+			  numberArray.set(maxIndex, maxNumber +1);
+		  }
+	  }
+	  System.out.println(numberArray.toString());
+	  return numberArray;
   }
 }
