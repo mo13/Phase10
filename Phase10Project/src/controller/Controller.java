@@ -73,12 +73,12 @@ public class Controller {
 
   
   public void exitGame(){
-				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
-					Gui.frame.setVisible(false);
-					Gui.frame.dispose();
-					System.exit(0);
-				
-			}
+//				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
+//					Gui.frame.setVisible(false);
+//					Gui.frame.dispose();
+//					System.exit(0);
+//				
+//			}
   }
   
   public void showOrder(){

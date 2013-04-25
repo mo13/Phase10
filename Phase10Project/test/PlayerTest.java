@@ -155,13 +155,58 @@ public class PlayerTest {
 	@Test
 	public void testCheckPhase() {
 		// check a color set
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		chief.hand.orderHand();
 		cortona.setPhaseNumber(8);
 		cortona.getPhaseInfo();
 		cortona.checkPhase();
 		// check 2 sets with different sizes
+		
+		tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		cortona.setPhaseNumber(9);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
 		// check a set and a run
+		cortona.setPhaseNumber(2);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
 		// check 2 normal sets
+		cortona.setPhaseNumber(1);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
 		// check a run
+		cortona.setPhaseNumber(4);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
 		
 	}
 	
