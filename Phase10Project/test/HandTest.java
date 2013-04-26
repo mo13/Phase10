@@ -52,23 +52,26 @@ public class HandTest {
 	@Test 
 	public void testOrderHand(){
 		Hand hand = new Hand();
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(8, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard1 = new Card(1, Card.cardColor.Green, Card.type.Normal); 				
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);				
+		Card tempCard3 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard4 = new Card(8, Card.cardColor.Blue, Card.type.Normal);		
 		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard6 = new Card(1, Card.cardColor.Green, Card.type.Normal);
-		hand.add(tempCard1);
-		hand.add(tempCard2);
-		hand.add(tempCard3);
+		Card tempCard6 = new Card(0, Card.cardColor.Black, Card.type.Wild);
 		hand.add(tempCard4);
+		hand.add(tempCard1);
 		hand.add(tempCard5);
+		hand.add(tempCard2);
 		hand.add(tempCard6);
+		hand.add(tempCard3);
+		System.out.println(tempCard3.toString());
 		hand.orderHand();
-		assertSame(hand.get(0), tempCard3);
-		assertSame(hand.get(1), tempCard6);
-		assertSame(hand.get(2), tempCard1);
-		assertSame(hand.get(3), tempCard2);
+		assertSame(hand.get(0), tempCard1);
+		assertSame(hand.get(1), tempCard2);
+		assertSame(hand.get(2), tempCard3);
+		assertSame(hand.get(3), tempCard4);
+		assertSame(hand.get(4), tempCard5);
+		assertSame(hand.get(5), tempCard6);
 		
 	}
 	// with a wild in it

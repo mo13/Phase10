@@ -12,23 +12,18 @@ public class Controller {
 	Deck drawPile = new Deck(Deck.deckType.DrawPile);
 	Deck discardPile = new Deck(Deck.deckType.DiscardPile);
 	
-	Player player1 = new Player("Chief");
-	Player player2 = new Player("Cortona");
-	Player player3 = new Player("Johnson");
-	Player player4 = new Player("Arbiter");
+
 	
-	ArrayList<Player> playerList;
-	
-	public void setPlayerOrder(){
-		playerList = new ArrayList<Player>();
-		playerList.add(player1);
-		playerList.add(player2);
-		playerList.add(player3);
-		playerList.add(player4);
-		
+	public ArrayList<Player> setPlayerOrder(Player p1, Player p2, Player p3, Player p4){
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList.add(p1);
+		playerList.add(p2);
+		playerList.add(p3);
+		playerList.add(p4);
+		return playerList;
 	}
   
-  public void dealCards() {
+  public void dealCards(ArrayList<Player> playerList) {
 	  drawPile.createDeck();
 	  for(int i = 0; i < 10; i++){
 		  for(int player = 0; player < playerList.size(); player++){
@@ -37,28 +32,39 @@ public class Controller {
 	  }
   }
 
-  public void scoreRound() {
+  public void scoreRound(ArrayList<Player> playerList) {
+	  int tempScore  = 0;
+	  Player currPlayer;
 	  for(int player = 0; player < playerList.size(); player++){
-
-		  for (int i = 0; i < playerList.get(player).hand.size(); i++){
-			  if (playerList.get(player).hand.get(i).getType() == Card.type.Normal){
-					if (Card.number < 10){
-	//add 5 points
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+			  if (currPlayer.hand.get(i).getType() == Card.type.Normal){
+					if (currPlayer.hand.get(i).getNumber() < 10){
+						System.out.println(currPlayer.hand.get(i).toString());
+						System.out.println("adding 5");
+						tempScore += 5; 				//add 5 points
+					} else { 							//(playerList.get(player).hand.get(i).getType()  == Card.type.Normal){
+						System.out.println(currPlayer.hand.get(i).toString());
+						System.out.println("adding 10");
+						tempScore += 10;				//add 10 points
 					}
-					}else if (playerList.get(player).hand.get(i).getType()  == Card.type.Normal){
-						if (Card.number > 10){
-	//add 10 points
-						}
-						else if (playerList.get(player).hand.get(i).getType()  == Card.type.Wild){
-	//add 25 points
+			  }	else if (currPlayer.hand.get(i).getType()  == Card.type.Wild){
+				  System.out.println(currPlayer.hand.get(i).toString());
+				  System.out.println("adding 25");
+				  	tempScore += 25;					//	add 25 points
 						
-					}		else if (playerList.get(player).hand.get(i).getType()  == Card.type.Skip){ 
-	//add 15 points
+			  } else if (currPlayer.hand.get(i).getType()  == Card.type.Skip){ 
+				  System.out.println(currPlayer.hand.get(i).toString());
+				  System.out.println("adding 15");
+				  	tempScore += 15;					//add 15 points
 					}
 				}
+		  int originalScore =  currPlayer.getScore();
+		  playerList.get(player).setScore(originalScore + tempScore);
 		  }
 	  }
-  }
+  
 
 
   
@@ -82,7 +88,7 @@ public class Controller {
   }
   
   public void showOrder(){
-	  setPlayerOrder();
+//	  setPlayerOrder();
   }
     
   

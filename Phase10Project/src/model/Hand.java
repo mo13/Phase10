@@ -4,32 +4,42 @@ import java.util.*;
 import model.Card.cardColor;
 
 
-public class Hand extends ArrayList<Card> {
+public class Hand  {
 
-  public ArrayList<Card> CardsInHand;
+  private ArrayList<Card> cardsInHand = new ArrayList<Card>();
 
   // preconditions: the deck has to have a card in it. 
   // postconditions: the players hand is incremented by 1. 
   public void draw(Deck deck){
 	  try{
 		  Card tempCard = deck.draw();
-		  this.add(tempCard);
+		  cardsInHand.add(tempCard);
 	  } catch(IndexOutOfBoundsException e){
 		  System.out.println("Draw Deck is empty, refilling the draw pile.");
 
 //		  this is not done yet I need to come back and fix this code right here to refill.
 //		  finish the controller first and then this should run
 		  
-	  }
-	  	
-	  
+	  }	  
+  }
+  
+  public void add(Card c){
+		 this.cardsInHand.add(c);
+  }
+  
+  public int size(){
+	  return this.cardsInHand.size();
+  }
+  
+  public Card get(int ind){
+	  return this.cardsInHand.get(ind);
   }
   
   // postcondition the hand must be one card smaller after the operation. 
   // the deck it is adding to is always the discard pile so the discard 
   // pile should be decreased.S
   public void discard(int index){
-	  this.remove(index);
+	  cardsInHand.remove(index);
   }
 
   
@@ -37,20 +47,20 @@ public class Hand extends ArrayList<Card> {
 	  Card biggerCard;
 	  Card smallerCard;
 	  Card specialCard;
-	  for(int i = 0; i < this.size()-1; i++){
-		  for(int j = 0; j <this.size()-1; j++){
-			  if (this.get(i).getNumber() == 0){
-				  specialCard = this.remove(i);
-				  this.add(specialCard);
+	  for(int i = 0; i < cardsInHand.size()-1; i++){
+		  for(int j = 0; j <cardsInHand.size()-1; j++){
+			  if (cardsInHand.get(i).getNumber() == 0){
+				  specialCard = cardsInHand.get(i);
+				  cardsInHand.add(specialCard);
 				  
-			  } else if(this.get(j).getNumber() == 0){
-				  specialCard = this.remove(j);
-				  this.add(specialCard);
-			  } else if(this.get(i).getNumber() < this.get(j).getNumber()){
-				  biggerCard = this.remove(i);
-				  smallerCard = this.remove(j);
-				  this.add(j, biggerCard);
-				  this.add(i, smallerCard);
+			  } else if(cardsInHand.get(j).getNumber() == 0){
+				  specialCard = cardsInHand.remove(j);
+				  cardsInHand.add(specialCard);
+			  } else if(cardsInHand.get(i).getNumber() < cardsInHand.get(j).getNumber()){
+				  biggerCard = cardsInHand.remove(i);
+				  smallerCard = cardsInHand.remove(j);
+				  cardsInHand.add(j, biggerCard);
+				  cardsInHand.add(i, smallerCard);
 			  }
 		  }
 	  }
@@ -64,23 +74,23 @@ public class Hand extends ArrayList<Card> {
 	  ArrayList<Integer> cardNumberList = new ArrayList<Integer>();
 	  ArrayList<Integer> possibleSetNumbers = new ArrayList<Integer>();
 	  // this will iterate through the original cards 
-	  for(int originalCardIndex = 0; originalCardIndex < this.size(); originalCardIndex++){
-		  int tempNum = this.get(originalCardIndex).getNumber();
-		  if (this.get(originalCardIndex).getType() == Card.type.Normal){
+	  for(int originalCardIndex = 0; originalCardIndex < cardsInHand.size(); originalCardIndex++){
+		  int tempNum = cardsInHand.get(originalCardIndex).getNumber();
+		  if (cardsInHand.get(originalCardIndex).getType() == Card.type.Normal){
 			  if(cardNumberList.isEmpty()){
-				  cardNumberList.add(this.get(originalCardIndex).getNumber());
+				  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
 				  integerList.add(1);
 			  } else {
-				  int currentIndexOf = cardNumberList.indexOf(this.get(originalCardIndex).getNumber());
+				  int currentIndexOf = cardNumberList.indexOf(cardsInHand.get(originalCardIndex).getNumber());
 				  if (currentIndexOf == -1){
-					  cardNumberList.add(this.get(originalCardIndex).getNumber());
+					  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
 					  integerList.add(1);
 				  } else {
 					  int previousNumber = integerList.get(currentIndexOf);
 					  integerList.set(currentIndexOf,(previousNumber +1));
 				  }
 			  }
-		  } else if (this.get(originalCardIndex).getType() == Card.type.Wild){
+		  } else if (cardsInHand.get(originalCardIndex).getType() == Card.type.Wild){
 			  for(int integerListIndex = 0; integerListIndex < integerList.size(); integerListIndex++){
 				  if(setsToGo == 0){
 					  break;
@@ -96,8 +106,8 @@ public class Hand extends ArrayList<Card> {
 					  break;
 				  } 
 			  }
-		  } else if(this.get(originalCardIndex).getType() == Card.type.Skip){
-			  cardNumberList.add(this.get(originalCardIndex).getNumber());
+		  } else if(cardsInHand.get(originalCardIndex).getType() == Card.type.Skip){
+			  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
 			  integerList.add(999);
 		  }
 	  }
@@ -137,18 +147,18 @@ public class Hand extends ArrayList<Card> {
   
   public ArrayList<Integer> checkRun(ArrayList<Integer> setNumbers, int runSize){
 	  Hand tempHand = new Hand();
-	  for(int i = 0; i < this.size(); i++){
-		  if (this.get(i).getType() == Card.type.Wild ){
+	  for(int i = 0; i < cardsInHand.size(); i++){
+		  if (cardsInHand.get(i).getType() == Card.type.Wild ){
 			  if (!setNumbers.contains(99)){
-				  tempHand.add(this.get(i));
+				  tempHand.add(cardsInHand.get(i));
 			  }
-		  } else if (this.get(i).getType() == Card.type.Normal){
-			  if(this.get(i).getNumber() != setNumbers.get(0)){
+		  } else if (cardsInHand.get(i).getType() == Card.type.Normal){
+			  if(cardsInHand.get(i).getNumber() != setNumbers.get(0)){
 			  
-				  tempHand.add(this.get(i));
+				  tempHand.add(cardsInHand.get(i));
 			  }
-		  } else if (this.get(i).getType() == Card.type.Skip){
-			  tempHand.add(this.get(i));
+		  } else if (cardsInHand.get(i).getType() == Card.type.Skip){
+			  tempHand.add(cardsInHand.get(i));
 		  }
 	  }
 
@@ -215,16 +225,16 @@ public class Hand extends ArrayList<Card> {
 	  ArrayList<Integer> numberArray = new ArrayList<Integer>();
 	  for (int i = 0; i < colorArray.size(); i++){
 		  int tempNumber = 0;
-		  for(int j = 0; j < this.size(); j++){
-			  if(this.get(j).getColor() == colorArray.get(i)){
+		  for(int j = 0; j < cardsInHand.size(); j++){
+			  if(cardsInHand.get(j).getColor() == colorArray.get(i)){
 				  tempNumber++;
 			  } 
 			   
 		  }
 		  numberArray.add(i, tempNumber);
 	  }
-	  for(int j = 0; j < this.size(); j++){
-		  if(this.get(j).getType() == Card.type.Wild){
+	  for(int j = 0; j < cardsInHand.size(); j++){
+		  if(cardsInHand.get(j).getType() == Card.type.Wild){
 			  for(int numberIndex = 0; numberIndex < numberArray.size(); numberIndex++){
 				  if(numberArray.get(numberIndex) >= maxNumber){
 					  maxIndex = numberIndex;
