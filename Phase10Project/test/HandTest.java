@@ -62,12 +62,13 @@ public class HandTest {
 		hand.add(tempCard1);
 		hand.add(tempCard5);
 		hand.add(tempCard2);
-		hand.add(tempCard6);
 		hand.add(tempCard3);
-		System.out.println(tempCard3.toString());
+		hand.add(tempCard6);
+		
 		hand.orderHand();
-		assertSame(hand.get(0), tempCard1);
-		assertSame(hand.get(1), tempCard2);
+		System.out.println(hand.toString());
+		assertSame(hand.get(0), tempCard2);
+		assertSame(hand.get(1), tempCard1);
 		assertSame(hand.get(2), tempCard3);
 		assertSame(hand.get(3), tempCard4);
 		assertSame(hand.get(4), tempCard5);
@@ -88,12 +89,18 @@ public class HandTest {
 		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
 		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
 		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
-		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
-		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
-		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
-		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		chief.hand.add(tempCard1);	
+		chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);
+		chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);
+		chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);
+		chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);
+		chief.hand.add(tempCardW);
 		chief.hand.orderHand();
+		
 		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
 		possibleSets = chief.hand.checkSet(2,3);
 

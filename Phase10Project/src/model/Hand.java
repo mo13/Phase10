@@ -24,15 +24,15 @@ public class Hand  {
   }
   
   public void add(Card c){
-		 this.cardsInHand.add(c);
+		 cardsInHand.add(c);
   }
   
   public int size(){
-	  return this.cardsInHand.size();
+	  return cardsInHand.size();
   }
   
   public Card get(int ind){
-	  return this.cardsInHand.get(ind);
+	  return cardsInHand.get(ind);
   }
   
   // postcondition the hand must be one card smaller after the operation. 
@@ -44,26 +44,40 @@ public class Hand  {
 
   
   public void orderHand(){
-	  Card biggerCard;
-	  Card smallerCard;
-	  Card specialCard;
-	  for(int i = 0; i < cardsInHand.size()-1; i++){
-		  for(int j = 0; j <cardsInHand.size()-1; j++){
-			  if (cardsInHand.get(i).getNumber() == 0){
-				  specialCard = cardsInHand.get(i);
-				  cardsInHand.add(specialCard);
-				  
-			  } else if(cardsInHand.get(j).getNumber() == 0){
-				  specialCard = cardsInHand.remove(j);
-				  cardsInHand.add(specialCard);
-			  } else if(cardsInHand.get(i).getNumber() < cardsInHand.get(j).getNumber()){
-				  biggerCard = cardsInHand.remove(i);
-				  smallerCard = cardsInHand.remove(j);
-				  cardsInHand.add(j, biggerCard);
-				  cardsInHand.add(i, smallerCard);
-			  }
+	  
+	  ArrayList<Card> tempHand = new ArrayList<Card>();
+	  ArrayList<Card> specialCards = new ArrayList<Card>();
+	  Card minCard;
+	  
+	  for(Card c :cardsInHand){
+		  System.out.println(c.toString());
+		  if(c.getNumber() == 0 | c.getType() == Card.type.Skip	){
+			  specialCards.add(c);
 		  }
 	  }
+
+	  for(Card c : specialCards){
+		  cardsInHand.remove(c);
+	  }
+
+	  while(!cardsInHand.isEmpty()){
+		  tempHand.add(cardsInHand.remove(0));
+	  }
+	  
+	 while (!tempHand.isEmpty()){
+		 minCard = new Card(12, Card.cardColor.Red, Card.type.Normal);
+		 for(Card c : tempHand){
+			 if (c.getNumber() <= minCard.getNumber()){
+				 minCard = c;
+			 }
+		 }
+		 tempHand.remove(minCard);
+		 cardsInHand.add(minCard);
+	 }
+	for(Card c: specialCards){
+		cardsInHand.add(c);
+	}
+		 
   }
   
   
@@ -247,4 +261,15 @@ public class Hand  {
 	  System.out.println(numberArray.toString());
 	  return numberArray;
   }
+  
+  public String toString(){
+		 StringBuilder result = new StringBuilder();
+		 String NEW_LINE = System.getProperty("line.separator");
+
+		for(int i = 0; i < this.size(); i++){
+			result.append(this.get(i).toString());
+			result.append(NEW_LINE);
+		}
+		return result.toString();
+	}
 }

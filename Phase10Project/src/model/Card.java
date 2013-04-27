@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Card {
 
-	 public static int number; // invariant numbers between 1 and 12
+	 private int number; // invariant numbers between 1 and 12
 	 private cardColor color; // look for colors
 	 private type type; // look up enumerators
 	
