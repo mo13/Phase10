@@ -428,10 +428,19 @@ public class Player {
 	RecklessPlayer r = new RecklessPlayer();
 	public Card discard(){
 		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
-		d.setPlayer(this);
-		Card tempCard = d.discard();
-		return tempCard;
-		}
+			d.setPlayer(this);
+			Card tempCard = d.discard();
+			return tempCard;
+		} else if (this.getStrategy() == Strategy.strategyType.preventer){
+			p.setPlayer(this);
+			Card tempCard = p.discard();
+			return tempCard;
+		} 
+//		else if (this.getStrategy() == Strategy.strategyType.lowestScore){
+//			l.setPlayer(this);
+//			Card tempCard = l.discard();
+//			return tempCard;
+//		}
 		return null;
 	}
 	

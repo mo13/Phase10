@@ -443,10 +443,18 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setStrategy(strategyType.drunkPlayer);
-		System.out.println(cortona.hand);
-		Card tempCard = cortona.discard();
-		System.out.println(cortona.hand);
-		System.out.println(tempCard);
+		cortona.discard();
+		assertSame(cortona.hand.size(),9);
+		//
+		cortona.hand.add(tempCard5);
+		cortona.hand.orderHand();
+		cortona.setStrategy(strategyType.preventer);
+		System.out.println(cortona.hand.toString());
+		Card tempCard69 = cortona.discard();
+		assertSame(tempCard69,tempCard2);
+		Card tempCard68 = cortona.discard();
+		assertSame(tempCard68,tempCard5);
+		//
 	}
 	
 	@Test

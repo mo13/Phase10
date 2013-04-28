@@ -39,7 +39,7 @@ public class PreventerStrategy {
 	p.setPlayer(cortona);
 	assertSame(p.player.hand.size(),10);
 	Card tempCard = p.discard();
-	assertSame(tempCard, tempCard1);
+	assertSame(p.player.hand.get(0), tempCard1);
 	p.discard();
 	assertSame(p.player.hand.size(),8);
 	}
