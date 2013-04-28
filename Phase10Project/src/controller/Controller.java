@@ -76,6 +76,22 @@ public class Controller {
 	  
   }
   
+  public void emptyHand(ArrayList<Player> playerList){
+	  Player currPlayer;
+	  boolean empty = false;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+			  if (currPlayer.hand.size() == 0){
+				  empty = true;
+			  }else{ 
+				  empty = false;
+			  }
+		  }
+	  }
+  }
+  
 
   
   public void exitGame(){
@@ -87,12 +103,6 @@ public class Controller {
 //			}
   }
   
-  public void showOrder(){
-//	  setPlayerOrder();
-  }
-    
-  
-
 
   public void checkRound() {
 	  
@@ -110,15 +120,11 @@ public class Controller {
 	  
   }
   
-
   
   public void resetDrawPile(){
 	  
   }
   
-  
-
- 
   
   public void checkHit(){
 	  
@@ -128,13 +134,18 @@ public class Controller {
 	  
   }
   
-  
-  
-  
+
  //can't be implemented with out first finishing other parts.
   
   
- public void draw(){
+  public void draw(ArrayList<Player> playerList){
+	  Player currPlayer;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+		  }
+	  }
 	  
   }
   
@@ -146,7 +157,14 @@ public class Controller {
 	  
   }
   
-  public void discard(){
+  public void discard(ArrayList<Player> playerList){
+	  Player currPlayer;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+		  }
+	  }
 	  
   }
 
