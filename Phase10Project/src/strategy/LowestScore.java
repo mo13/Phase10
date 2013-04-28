@@ -33,5 +33,4 @@ public class LowestScore extends Strategy {
 		discardPile.add(tempDiscardPile);
 		}
 	}
-	}
 }
