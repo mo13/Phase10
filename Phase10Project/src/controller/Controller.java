@@ -62,15 +62,9 @@ public class Controller {
 				}
 		  int originalScore =  currPlayer.getScore();
 		  playerList.get(player).setScore(originalScore + tempScore);
+		  tempScore = 0;
 		  }
 	  }
-  
-
-
-  
-  public void scorePlayers(){
-	  
-  }
 
   public void phasetracker(){
 	  
@@ -104,8 +98,20 @@ public class Controller {
   }
   
 
-  public void checkRound() {
-	  
+  public void checkRound(ArrayList<Player> playerList) {
+	  boolean roundOver = false;
+	  Player currPlayer;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+			  if (currPlayer.hand.size() == 0){
+				  roundOver = true;
+			  }else{ 
+				  roundOver = false;
+	    }
+	  }
+	}
   }
 
   public void doTurn() {
@@ -115,11 +121,6 @@ public class Controller {
   public void displayScore(){
 	  
   }
-
-  public void exitRound(){
-	  
-  }
-  
   
   public void resetDrawPile(){
 	  
