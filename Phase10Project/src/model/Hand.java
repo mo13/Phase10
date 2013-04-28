@@ -15,7 +15,7 @@ public class Hand  {
 		  Card tempCard = deck.draw();
 		  cardsInHand.add(tempCard);
 	  } catch(IndexOutOfBoundsException e){
-		  System.out.println("Draw Deck is empty, refilling the draw pile.");
+		  
 
 //		  this is not done yet I need to come back and fix this code right here to refill.
 //		  finish the controller first and then this should run
@@ -35,9 +35,7 @@ public class Hand  {
 	  return cardsInHand.get(ind);
   }
   
-  // postcondition the hand must be one card smaller after the operation. 
-  // the deck it is adding to is always the discard pile so the discard 
-  // pile should be decreased.S
+ 
   public void discard(int index){
 	  cardsInHand.remove(index);
   }
@@ -50,7 +48,6 @@ public class Hand  {
 	  Card minCard;
 	  
 	  for(Card c :cardsInHand){
-		  System.out.println(c.toString());
 		  if(c.getNumber() == 0 | c.getType() == Card.type.Skip	){
 			  specialCards.add(c);
 		  }
@@ -139,7 +136,7 @@ public class Hand  {
 				 tempNum--;
 
 			  } else if (difference.get(i) == setSize-(setSize-1) && difference.indexOf(0) == -1){
-				  possibleSetNumbers.add(cardNumberList.get(i));
+				 // possibleSetNumbers.add(cardNumberList.get(i));
 			 
 			  } else if (difference.get(i) == setSize-(setSize-2) && (difference.indexOf(0) == -1 && difference.indexOf(1) == -1)){
 				  possibleSetNumbers.add(cardNumberList.get(i));
@@ -159,6 +156,11 @@ public class Hand  {
 		return possibleSetNumbers;
   }
   
+  public Card remove(int i){
+	  return cardsInHand.remove(i);
+  }
+  
+ 
   public ArrayList<Integer> checkRun(ArrayList<Integer> setNumbers, int runSize){
 	  Hand tempHand = new Hand();
 	  for(int i = 0; i < cardsInHand.size(); i++){
@@ -187,9 +189,6 @@ public class Hand  {
 	  ArrayList<Integer> possibleRun = new ArrayList<Integer>();
 	  for(int runIndex = 0; runIndex < tempHand.size(); runIndex++){
 		  if(tempRunSize != 0){
-//			  if(runIndex == tempHand.size()-1){
-//				  break;
-//			  } else 
 				  if (runIndex == 0){
 				  previousNumber = tempHand.get(runIndex).getNumber();
 				  possibleRun.add(previousNumber);
@@ -209,16 +208,56 @@ public class Hand  {
 						  tempRunSize--;
 						  runIndex--;;
 					  }
-//					  }else {
-//						  previousNumber = tempHand.get(runIndex).getNumber();
-//						  possibleRun = new ArrayList<Integer>();
-//						  tempRunSize = runSize;
-//						  }
 				  } else if (tempHand.get(runIndex).getType() == Card.type.Skip){
 					  //left blank intentionally
 				  }
 				  else {
 					  previousNumber = tempHand.get(runIndex).getNumber();
+					  possibleRun = new ArrayList<Integer>();
+					  tempRunSize = runSize;
+					  }
+			  }
+		  }
+	  }
+	  return possibleRun;
+  }
+  
+  public ArrayList<Integer> checkRun (int runSize){
+	  int previousNumber = 0;
+	  int tempRunSize = runSize;
+	  int wildCount = 0;
+	  for(int i = 0; i < cardsInHand.size(); i++){
+		  if( cardsInHand.get(i).getType() == Card.type.Wild){
+			  wildCount++;
+		  }
+	  }
+	  ArrayList<Integer> possibleRun = new ArrayList<Integer>();
+	  for(int runIndex = 0; runIndex < cardsInHand.size(); runIndex++){
+		  if(tempRunSize != 0){
+				  if (runIndex == 0){
+				  previousNumber = cardsInHand.get(runIndex).getNumber();
+				  possibleRun.add(previousNumber);
+				  tempRunSize--;
+			  } else{
+				  if(cardsInHand.get(runIndex).getNumber() == previousNumber+1){
+					  previousNumber = cardsInHand.get(runIndex).getNumber();
+					  possibleRun.add(previousNumber);
+					  tempRunSize--;
+				  } else if (cardsInHand.get(runIndex).getNumber() == previousNumber){
+					  // left blank intentionally
+				  } else if (cardsInHand.get(runIndex).getType() == Card.type.Wild | wildCount > 0){ 
+					  if(wildCount > 0){
+						  previousNumber = previousNumber + 1;
+						  possibleRun.add(99);
+						  wildCount--;
+						  tempRunSize--;
+						  runIndex--;;
+					  }
+				  } else if (cardsInHand.get(runIndex).getType() == Card.type.Skip){
+					  //left blank intentionally
+				  }
+				  else {
+					  previousNumber = cardsInHand.get(runIndex).getNumber();
 					  possibleRun = new ArrayList<Integer>();
 					  tempRunSize = runSize;
 					  }
@@ -236,6 +275,7 @@ public class Hand  {
 	  colorArray.add(Card.cardColor.Blue);
 	  colorArray.add(Card.cardColor.Green);
 	  colorArray.add(Card.cardColor.Yellow);
+	 
 	  ArrayList<Integer> numberArray = new ArrayList<Integer>();
 	  for (int i = 0; i < colorArray.size(); i++){
 		  int tempNumber = 0;
@@ -258,7 +298,6 @@ public class Hand  {
 			  numberArray.set(maxIndex, maxNumber +1);
 		  }
 	  }
-	  System.out.println(numberArray.toString());
 	  return numberArray;
   }
   

@@ -11,10 +11,7 @@ import org.junit.Test;
 
 public class PhaseTest {
 
-	@Test
-	public void testCheckPhase() {
-		fail("Not yet implemented");
-	}
+	
 	
 	@Test
 	public void goodTestCheckNumSet() {

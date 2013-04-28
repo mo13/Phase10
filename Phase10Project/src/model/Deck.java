@@ -88,9 +88,4 @@ public class Deck extends ArrayList<Card> {
 	}
 	
 	
-	public void dealCards(){
-		
-	}
-	
 }
-

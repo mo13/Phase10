@@ -3,7 +3,7 @@
 import static org.junit.Assert.*;
 
 import model.*;
-
+import java.util.*;
 import org.junit.Test;
 
 import strategy.*;
@@ -11,6 +11,10 @@ import strategy.*;
 public class PlayerTest {
 	
 	Player cortona = new Player("Cortona");
+	Player chief = new Player("Chief");
+	Player arbiter = new Player("Arbiter");
+	Player drHalsey	= new Player("drHalsey");
+	Player guiltySpark = new Player("guiltySpark");
 	
 	@Test
 	// This test to see if the setStrategy and the getStartegy methods work. 
@@ -49,9 +53,6 @@ public class PlayerTest {
 	public void testDrawCard() {
 		Deck drawPile = new Deck(Deck.deckType.DrawPile);
 		drawPile.createDeck();
-		System.out.println(drawPile.size());
-		System.out.println(drawPile.draw());
-		System.out.println(drawPile.size());
 		cortona.hand.draw(drawPile);
 		Card card1 = new Card(6, Card.cardColor.Red, Card.type.Normal);
 		cortona.hand.add(card1);
@@ -153,8 +154,9 @@ public class PlayerTest {
 		}
 
 	@Test
-	public void testCheckPhase() {
+	public void testCheckPhaseColor() {
 		// check a color set
+		//the order is red, blue, green, yellow
 		Player chief = new Player("Chief");
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
 		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
@@ -172,49 +174,252 @@ public class PlayerTest {
 		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
 		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
 		chief.hand.orderHand();
-		cortona.setPhaseNumber(8);
-		cortona.getPhaseInfo();
-		cortona.checkPhase();
+		chief.setPhaseNumber(8);
+		chief.getPhaseInfo();
+		chief.checkPhase();
+		assertTrue(chief.checkPhase());
+	}
 		// check 2 sets with different sizes
+	@Test
+	public void testCheckPhasediffSets(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setPhaseNumber(9);
+		cortona.getPhaseInfo();
+		assertTrue(cortona.checkPhase());
+	}
+	
+	@Test
+	public void testCheckPhaseSetRun(){
+		// check a set and a run
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		arbiter.hand.add(tempCard1);	arbiter.hand.add(tempCard2);
+		arbiter.hand.add(tempCard3);	arbiter.hand.add(tempCard4);
+		arbiter.hand.add(tempCard5);	arbiter.hand.add(tempCard6);
+		arbiter.hand.add(tempCard7);	arbiter.hand.add(tempCard8);
+		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
+		arbiter.setPhaseNumber(2);
+		arbiter.getPhaseInfo();
+		assertTrue(arbiter.checkPhase());
+	}
 		
-		tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
-		tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
-		tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
-		tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
-		tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
-		tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
-		tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
-		tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
-		tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
-		tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+	@Test
+	public void testCheckPhaseNormalSets(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		drHalsey.hand.add(tempCard1);	drHalsey.hand.add(tempCard2);
+		drHalsey.hand.add(tempCard3);	drHalsey.hand.add(tempCard4);
+		drHalsey.hand.add(tempCard5);	drHalsey.hand.add(tempCard6);
+		drHalsey.hand.add(tempCard7);	drHalsey.hand.add(tempCard8);
+		drHalsey.hand.add(tempCardS);	drHalsey.hand.add(tempCardW);
+		drHalsey.hand.orderHand();
+		// check 2 normal sets
+		drHalsey.setPhaseNumber(1);
+		drHalsey.getPhaseInfo();
+		
+		
+		assertTrue(drHalsey.checkPhase());
+	}
+	
+	@Test
+	public void testCheckPhaseRun(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		guiltySpark.hand.add(tempCard1);	guiltySpark.hand.add(tempCard2);
+		guiltySpark.hand.add(tempCard3);	guiltySpark.hand.add(tempCard4);
+		guiltySpark.hand.add(tempCard5);	guiltySpark.hand.add(tempCard6);
+		guiltySpark.hand.add(tempCard7);	guiltySpark.hand.add(tempCard8);
+		guiltySpark.hand.add(tempCardS);	guiltySpark.hand.add(tempCardW);
+		// check a run
+		guiltySpark.setPhaseNumber(4);
+		guiltySpark.getPhaseInfo();
+		
+		assertTrue(guiltySpark.checkPhase());
+		
+	}
+	
+	@Test 
+	public void testPhaseOutColor(){
+		Card tempCard1 = new Card(1, Card.cardColor.Yellow, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
 		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
 		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
 		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
 		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
 		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
-		cortona.setPhaseNumber(9);
-		cortona.getPhaseInfo();
-		cortona.checkPhase();
-		// check a set and a run
-		cortona.setPhaseNumber(2);
-		cortona.getPhaseInfo();
-		cortona.checkPhase();
-		// check 2 normal sets
-		cortona.setPhaseNumber(1);
-		cortona.getPhaseInfo();
-		cortona.checkPhase();
-		// check a run
-		cortona.setPhaseNumber(4);
-		cortona.getPhaseInfo();
-		cortona.checkPhase();
+		chief.setPhaseNumber(8);
+		chief.getPhaseInfo();
+		ArrayList<Card> done = chief.phaseOut();
 		
+		assertSame(done.size(), 7);
 	}
 	
 	@Test 
-	public void testPhaseOut(){
-		fail("Not yet implemented");
+	public void testPhaseOutDiffSets(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setPhaseNumber(9);
+		cortona.getPhaseInfo();
+		ArrayList<Card> done = cortona.phaseOut();
+		assertSame(done.get(0).getNumber(), 1);
+		assertSame(done.get(1).getNumber(), 1);
+		assertSame(done.get(2).getNumber(), 1);
+		assertSame(done.get(3).getNumber(), 1);
+		assertSame(done.get(4).getNumber(), 0);
+		assertSame(done.get(5).getNumber(), 3);
+		assertSame(done.get(6).getNumber(), 3);
 	}
 
+	@Test
+	public void testPhaseOutSetRun(){
+		// check a set and a run
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		arbiter.hand.add(tempCard1);	arbiter.hand.add(tempCard2);
+		arbiter.hand.add(tempCard3);	arbiter.hand.add(tempCard4);
+		arbiter.hand.add(tempCard5);	arbiter.hand.add(tempCard6);
+		arbiter.hand.add(tempCard7);	arbiter.hand.add(tempCard8);
+		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
+		arbiter.setPhaseNumber(2);
+		arbiter.getPhaseInfo();
+		ArrayList<Card> done = arbiter.phaseOut();
+		System.out.println(arbiter.hand);
+		assertSame(done.get(0).getNumber(), 1);
+		assertSame(done.get(1).getNumber(), 1);
+		assertSame(done.get(2).getNumber(), 0);
+		assertSame(done.get(3).getNumber(), 2);
+		assertSame(done.get(4).getNumber(), 3);
+		assertSame(done.get(5).getNumber(), 4);
+		assertSame(done.get(6).getNumber(), 5);
+	}
+	
+	@Test
+	public void testPhaseNormalSets(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		drHalsey.hand.add(tempCard1);	drHalsey.hand.add(tempCard2);
+		drHalsey.hand.add(tempCard3);	drHalsey.hand.add(tempCard4);
+		drHalsey.hand.add(tempCard5);	drHalsey.hand.add(tempCard6);
+		drHalsey.hand.add(tempCard7);	drHalsey.hand.add(tempCard8);
+		drHalsey.hand.add(tempCardS);	drHalsey.hand.add(tempCardW);
+		drHalsey.hand.orderHand();
+		// check 2 normal sets
+		drHalsey.setPhaseNumber(1);
+		drHalsey.getPhaseInfo();
+		ArrayList<Card> done = drHalsey.phaseOut();
+		assertSame(done.get(0).getNumber(), 1);
+		assertSame(done.get(1).getNumber(), 1);
+		assertSame(done.get(2).getNumber(), 2);
+		assertSame(done.get(3).getNumber(), 2);
+		assertSame(done.get(4).getNumber(), 2);
+		assertSame(done.get(5).getNumber(), 0);
+	}
+	@Test
+	public void testPhaseOutRun(){
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		guiltySpark.hand.add(tempCard1);	guiltySpark.hand.add(tempCard2);
+		guiltySpark.hand.add(tempCard3);	guiltySpark.hand.add(tempCard4);
+		guiltySpark.hand.add(tempCard5);	guiltySpark.hand.add(tempCard6);
+		guiltySpark.hand.add(tempCard7);	guiltySpark.hand.add(tempCard8);
+		guiltySpark.hand.add(tempCardS);	guiltySpark.hand.add(tempCardW);
+		// check a run
+		guiltySpark.setPhaseNumber(4);
+		guiltySpark.getPhaseInfo();
+		guiltySpark.checkPhase();
+		ArrayList<Card>done = guiltySpark.phaseOut();
+		assertSame(done.get(0).getNumber(),1);
+		assertSame(done.get(1).getNumber(),2);
+		assertSame(done.get(2).getNumber(),3);
+		assertSame(done.get(3).getNumber(),4);
+		assertSame(done.get(4).getNumber(),0);
+		assertSame(done.get(5).getNumber(),6);
+		assertSame(done.get(6).getNumber(),7);
+		
+	}
 	@Test
 	public void testHit() {
 		fail("Not yet implemented");
