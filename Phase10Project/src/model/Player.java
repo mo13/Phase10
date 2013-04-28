@@ -5,12 +5,13 @@ import java.util.*;
 import model.Card.cardColor;
 
 import strategy.*;
+import strategy.Strategy.strategyType;
 
 
 public class Player {
 	
   private String name;
-  public Strategy strategy;
+  public Strategy.strategyType currentStrategy;
   public  Hand hand;
   private int phaseNumber;
   private int score;
@@ -35,23 +36,26 @@ public class Player {
 	  this.score = 0;
 	  this.hand = new Hand();
 	  this.phasedOut = false;
+	  this.currentStrategy = null;
 	  
   }
   
-  public Player(String name, Strategy strategy){
+  public Player(String name, strategyType strategy){
 	  this.name = name;
-	  this.strategy = strategy;
+	  this.currentStrategy = strategy;
 	  this.phaseNumber = 1;
 	  this.score = 0;
 	  this.hand = new Hand();
 	  this.phasedOut = false;
   }
   
-  	public Strategy getStrategy() {
-  		return strategy;
+  	public Strategy.strategyType getStrategy() {
+  		return currentStrategy;
   	}
-	public void setStrategy(Strategy strategy) {
-		this.strategy = strategy;
+	public void setStrategy(strategyType strategy) {
+		currentStrategy = strategy;
+		System.out.println(currentStrategy);
+		
 	}
 	
 	public int getPhaseNumber() {
@@ -421,6 +425,9 @@ public class Player {
 	}
 	
 	public void discard(){
+		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
+			DrunkPlayer 
+		}
 		
 	}
 	

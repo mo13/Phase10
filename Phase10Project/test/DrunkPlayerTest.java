@@ -9,9 +9,13 @@ public class DrunkPlayerTest {
 	
 	@Test
 	public void testConstructor() {
-		DrunkPlayer d = new DrunkPlayer(cortona);
+		DrunkPlayer d = new DrunkPlayer();
+		assertSame(d.player, null);
+		d.setPlayer(cortona);
 		assertSame(d.player, cortona);
+		System.out.println(d.strat);
 	}
+	
 	
 	@Test
 	public void testDiscard() {
@@ -30,7 +34,8 @@ public class DrunkPlayerTest {
 	cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 	cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-	DrunkPlayer d = new DrunkPlayer(cortona);
+	DrunkPlayer d = new DrunkPlayer();
+	d.setPlayer(cortona);
 	assertSame(d.player.hand.size(),10);
 	d.discard();
 	assertSame(d.player.hand.size(),9);
@@ -46,7 +51,8 @@ public class DrunkPlayerTest {
 		for(int i= 0; i< 10; i++){
 			discardPile.add(drawPile.remove((int)(Math.random()*drawPile.size())));
 		}
-		DrunkPlayer d = new DrunkPlayer(cortona);
+		DrunkPlayer d = new DrunkPlayer();
+		d.setPlayer(cortona);
 		d.draw(drawPile,discardPile);
 		assertSame(d.player.hand.size(),1);
 		d.draw(drawPile, discardPile);

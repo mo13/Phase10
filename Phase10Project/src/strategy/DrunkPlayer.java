@@ -2,8 +2,20 @@ package strategy;
 import model.*;
 public class DrunkPlayer extends Strategy {
 	public Player player;
-	public DrunkPlayer(Player p){
-		this.player = p;
+	public strategyType strat = strategyType.drunkPlayer;
+	
+	
+	public DrunkPlayer(){
+		
+	}
+	
+	
+	public strategyType getStrat() {
+		return strat;
+	}
+
+	public void setPlayer(Player p){
+		player = p;
 	}
 	public void discard(){
 		int i =  (int)(Math.random()*player.hand.size());

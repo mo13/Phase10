@@ -20,9 +20,9 @@ public class PlayerTest {
 	// This test to see if the setStrategy and the getStartegy methods work. 
 	public void testGetAndSetStrategy() {
 		Strategy preventer = new Preventer();
-		assertSame(cortona.getStrategy(), null);
-		cortona.setStrategy(preventer);
-		assertSame(cortona.getStrategy(), preventer);
+		cortona.setStrategy(Strategy.strategyType.preventer);
+		System.out.println(cortona.getStrategy());
+		assertSame(cortona.getStrategy(), Strategy.strategyType.preventer);
 	}
 
 
