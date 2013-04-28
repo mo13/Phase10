@@ -8,13 +8,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+import controller.*;
+import strategy.*;
 
 public class Gui implements ActionListener {
 	public Gui() {
 		createUI();
 	}
-    
+    Controller cont = new Controller();
 	private PlayerArea player1Area, player2Area,player3Area, player4Area;
 
 	private JTextField textField;
@@ -117,15 +118,15 @@ public class Gui implements ActionListener {
 		menuBar.add(round);
 		
 		showOrder = new JMenuItem("Show Order");
-		showOrder.addActionListener(unimplementedMenu_Click("This will show the player order for this round."));
+		showOrder.addActionListener(Menu_Click("This will show the player order for this round."));
 		round.add(showOrder);
 		
 		resetDrawPile = new JMenuItem("Reset Draw Pile");
-		resetDrawPile.addActionListener(unimplementedMenu_Click("This will reset the draw pile. "));
+		resetDrawPile.addActionListener(Menu_Click("This will reset the draw pile. "));
 		round.add(resetDrawPile);
 		
 		exitRound= new JMenuItem("Exit Round");
-		exitRound.addActionListener(unimplementedMenu_Click("This will exit the round."));
+		exitRound.addActionListener(Menu_Click("This will exit the round."));
 		round.add(exitRound);
 		
 	// Scoring Menu
@@ -133,15 +134,15 @@ public class Gui implements ActionListener {
 		menuBar.add(scoring);
 		
 		scorePlayers = new JMenuItem("Score Players");
-		scorePlayers.addActionListener(unimplementedMenu_Click("This will score the players at the end of the round. "));
+		scorePlayers.addActionListener(Menu_Click("This will score the players at the end of the round. "));
 		scoring.add(scorePlayers);
 		
 		displayScore = new JMenuItem("Display Score");
-		displayScore.addActionListener(unimplementedMenu_Click("This will display each players score.  "));
+		displayScore.addActionListener(Menu_Click("Cortona:" + cont.displayScore(cortona)));
 		scoring.add(displayScore);
 		
 		phaseTracker = new JMenuItem("Display Phases");
-		phaseTracker.addActionListener(unimplementedMenu_Click("This will display each players phase they are on."));
+		phaseTracker.addActionListener(Menu_Click("This will display each players phase they are on."));
 		scoring.add(phaseTracker);
 		
 	//Player Options Menu
@@ -149,63 +150,63 @@ public class Gui implements ActionListener {
 		menuBar.add(playerOptions);
 		
 		draw = new JMenuItem("Draw");
-		draw.addActionListener(unimplementedMenu_Click("This will make the player draw a card."));
+		draw.addActionListener(Menu_Click("This will make the player draw a card."));
 		playerOptions.add(draw);
 		
 		hit = new JMenuItem("Hit");
-		hit.addActionListener(unimplementedMenu_Click("This will make the player hit a collection someone already played."));
+		hit.addActionListener(Menu_Click("This will make the player hit a collection someone already played."));
 		playerOptions.add(hit);
 
 		playPhase = new JMenuItem("Phase Out");
-		playPhase.addActionListener(unimplementedMenu_Click("This will make the player phase out when he has a phase completed."));
+		playPhase.addActionListener(Menu_Click("This will make the player phase out when he has a phase completed."));
 		playerOptions.add(playPhase);
 		
 		checkHit = new JMenuItem("Check Hit");
-		checkHit.addActionListener(unimplementedMenu_Click("This will make the player check other players phases to see if he can hit them. "));
+		checkHit.addActionListener(Menu_Click("This will make the player check other players phases to see if he can hit them. "));
 		playerOptions.add(checkHit);
 		
 		discard = new JMenuItem("Discard");
-		discard.addActionListener(unimplementedMenu_Click("This will make the player discard a card."));
+		discard.addActionListener(Menu_Click("This will make the player discard a card."));
 		playerOptions.add(discard);
 		
 		finishTurn = new JMenuItem("Finish turn");
-		finishTurn.addActionListener(unimplementedMenu_Click("This will make the player end his turn."));
+		finishTurn.addActionListener(Menu_Click("This will make the player end his turn."));
 		playerOptions.add(finishTurn);
 		
 		playerStrategy = new JMenu("Set Player Strategy");
-		playerStrategy.addActionListener(unimplementedMenu_Click("This will set allow you to set player strategies."));
+		playerStrategy.addActionListener(Menu_Click("This will set allow you to set player strategies."));
 		playerOptions.add(playerStrategy);
 		
 		player1 = new JMenu("Master Chief");
-		player1.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		player1.addActionListener(Menu_Click("This allows you to set player 1's strategy"));
 		playerStrategy.add(player1);
 		
 		player2 = new JMenu("Cortona");
-		player2.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		player2.addActionListener(Menu_Click("This allows you to set player 1's strategy"));
 		playerStrategy.add(player2);
 		
 		player3 = new JMenu("Johnson");
-		player3.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		player3.addActionListener(Menu_Click("This allows you to set player 1's strategy"));
 		playerStrategy.add(player3);
 		
 		player4 = new JMenu("Arbiter");
-		player4.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
+		player4.addActionListener(Menu_Click("This allows you to set player 1's strategy"));
 		playerStrategy.add(player4);
 		
 		phaseSearcherStrategy = new JMenuItem("Phase Searcher Strategy");
-		phaseSearcherStrategy.addActionListener(unimplementedMenu_Click("This will implement the phase searcher strategy."));
+		phaseSearcherStrategy.addActionListener(Menu_Click("This will implement the phase searcher strategy."));
 		player1.add(phaseSearcherStrategy);
 		
 		preventerStrategy = new JMenuItem("Preventer Strategy");
-		preventerStrategy.addActionListener(unimplementedMenu_Click("This will implement the preventer strategy."));
+		preventerStrategy.addActionListener(Menu_Click("This will implement the preventer strategy."));
 		player1.add(preventerStrategy);
 		
 		lowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
-		lowestScoreStrategy.addActionListener(unimplementedMenu_Click("This will implement the lowest score strategy."));
+		lowestScoreStrategy.addActionListener(Menu_Click("This will implement the lowest score strategy."));
 		player1.add(lowestScoreStrategy);
 		
 		cardCounterStrategy = new JMenuItem("Card Counter Strategy");
-		cardCounterStrategy.addActionListener(unimplementedMenu_Click("This will implement the card counter strategy."));
+		cardCounterStrategy.addActionListener(Menu_Click("This will implement the card counter strategy."));
 		player1.add(cardCounterStrategy);
 		
 		exitMenu = new JMenu("Exit game");
@@ -235,7 +236,7 @@ public class Gui implements ActionListener {
 			
 		}
 	
-	public static ActionListener unimplementedMenu_Click(final String message) {
+	public static ActionListener Menu_Click(final String message) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				JOptionPane.showMessageDialog(null, message);

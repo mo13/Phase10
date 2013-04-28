@@ -149,10 +149,10 @@ public class ControllerTest {
 		chief.hand.add(tempCard7);
 		chief.hand.orderHand();
 		
-		assertSame("False",cortona.getempty() );
-		assertSame("False",chief.getScore() );
-		assertSame("True",johnson.getScore());
-		assertSame("True",arbiter.getScore());
+		assertSame(6,cortona.hand.size() );
+		assertSame(1,chief.hand.size() );
+		assertSame(0,johnson.hand.size());
+		assertSame(0,arbiter.hand.size());
 		
 		
 	}
@@ -214,10 +214,11 @@ public class ControllerTest {
 	@Test
 	public void testplayPhase(){
 		fail("Not yet implemented");
+		
 	}
 	@Test
 	public void testexitGame(){
-		fail("Not yet implemented");
+		fail(" Not Yet Implemented" );
 	}
 	@Test
 	public void testCheckPhase(){
@@ -312,6 +313,48 @@ public class ControllerTest {
 		assertSame(2,johnson.hand.size());
 		assertSame(1,arbiter.hand.size());
 	}
+	
+	@Test
+	public void testcheckRound(){
+		
+		cortona = new Player("cortona");
+		chief = new Player("chief");
+		johnson = new Player("johnson");
+		arbiter = new Player("arbiter");
+		
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList.add(cortona);
+		playerList.add(chief);
+		playerList.add(johnson);
+		playerList.add(arbiter);
+		
+		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
+		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		
+		
+		cortona.hand.add(tempCard1);
+		cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);
+		cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);
+		cortona.hand.add(tempCard6);
+		cortona.hand.orderHand();
+		
+		chief.hand.add(tempCard7);
+		chief.hand.orderHand();
+		
+		assertSame(6,cortona.hand.size() );
+		assertSame(1,chief.hand.size() );
+		assertSame(0,johnson.hand.size());
+		assertSame(0,arbiter.hand.size());
+		
+	}
+	
 	@Test 
 	public void testturn(){
 		fail("Not yet implemented");
