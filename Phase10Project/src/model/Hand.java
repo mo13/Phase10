@@ -27,6 +27,10 @@ public class Hand  {
 		 cardsInHand.add(c);
   }
   
+  public void add(int i, Card c){
+	  cardsInHand.add(i,c);
+  }
+  
   public int size(){
 	  return cardsInHand.size();
   }

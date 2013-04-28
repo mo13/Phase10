@@ -3,10 +3,13 @@
 import static org.junit.Assert.*;
 
 import model.*;
+import model.Deck.deckType;
+
 import java.util.*;
 import org.junit.Test;
 
 import strategy.*;
+import strategy.Strategy.strategyType;
 
 public class PlayerTest {
 	
@@ -420,6 +423,64 @@ public class PlayerTest {
 		assertSame(done.get(6).getNumber(),7);
 		
 	}
+	
+	@Test
+	public void testDiscard() {
+		Player cortona = new Player("cortona");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setStrategy(strategyType.drunkPlayer);
+		System.out.println(cortona.hand);
+		Card tempCard = cortona.discard();
+		System.out.println(cortona.hand);
+		System.out.println(tempCard);
+	}
+	
+	@Test
+	public void testDraw(){
+		Player cortona = new Player("cortona");
+		Deck drawPile = new Deck(deckType.DrawPile);
+		drawPile.createDeck();
+		
+		Deck discardPile = new Deck(deckType.DiscardPile);
+		for(int i=0; i < 10; i++){
+			discardPile.add(drawPile.remove(  (int)(Math.random()*drawPile.size())  ));
+		}
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setStrategy(strategyType.drunkPlayer);
+		System.out.println(cortona.hand.size());
+		cortona.draw(drawPile, discardPile);
+		System.out.println(cortona.hand.size());
+	}
+	
 	@Test
 	public void testHit() {
 		fail("Not yet implemented");

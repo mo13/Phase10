@@ -11,8 +11,14 @@ public class Deck extends ArrayList<Card> {
 		DrawPile, DiscardPile
 	}
 	
+	
+
 	public Deck(deckType type){
 		this.type = type;
+	}
+	
+	public deckType getType() {
+		return type;
 	}
 	
 	public void createDeck(){
