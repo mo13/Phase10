@@ -120,15 +120,11 @@ public class Controller {
 	  
   }
   
-
   
   public void resetDrawPile(){
 	  
   }
   
-  
-
- 
   
   public void checkHit(){
 	  
@@ -138,13 +134,18 @@ public class Controller {
 	  
   }
   
-  
-  
-  
+
  //can't be implemented with out first finishing other parts.
   
   
- public void draw(){
+  public void draw(ArrayList<Player> playerList){
+	  Player currPlayer;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+		  }
+	  }
 	  
   }
   
@@ -156,7 +157,14 @@ public class Controller {
 	  
   }
   
-  public void discard(){
+  public void discard(ArrayList<Player> playerList){
+	  Player currPlayer;
+	  for(int player = 0; player < playerList.size(); player++){
+		  currPlayer = playerList.get(player);
+		  System.out.println(currPlayer.getName());
+		  for (int i = 0; i < currPlayer.hand.size(); i++){
+		  }
+	  }
 	  
   }
 
