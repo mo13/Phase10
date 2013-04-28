@@ -205,10 +205,10 @@ public class ControllerTest {
 		arbiter.hand.orderHand();
 		
 		
-		assertSame(2,cortona.hand.size() );
-		assertSame(3,chief.hand.size() );
-		assertSame(2,johnson.hand.size());
-		assertSame(1,arbiter.hand.size());
+		assertSame(4,cortona.hand.size() );
+		assertSame(5,chief.hand.size() );
+		assertSame(4,johnson.hand.size());
+		assertSame(3,arbiter.hand.size());
 		
 	}
 	@Test
@@ -260,7 +260,57 @@ public class ControllerTest {
 	}
 	@Test 
 	public void testdiscard(){
-		fail("Not yet implemented");
+		cortona = new Player("cortona");
+		chief = new Player("chief");
+		johnson = new Player("johnson");
+		arbiter = new Player("arbiter");
+		
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList.add(cortona);
+		playerList.add(chief);
+		playerList.add(johnson);
+		playerList.add(arbiter);
+		
+		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(4, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard5 = new Card(3, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
+		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Skip);
+		Card tempCard8 = new Card(11, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard9 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard10 = new Card(9, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard11 = new Card(0, Card.cardColor.Black, Card.type.Skip);
+		Card tempCard12 = new Card(9, Card.cardColor.Red, Card.type.Normal);
+		
+		
+		cortona.hand.add(tempCard1);
+		cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);
+		cortona.hand.orderHand();
+		
+		
+		chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);
+		chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);
+		chief.hand.orderHand();
+		
+		johnson.hand.add(tempCard8);
+		johnson.hand.add(tempCard9);
+		johnson.hand.add(tempCard10);
+		johnson.hand.orderHand();
+		
+		arbiter.hand.add(tempCard11);
+		arbiter.hand.add(tempCard12);
+		arbiter.hand.orderHand();
+		
+		
+		assertSame(2,cortona.hand.size() );
+		assertSame(3,chief.hand.size() );
+		assertSame(2,johnson.hand.size());
+		assertSame(1,arbiter.hand.size());
 	}
 	@Test 
 	public void testturn(){
