@@ -15,7 +15,7 @@ public class Gui implements ActionListener {
 	public Gui() {
 		createUI();
 	}
-    Controller cont = new Controller();
+   
 	private PlayerArea player1Area, player2Area,player3Area, player4Area;
 
 	private JTextField textField;
