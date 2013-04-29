@@ -103,6 +103,7 @@ public class Hand  {
 				  } else {
 					  int previousNumber = integerList.get(currentIndexOf);
 					  integerList.set(currentIndexOf,(previousNumber +1));
+					  
 				  }
 			  }
 		  } else if (cardsInHand.get(originalCardIndex).getType() == Card.type.Wild){
@@ -118,13 +119,14 @@ public class Hand  {
 					  integerList.set(integerListIndex, previousNumber +1);
 					  cardNumberList.add(99);
 					  setsToGo--;
-					  break;
+					  
 				  } 
 			  }
 		  } else if(cardsInHand.get(originalCardIndex).getType() == Card.type.Skip){
 			  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
 			  integerList.add(999);
 		  }
+
 	  }
 	  // create the difference between the set size and the number of cards we have
 	  ArrayList<Integer> difference = new ArrayList<Integer>();
@@ -132,10 +134,11 @@ public class Hand  {
 		  difference.add(setSize-integerList.get(i));
 	  }
 	  
+	  
 	  for(int i = 0; i < difference.size(); i++){
 		  int tempNum = numSets;
 		  if (tempNum != 0){
-			 if (difference.get(i) == setSize-setSize){
+			 if (difference.get(i) <= setSize-setSize & difference.get(i) > -900){
 				 possibleSetNumbers.add(cardNumberList.get(i));
 				 tempNum--;
 
@@ -154,9 +157,7 @@ public class Hand  {
 			  possibleSetNumbers.add(99);
 		  }
 	  }
-
-//	 Collections.sort(integerList);
-//	 System.out.println(integerList);
+	  
 		return possibleSetNumbers;
   }
   

@@ -42,11 +42,12 @@ public class LowestScorerTest {
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 	LowestScore l  = new LowestScore();
 	l.setPlayer(cortona);
-	assertSame(l.player.hand.size(),5);
+	assertSame(l.player.hand.size(),10);
 	l.discard();
 	assertSame(l.player.hand.get(0), tempCard1);
 	l.discard();
-	assertSame(l.player.hand.size(),3);
+	
+	assertSame(l.player.hand.size(),8);
 	}
 	
 	@Test

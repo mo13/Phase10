@@ -180,7 +180,7 @@ public class PlayerTest {
 		chief.setPhaseNumber(8);
 		chief.getPhaseInfo();
 		chief.checkPhase();
-		assertTrue(chief.checkPhase());
+		assertTrue(chief.getPhasedOut());
 	}
 		// check 2 sets with different sizes
 	@Test
@@ -190,7 +190,7 @@ public class PlayerTest {
 		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
 		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
-		Card tempCard6 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard6 = new Card(3 , Card.cardColor.Red, Card.type.Normal);
 		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
 		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
@@ -202,7 +202,8 @@ public class PlayerTest {
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setPhaseNumber(9);
 		cortona.getPhaseInfo();
-		assertTrue(cortona.checkPhase());
+		cortona.checkPhase();
+		assertTrue(cortona.getPhasedOut());
 	}
 	
 	@Test
@@ -225,7 +226,8 @@ public class PlayerTest {
 		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
 		arbiter.setPhaseNumber(2);
 		arbiter.getPhaseInfo();
-		assertTrue(arbiter.checkPhase());
+		arbiter.checkPhase();
+		assertTrue(arbiter.getPhasedOut());
 	}
 		
 	@Test
@@ -249,9 +251,9 @@ public class PlayerTest {
 		// check 2 normal sets
 		drHalsey.setPhaseNumber(1);
 		drHalsey.getPhaseInfo();
-		
-		
-		assertTrue(drHalsey.checkPhase());
+		drHalsey.checkPhase();
+
+		assertTrue(drHalsey.getPhasedOut());
 	}
 	
 	@Test
@@ -274,8 +276,8 @@ public class PlayerTest {
 		// check a run
 		guiltySpark.setPhaseNumber(4);
 		guiltySpark.getPhaseInfo();
-		
-		assertTrue(guiltySpark.checkPhase());
+		guiltySpark.checkPhase();
+		assertTrue(guiltySpark.getPhasedOut());
 		
 	}
 	
@@ -298,9 +300,10 @@ public class PlayerTest {
 		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
 		chief.setPhaseNumber(8);
 		chief.getPhaseInfo();
-		ArrayList<Card> done = chief.phaseOut();
+		chief.checkPhase();
+		chief.phaseOut();
 		
-		assertSame(done.size(), 7);
+		assertSame(chief.getPhasedOutColoredSet().size(), 7);
 	}
 	
 	@Test 
@@ -322,14 +325,15 @@ public class PlayerTest {
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setPhaseNumber(9);
 		cortona.getPhaseInfo();
-		ArrayList<Card> done = cortona.phaseOut();
-		assertSame(done.get(0).getNumber(), 1);
-		assertSame(done.get(1).getNumber(), 1);
-		assertSame(done.get(2).getNumber(), 1);
-		assertSame(done.get(3).getNumber(), 1);
-		assertSame(done.get(4).getNumber(), 0);
-		assertSame(done.get(5).getNumber(), 3);
-		assertSame(done.get(6).getNumber(), 3);
+		cortona.checkPhase();
+		cortona.phaseOut();
+		assertSame(cortona.getPhasedOutSet().get(0).getNumber(), 1);
+		assertSame(cortona.getPhasedOutSet().get(1).getNumber(), 1);
+		assertSame(cortona.getPhasedOutSet().get(2).getNumber(), 1);
+		assertSame(cortona.getPhasedOutSet().get(3).getNumber(), 1);
+		assertSame(cortona.getPhasedOutSet().get(4).getNumber(), 0);
+		assertSame(cortona.getPhasedOutSecondSet().get(0).getNumber(), 3);
+		assertSame(cortona.getPhasedOutSecondSet().get(1).getNumber(), 3);
 	}
 
 	@Test
@@ -352,15 +356,15 @@ public class PlayerTest {
 		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
 		arbiter.setPhaseNumber(2);
 		arbiter.getPhaseInfo();
-		ArrayList<Card> done = arbiter.phaseOut();
-		System.out.println(arbiter.hand);
-		assertSame(done.get(0).getNumber(), 1);
-		assertSame(done.get(1).getNumber(), 1);
-		assertSame(done.get(2).getNumber(), 0);
-		assertSame(done.get(3).getNumber(), 2);
-		assertSame(done.get(4).getNumber(), 3);
-		assertSame(done.get(5).getNumber(), 4);
-		assertSame(done.get(6).getNumber(), 5);
+		arbiter.checkPhase();
+		arbiter.phaseOut();
+		assertSame(arbiter.getPhasedOutSet().get(0).getNumber(), 1);
+		assertSame(arbiter.getPhasedOutSet().get(1).getNumber(), 1);
+		assertSame(arbiter.getPhasedOutSet().get(2).getNumber(), 0);
+		assertSame(arbiter.getPhasedOutRun().get(0).getNumber(), 2);
+		assertSame(arbiter.getPhasedOutRun().get(1).getNumber(), 3);
+		assertSame(arbiter.getPhasedOutRun().get(2).getNumber(), 4);
+		assertSame(arbiter.getPhasedOutRun().get(3).getNumber(), 5);
 	}
 	
 	@Test
@@ -384,13 +388,16 @@ public class PlayerTest {
 		// check 2 normal sets
 		drHalsey.setPhaseNumber(1);
 		drHalsey.getPhaseInfo();
-		ArrayList<Card> done = drHalsey.phaseOut();
-		assertSame(done.get(0).getNumber(), 1);
-		assertSame(done.get(1).getNumber(), 1);
-		assertSame(done.get(2).getNumber(), 2);
-		assertSame(done.get(3).getNumber(), 2);
-		assertSame(done.get(4).getNumber(), 2);
-		assertSame(done.get(5).getNumber(), 0);
+		drHalsey.checkPhase();
+		drHalsey.phaseOut();
+		System.out.println(drHalsey.getPhasedOutSet());
+		assertSame(drHalsey.getPhasedOutSet().get(0).getNumber(), 1);
+		assertSame(drHalsey.getPhasedOutSet().get(1).getNumber(), 1);
+		assertSame(drHalsey.getPhasedOutSet().get(2).getNumber(), 0);
+		assertSame(drHalsey.getPhasedOutSecondSet().get(0).getNumber(), 2);
+		assertSame(drHalsey.getPhasedOutSecondSet().get(1).getNumber(), 2);
+		assertSame(drHalsey.getPhasedOutSecondSet().get(2).getNumber(), 2);
+		
 	}
 	@Test
 	public void testPhaseOutRun(){
@@ -413,14 +420,14 @@ public class PlayerTest {
 		guiltySpark.setPhaseNumber(4);
 		guiltySpark.getPhaseInfo();
 		guiltySpark.checkPhase();
-		ArrayList<Card>done = guiltySpark.phaseOut();
-		assertSame(done.get(0).getNumber(),1);
-		assertSame(done.get(1).getNumber(),2);
-		assertSame(done.get(2).getNumber(),3);
-		assertSame(done.get(3).getNumber(),4);
-		assertSame(done.get(4).getNumber(),0);
-		assertSame(done.get(5).getNumber(),6);
-		assertSame(done.get(6).getNumber(),7);
+		guiltySpark.phaseOut();
+		assertSame(guiltySpark.getPhasedOutRun().get(0).getNumber(),1);
+		assertSame(guiltySpark.getPhasedOutRun().get(1).getNumber(),2);
+		assertSame(guiltySpark.getPhasedOutRun().get(2).getNumber(),3);
+		assertSame(guiltySpark.getPhasedOutRun().get(3).getNumber(),4);
+		assertSame(guiltySpark.getPhasedOutRun().get(4).getNumber(),0);
+		assertSame(guiltySpark.getPhasedOutRun().get(5).getNumber(),6);
+		assertSame(guiltySpark.getPhasedOutRun().get(6).getNumber(),7);
 		
 	}
 	
@@ -495,15 +502,73 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.hand.orderHand();
-		cortona.setStrategy(strategyType.preventer);
+		cortona.setStrategy(strategyType.recklessPlayer);
 		Card tempCard69 = cortona.discard();
-		assertSame(tempCard69,tempCard2);
+		assertSame(tempCard69,tempCard1);
 		Card tempCard68 = cortona.discard();
-		assertSame(tempCard68,tempCard5);
+		assertSame(tempCard68,tempCard2);
 	}
 	
 	@Test
-	public void testDraw(){
+	public void testDiscardLowestScorePlayer(){
+		Player cortona = new Player("cortona");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(8, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(10, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(9, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.hand.orderHand();
+		cortona.setStrategy(strategyType.lowestScore);
+		Card tempCard69 = cortona.discard();
+		assertSame(tempCard69,tempCardW);
+		Card tempCard68 = cortona.discard();
+		assertSame(tempCard68,tempCardS);
+	}
+	
+	
+	@Test
+	public void testDrawDrunk(){
+		Player cortona = new Player("cortona");
+		Deck drawPile = new Deck(deckType.DrawPile);
+		drawPile.createDeck();
+		Deck discardPile = new Deck(deckType.DiscardPile);
+		for(int i=0; i < 10; i++){
+			discardPile.add(drawPile.remove(  (int)(Math.random()*drawPile.size())  ));
+		}
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setStrategy(strategyType.drunkPlayer);
+		cortona.draw(drawPile,discardPile);
+		assertSame(cortona.hand.size(),11);
+		cortona.draw(drawPile, discardPile);
+		assertSame(cortona.hand.size(),12);
+	}
+	
+	@Test
+	public void testDrawLowestScore(){
 		Player cortona = new Player("cortona");
 		Deck drawPile = new Deck(deckType.DrawPile);
 		drawPile.createDeck();
@@ -528,20 +593,362 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.drunkPlayer);
-		System.out.println(cortona.hand.size());
+		cortona.setStrategy(strategyType.lowestScore);
+		cortona.draw(drawPile,discardPile);
+		assertSame(cortona.hand.size(),11);
 		cortona.draw(drawPile, discardPile);
-		System.out.println(cortona.hand.size());
+		assertSame(cortona.hand.size(),12);
 	}
 	
 	@Test
-	public void testHit() {
-		fail("Not yet implemented");
+	public void testDrawPrevent(){
+		Player cortona = new Player("cortona");
+		Deck drawPile = new Deck(deckType.DrawPile);
+		drawPile.createDeck();
+		
+		Deck discardPile = new Deck(deckType.DiscardPile);
+		for(int i=0; i < 10; i++){
+			discardPile.add(drawPile.remove(  (int)(Math.random()*drawPile.size())  ));
+		}
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setStrategy(strategyType.preventer);
+		cortona.draw(drawPile,discardPile);
+		assertSame(cortona.hand.size(),11);
+		cortona.draw(drawPile, discardPile);
+		assertSame(cortona.hand.size(),12);
+	}
+	
+	
+	@Test
+	public void testDrawReckless(){
+		Player cortona = new Player("cortona");
+		Deck drawPile = new Deck(deckType.DrawPile);
+		drawPile.createDeck();
+		
+		Deck discardPile = new Deck(deckType.DiscardPile);
+		for(int i=0; i < 10; i++){
+			discardPile.add(drawPile.remove(  (int)(Math.random()*drawPile.size())  ));
+		}
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setStrategy(strategyType.recklessPlayer);
+		cortona.draw(drawPile,discardPile);
+		assertSame(cortona.hand.size(),11);
+		cortona.draw(drawPile, discardPile);
+		assertSame(cortona.hand.size(),12);
+	}
+	
+	@Test
+	public void testHitColoredSet() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(chief);
+		players.add(arbiter);
+		players.add(cortona);
+		players.add(drHalsey);
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Yellow, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);	chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);	chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);	chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);	chief.hand.add(tempCardW);
+		chief.setPhaseNumber(8);
+		chief.getPhaseInfo();
+		chief.checkPhase();
+		chief.phaseOut();
+		
+		Card tempCard11 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard12 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard13 = new Card(9, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard14 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard15 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard16 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard17 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard18 = new Card(6, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard1S = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCard1W = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		arbiter.hand.add(tempCard11);	arbiter.hand.add(tempCard12);
+		arbiter.hand.add(tempCard13);	arbiter.hand.add(tempCard14);
+		arbiter.hand.add(tempCard15);	arbiter.hand.add(tempCard16);
+		arbiter.hand.add(tempCard17);	arbiter.hand.add(tempCard18);
+		arbiter.hand.add(tempCard1S);	arbiter.hand.add(tempCard1W);
+		arbiter.setPhaseNumber(2);
+		arbiter.getPhaseInfo();
+		arbiter.checkPhase();
+		arbiter.phaseOut();
+		assertSame(arbiter.hand.size(),3);
+		arbiter.hit(players);
+		assertSame(arbiter.hand.size(),1);
+		
+	}
+	
+	@Test
+	public void testHitDiffSets() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(chief);
+		players.add(arbiter);
+		players.add(cortona);
+		players.add(drHalsey);
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.setPhaseNumber(9);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
+		cortona.phaseOut();
+		Card tempCard14 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard15 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard16 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard17 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard12 = new Card(4, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard1W = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		Card tempCard13 = new Card(9, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard11 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard18 = new Card(3, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard1S = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		arbiter.hand.add(tempCard11);	arbiter.hand.add(tempCard12);
+		arbiter.hand.add(tempCard13);	arbiter.hand.add(tempCard14);
+		arbiter.hand.add(tempCard15);	arbiter.hand.add(tempCard16);
+		arbiter.hand.add(tempCard17);	arbiter.hand.add(tempCard18);
+		arbiter.hand.add(tempCard1S);	arbiter.hand.add(tempCard1W);
+		arbiter.setPhaseNumber(1);
+		arbiter.getPhaseInfo();
+		arbiter.checkPhase();
+		arbiter.phaseOut();
+		assertSame(arbiter.hand.size(),4);
+		arbiter.hit(players);
+		System.out.println(arbiter.hand);
+		assertSame(arbiter.hand.size(),2);
+		
+	}
+	
+	@Test
+	public void testHitRun() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(chief);
+		players.add(arbiter);
+		players.add(cortona);
+		players.add(drHalsey);
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		drHalsey.hand.add(tempCard1);	drHalsey.hand.add(tempCard2);
+		drHalsey.hand.add(tempCard3);	drHalsey.hand.add(tempCard4);
+		drHalsey.hand.add(tempCard5);	drHalsey.hand.add(tempCard6);
+		drHalsey.hand.add(tempCard7);	drHalsey.hand.add(tempCard8);
+		drHalsey.hand.add(tempCardS);	drHalsey.hand.add(tempCardW);
+		// check a run
+		drHalsey.setPhaseNumber(4);
+		drHalsey.getPhaseInfo();
+		drHalsey.checkPhase();
+		drHalsey.phaseOut();
+		
+
+		Card tempCard14 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard15 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard16 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard17 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard12 = new Card(4, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard1W = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		
+		
+		Card tempCard13 = new Card(9, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard11 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard18 = new Card(8, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard1S = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+
+		cortona.hand.add(tempCard11);	cortona.hand.add(tempCard12);
+		cortona.hand.add(tempCard13);	cortona.hand.add(tempCard14);
+		cortona.hand.add(tempCard15);	cortona.hand.add(tempCard16);
+		cortona.hand.add(tempCard17);	cortona.hand.add(tempCard18);
+		cortona.hand.add(tempCard1S);	cortona.hand.add(tempCard1W);
+		cortona.setPhaseNumber(1);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
+		cortona.phaseOut();
+		assertSame(cortona.hand.size(),4);
+		cortona.hit(players);
+		System.out.println(cortona.hand);
+		assertSame(cortona.hand.size(),2);
+		
+	}
+	
+	@Test
+	public void testHitRunSet() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(chief);
+		players.add(arbiter);
+		players.add(cortona);
+		players.add(drHalsey);
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(9, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		arbiter.hand.add(tempCard1);	arbiter.hand.add(tempCard2);
+		arbiter.hand.add(tempCard3);	arbiter.hand.add(tempCard4);
+		arbiter.hand.add(tempCard5);	arbiter.hand.add(tempCard6);
+		arbiter.hand.add(tempCard7);	arbiter.hand.add(tempCard8);
+		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
+		arbiter.setPhaseNumber(2);
+		arbiter.getPhaseInfo();
+		arbiter.checkPhase();
+		arbiter.phaseOut();
+		
+
+		Card tempCard14 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard15 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard16 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard17 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard12 = new Card(4, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard1W = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		
+		
+		Card tempCard13 = new Card(9, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard11 = new Card(7, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard18 = new Card(8, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard1S = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+
+		cortona.hand.add(tempCard11);	cortona.hand.add(tempCard12);
+		cortona.hand.add(tempCard13);	cortona.hand.add(tempCard14);
+		cortona.hand.add(tempCard15);	cortona.hand.add(tempCard16);
+		cortona.hand.add(tempCard17);	cortona.hand.add(tempCard18);
+		cortona.hand.add(tempCard1S);	cortona.hand.add(tempCard1W);
+		cortona.setPhaseNumber(1);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
+		cortona.phaseOut();
+		System.out.println(cortona.getPhasedOut());
+		assertSame(cortona.hand.size(),4);
+		cortona.hit(players);
+		System.out.println(cortona.hand);
+		assertSame(cortona.hand.size(),1);
+		
+	}
+	
+	@Test
+	public void testHitNormSet() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(chief);
+		players.add(arbiter);
+		players.add(cortona);
+		players.add(drHalsey);
+		
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		drHalsey.hand.add(tempCard1);	drHalsey.hand.add(tempCard2);
+		drHalsey.hand.add(tempCard3);	drHalsey.hand.add(tempCard4);
+		drHalsey.hand.add(tempCard5);	drHalsey.hand.add(tempCard6);
+		drHalsey.hand.add(tempCard7);	drHalsey.hand.add(tempCard8);
+		drHalsey.hand.add(tempCardS);	drHalsey.hand.add(tempCardW);
+		drHalsey.hand.orderHand();
+		// check 2 normal sets
+		drHalsey.setPhaseNumber(1);
+		drHalsey.getPhaseInfo();
+		drHalsey.checkPhase();
+		drHalsey.phaseOut();
+		Card tempCard14 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard15 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard16 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard17 = new Card(4, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard12 = new Card(4, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard1W = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		
+		
+		Card tempCard13 = new Card(1, Card.cardColor.Yellow, Card.type.Normal);	
+		Card tempCard11 = new Card(2, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard18 = new Card(8, Card.cardColor.Yellow, Card.type.Normal);
+		Card tempCard1S = new Card(0, Card.cardColor.Black, Card.type.Skip);
+
+		cortona.hand.add(tempCard11);	cortona.hand.add(tempCard12);
+		cortona.hand.add(tempCard13);	cortona.hand.add(tempCard14);
+		cortona.hand.add(tempCard15);	cortona.hand.add(tempCard16);
+		cortona.hand.add(tempCard17);	cortona.hand.add(tempCard18);
+		cortona.hand.add(tempCard1S);	cortona.hand.add(tempCard1W);
+		cortona.setPhaseNumber(1);
+		cortona.getPhaseInfo();
+		cortona.checkPhase();
+		cortona.phaseOut();
+		System.out.println(cortona.hand);
+		assertSame(cortona.hand.size(),3);
+		cortona.hit(players);
+		System.out.println(cortona.hand);
+		assertSame(cortona.hand.size(),2);
+		
 	}
 
-	@Test
-	public void testDoTurn() {
-		fail("Not yet implemented");
-	}
+	
 
 }

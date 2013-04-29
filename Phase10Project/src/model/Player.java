@@ -15,11 +15,23 @@ public class Player {
   public  Hand hand;
   private int phaseNumber;
   private int score;
-  public boolean phasedOut;
+  private boolean phasedOut;
+
+  
+
+
+
+ArrayList<Card> phasedOutSecondSet = new ArrayList<Card>();
+  ArrayList<Card> phasedOutRun = new ArrayList<Card>();
+  ArrayList<Card> phasedOutColoredSet = new ArrayList<Card>();
+  ArrayList<Card> phasedOutSet = new ArrayList<Card>();
+  
   
   // the phase info
   
-  public int numSets;
+ 
+
+public int numSets;
   public int colorSets;
   public int setSize;
   public int secondSetSize;
@@ -75,19 +87,43 @@ public class Player {
 		return name;
 	}
 	
+	public ArrayList<Card> getPhasedOutSet() {
+		return phasedOutSet;
+	}
+
+	public ArrayList<Card> getPhasedOutSecondSet() {
+		return phasedOutSecondSet;
+	}
+
+	public ArrayList<Card> getPhasedOutRun() {
+		return phasedOutRun;
+	}
+
+	public ArrayList<Card> getPhasedOutColoredSet() {
+		return phasedOutColoredSet;
+	}
+	
+	public boolean getPhasedOut() {
+		return phasedOut;
+	}
+	
+	public void setPhasedOut(boolean phasedOut) {
+		this.phasedOut = phasedOut;
+	}
+
 //	numSets;
 //	colorSets;
 //	setSize;
 //	secondSetSize; 
 //	runSize;
-	public boolean checkPhase(){
+	public void checkPhase(){
 		// check a color set
 		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7){
 			hand.orderHand();			
 			ArrayList<Integer> tempColor = hand.checkColor();			
 			for(Integer i: tempColor){
-				if (i == setSize){
-					return true;
+				if (i >= setSize){
+					this.phasedOut = true;
 				}
 			}
 		}
@@ -122,10 +158,10 @@ public class Player {
 			for(Card c: tempHand){
 				hand.add(c);
 			}
-			if(!tempSet1.isEmpty()& tempSet2.isEmpty()){
-				return true;
+			if(!tempSet1.isEmpty()& !tempSet2.isEmpty()){
+				phasedOut = true;
 			} else {
-				return false;
+				phasedOut = false;
 			}
 		}
 		// check a set and a run
@@ -134,14 +170,15 @@ public class Player {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets, runSize);
 			if(!possibleSets.isEmpty() & !possibleRun.isEmpty()){
-				return true;
+				phasedOut =  true;
 			}else{
-				return false;
+				phasedOut =  false;
 			}
 			
 		}
 		// check 2 normal sets
 		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0){
+			
 			ArrayList<Integer> possibleSets = hand.checkSet(numSets, setSize);
 			int counter = 0;
 			for(int i = 0; i < possibleSets.size(); i++){
@@ -149,29 +186,27 @@ public class Player {
 					counter++;
 				}
 			}
-			if (counter ==numSets){
-				return true;
+			if (counter >=numSets){
+				
+				phasedOut =  true;
 			}
-			return false;
 		}
 		// check a run
 		else if (numSets == 0 & setSize == 0 & runSize != 0) {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(runSize);
 			if (!possibleRun.isEmpty()){
-				return true;
+				phasedOut =  true;
 			} else{
-				return false;
+				phasedOut =  false;
 			}
 		} else {
-			return false;
-		}
-		return false;		
+			phasedOut =  false;
+		}	
 	}
-
-	  
-	public ArrayList<Card> phaseOut(){
-		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7){
+	
+	public void phaseOut(){
+		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7 & phasedOut){
 			hand.orderHand();			
 			ArrayList<Integer> tempColor =  hand.checkColor();	
 			
@@ -215,31 +250,30 @@ public class Player {
 				}
 				i++;
 			}
-					
-			this.phasedOut = true;
-			return done;
+			
+			phasedOutColoredSet = done;
 		}
 		// check 2 sets with different sizes
-		else if (numSets == 2 & setSize != 0 & secondSetSize != 0 & runSize == 0 ){
+		else if (numSets == 2 & setSize != 0 & secondSetSize != 0 & runSize == 0 & phasedOut){
 			hand.orderHand();
 			ArrayList<Integer> tempSet1 = hand.checkSet(1, setSize);
-			ArrayList<Card> tempHand = new ArrayList<Card>();
+			
 			for(int i = 0; i < tempSet1.size(); i++){
 				for(int j = 0; j < hand.size(); j++){
 					if (tempSet1.get(i) == hand.get(j).getNumber()){
-						tempHand.add(hand.get(j));
+						phasedOutSet.add(hand.get(j));
 					} 
 					else if (tempSet1.get(i) == 99){
 						if(hand.get(j).getType() == Card.type.Wild){
-							tempHand.add(hand.get(j));
+							phasedOutSet.add(hand.get(j));
 						}
 					}
 				}
 			}
 			int i = 0;
-			while (i < tempHand.size()){
+			while (i < phasedOutSet.size()){
 				for(int j = 0; j< hand.size(); j++){
-					if (tempHand.get(i) == hand.get(j)){
+					if (phasedOutSet.get(i) == hand.get(j)){
 						hand.remove(j);
 					}
 				}
@@ -252,44 +286,44 @@ public class Player {
 			for(int z = 0; z < tempSet2.size(); z++){
 				for(int j = 0; j < hand.size(); j++){
 					if (tempSet2.get(z) == hand.get(j).getNumber()){
-						tempHand.add(hand.get(j));
+						phasedOutSecondSet.add(hand.get(j));
 					} 
 					else if (tempSet2.get(z) == 99){
 						if(hand.get(j).getType() == Card.type.Wild){
-							tempHand.add(hand.get(j));
+							phasedOutSecondSet.add(hand.get(j));
 						}
 					}
 				}
 			}
 			this.phasedOut = true;
-			return tempHand;
+			
 		}
 		// check a set and a run
-		else if (numSets == 1 & setSize != 0 &  runSize != 0){
+		else if (numSets == 1 & setSize != 0 &  runSize != 0 & phasedOut){
 			ArrayList<Integer> possibleSets = hand.checkSet(1,setSize);			
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets, runSize);
-			ArrayList<Card> done = new ArrayList<Card>();
+			
 			for(int i = 0; i < possibleSets.size(); i++){
 				for(int j = 0; j < hand.size(); j++){
 					if (possibleSets.get(i) == hand.get(j).getNumber()){
-						done.add(hand.get(j));
+						phasedOutSet.add(hand.get(j));
 					} 
 					else if (possibleSets.get(i) == 99){
 						if(hand.get(j).getType() == Card.type.Wild){
-							done.add(hand.get(j));
+							phasedOutSet.add(hand.get(j));
 						}
 					}
 				}
 			}
 			
 			int i=0;
-			while (i < done.size()){
+			while (i < phasedOutSet.size()){
 				for(int j = 0; j< hand.size(); j++){
-					if (done.get(i) ==(hand.get(j))){
+					if (phasedOutSet.get(i) ==(hand.get(j))){
 						hand.remove(j);
 						break;
-					} else if (done.get(i).getType() == Card.type.Wild){
+					} else if (phasedOutSet.get(i).getType() == Card.type.Wild){
 						if(hand.get(j).getType() == Card.type.Wild){
 							hand.remove(j);
 							break;
@@ -298,25 +332,25 @@ public class Player {
 				}
 				i++;
 			}
-				for(int k = 0; k < possibleRun.size(); k++){
-					for(int j = 0; j < hand.size(); j++){
-						if (possibleRun.get(k) == hand.get(j).getNumber()){
-							done.add(hand.get(j));
-						} 
-						else if (possibleRun.get(k) == 99){
-							if(hand.get(j).getType() == Card.type.Wild){
-								done.add(hand.get(j));
-							}
+			for(int k = 0; k < possibleRun.size(); k++){
+				for(int j = 0; j < hand.size(); j++){
+					if (possibleRun.get(k) == hand.get(j).getNumber()){
+						phasedOutRun.add(hand.get(j));
+					} 
+					else if (possibleRun.get(k) == 99){
+						if(hand.get(j).getType() == Card.type.Wild){
+							phasedOutRun.add(hand.get(j));
 						}
 					}
 				}
+			}
 				int l = 0;
-				while (l < done.size()){
+				while (l < phasedOutRun.size()){
 					for(int j = 0; j< hand.size(); j++){
-						if (done.get(l) ==(hand.get(j))){
+						if (phasedOutRun.get(l) ==(hand.get(j))){
 							hand.remove(j);
 							break;
-						} else if (done.get(l).getType() == Card.type.Wild){
+						} else if (phasedOutRun.get(l).getType() == Card.type.Wild){
 							if(hand.get(j).getType() == Card.type.Wild){
 								hand.remove(j);
 								break;
@@ -325,39 +359,44 @@ public class Player {
 					}
 					l++;
 				}
-			return done;
 		}
 			
 		
 		// check 2 normal sets
-		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0){
+		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0 & phasedOut){
 			ArrayList<Integer> possibleSets = hand.checkSet(numSets, setSize);
 			int counter = 0;
-			for(int i = 0; i < possibleSets.size(); i++){
-				if (possibleSets.get(i) != 99){
-					counter++;
+			for(int j = 0; j < hand.size(); j++){
+					if (possibleSets.get(0) == hand.get(j).getNumber()){
+						phasedOutSet.add(hand.get(j));
+					} 
+			}
+			while (phasedOutSet.size() < setSize){
+				if(possibleSets.contains(99)){
+					
+					phasedOutSet.add(new Card(0,Card.cardColor.Black,Card.type.Wild));
+					possibleSets.remove(possibleSets.indexOf(99));
 				}
 			}
-			ArrayList<Card> done = new ArrayList<Card>();
-			for(int i = 0; i < possibleSets.size(); i++){
-				for(int j = 0; j < hand.size(); j++){
-					if (possibleSets.get(i) == hand.get(j).getNumber()){
-						done.add(hand.get(j));
-					} 
-					else if (possibleSets.get(i) == 99){
-						if(hand.get(j).getType() == Card.type.Wild){
-							done.add(hand.get(j));
-						}
-					}
+			
+			for(int j = 0; j < hand.size(); j++){
+				if (possibleSets.get(1) == hand.get(j).getNumber()){
+					phasedOutSecondSet.add(hand.get(j));
+				} 
+			}
+			while(phasedOutSecondSet.size() < setSize){
+				if(possibleSets.contains(99)){
+					phasedOutSecondSet.add(new Card(0,Card.cardColor.Black,Card.type.Wild));
+					possibleSets.remove(possibleSets.indexOf(99));
 				}
 			}
 			int l = 0;
-			while (l < done.size()){
+			while (l < phasedOutSet.size()){
 				for(int j = 0; j< hand.size(); j++){
-					if (done.get(l) ==(hand.get(j))){
+					if (phasedOutSet.get(l) ==(hand.get(j))){
 						hand.remove(j);
 						break;
-					} else if (done.get(l).getType() == Card.type.Wild){
+					} else if (phasedOutSet.get(l).getType() == Card.type.Wild){
 						if(hand.get(j).getType() == Card.type.Wild){
 							hand.remove(j);
 							break;
@@ -366,11 +405,24 @@ public class Player {
 				}
 				l++;
 			}
-
-			return done;
+			int k = 0;
+			while (k < phasedOutSecondSet.size()){
+				for(int j = 0; j< hand.size(); j++){
+					if (phasedOutSecondSet.get(k) ==(hand.get(j))){
+						hand.remove(j);
+						break;
+					} else if (phasedOutSecondSet.get(k).getType() == Card.type.Wild){
+						if(hand.get(j).getType() == Card.type.Wild){
+							hand.remove(j);
+							break;
+						}
+					}
+				}
+				k++;
+			}
 		}
 		// check a run
-		else if (numSets == 0 & setSize == 0 & runSize != 0) {
+		else if (numSets == 0 & setSize == 0 & runSize != 0 & phasedOut) {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(runSize);
 			System.out.println("possible run "+possibleRun);
@@ -405,23 +457,110 @@ public class Player {
 				}
 				l++;
 			}
-			System.out.println("done " + done);
 			
-			System.out.println("hand" + hand);
-			return done;
-		} else {
-			return null;
-		}	
+			phasedOutRun= done;
+		} 	
 		  
 	}
 	  
-	public void hit(){
+	public void hit(ArrayList<Player>players){
+		if(phasedOut){
+			for(Player p: players){
+				if(p.phasedOut){
+					System.out.println("I phased out.");
+					if(!p.getPhasedOutColoredSet().isEmpty()){
+						System.out.println("In a colored set.");
+						Card.cardColor daColor = p.getPhasedOutColoredSet().get(0).getColor();
+						for(int j = 0; j < 6; j++){
+						for(int i = 0; i < hand.size(); i ++){
+							if(hand.get(i).getColor()== daColor){
+								hand.remove(i);
+								i--;
+							} else if(hand.get(i).getType() == Card.type.Wild){
+								hand.remove(i);
+							}
+						}
+						}
+					} 
+					if(!p.getPhasedOutRun().isEmpty()){
+						System.out.println("In a run set");
+						int lowerNumber;
+						int higherNumber;
+						if(p.getPhasedOutRun().get(0).getNumber() != 1){
+							lowerNumber = p.getPhasedOutRun().get(0).getNumber();
+						} else {
+							lowerNumber = -99;
+						}
+						if(p.getPhasedOutRun().get(p.getPhasedOutRun().size()-1).getNumber() != 12){
+							higherNumber = p.getPhasedOutRun().get(p.getPhasedOutRun().size()-1).getNumber();
+						}else if(p.getPhasedOutRun().get(p.getPhasedOutRun().size()-1).getNumber() == 99){// if the last card is a wild card
+							if(p.getPhasedOutRun().get(p.getPhasedOutRun().size()-2).getNumber() == 11){// if the card before the last card is 11 so wild is 12
+								higherNumber = -99;
+							} else{
+								higherNumber = p.getPhasedOutRun().get(p.getPhasedOutRun().size()-2).getNumber()+1;
+							}
+						} else { // the last card is 12
+							higherNumber = -99;
+						}
+						System.out.println(lowerNumber + " fjdkafj;aslfd " + higherNumber);
+						for(int j = 0; j < 6; j++){
+						for(int i=0; i<hand.size();i++){
+							
+							if(hand.get(i).getNumber() == lowerNumber -1){
+								
+								hand.remove(i);
+								i--;
+								if(lowerNumber -1 == 1){
+									lowerNumber = -99;
+								}else{
+									lowerNumber--;
+								}
+							} else if(hand.get(i).getNumber() == higherNumber +1){
+								hand.remove(i);
+								i--;
+								if(higherNumber +1 == 12){
+									higherNumber = -99;
+								} else{
+									higherNumber++;
+								}
+							}
+						}
+						}
+					} 
+					if(!p.getPhasedOutSet().isEmpty()){
+						System.out.println("In the first set.");
+						int daNumba = p.getPhasedOutSet().get(0).getNumber();
+						for(int j = 0; j < 6; j++){
+						for(int i =0; i < hand.size(); i++){
+							if(hand.get(i).getNumber() == daNumba){
+								hand.remove(i);
+								i--;
+							}else if(hand.get(i).getType()== Card.type.Wild){
+								hand.remove(i);
+							}
+						}
+						}
+					} 
+					if(!p.getPhasedOutSecondSet().isEmpty()){
+						System.out.println("In the second set.");
+						int daNumba = p.getPhasedOutSecondSet().get(0).getNumber();
+						for(int j = 0; j < 6; j++){
+						for(int i =0; i < hand.size(); i++){
+							if(hand.get(i).getNumber() == daNumba){
+								hand.remove(i);
+								i--;
+							}else if(hand.get(i).getType()== Card.type.Wild){
+								hand.remove(i);
+							}
+						}
+						}
+					}
+				}
+			  }
+		}
 		  
 	}
-	  
-	public void doTurn(){
-		  
-	}
+	
 	DrunkPlayer d = new DrunkPlayer();
 	Preventer p = new Preventer();
 	LowestScore l = new LowestScore();
@@ -435,20 +574,31 @@ public class Player {
 			p.setPlayer(this);
 			Card tempCard = p.discard();
 			return tempCard;
-		} 
-//		else if (this.getStrategy() == Strategy.strategyType.lowestScore){
-//			l.setPlayer(this);
-//			Card tempCard = l.discard();
-//			return tempCard;
-//		}
-		return null;
+		} else if (this.getStrategy() == Strategy.strategyType.lowestScore){
+			l.setPlayer(this);
+			Card tempCard = l.discard();
+			return tempCard;
+		} else {
+			r.setPlayer(this);
+			Card tempCard = r.discard();
+			return tempCard;
+		}
 	}
 	
 	public void draw(Deck drawPile, Deck discardPile){
 		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
 			d.setPlayer(this);
 			d.draw(drawPile, discardPile);
-			}
+		} else if(this.getStrategy() == Strategy.strategyType.preventer){
+			p.setPlayer(this);
+			p.draw(drawPile,discardPile);
+		} else if (this.getStrategy() == Strategy.strategyType.lowestScore){
+			l.setPlayer(this);
+			l.draw(drawPile, discardPile);
+		} else {
+			r.setPlayer(this);
+			r.draw(drawPile, discardPile);
+		}
 		
 	}
 	

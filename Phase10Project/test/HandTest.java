@@ -110,6 +110,40 @@ public class HandTest {
 	}
 	
 	@Test
+	public void testDoubleWildCheckSet(){
+		Player chief = new Player("Chief");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(0, Card.cardColor.Black, Card.type.Wild);	
+		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		chief.hand.add(tempCard1);	
+		chief.hand.add(tempCard2);
+		chief.hand.add(tempCard3);
+		chief.hand.add(tempCard4);
+		chief.hand.add(tempCard5);
+		chief.hand.add(tempCard6);
+		chief.hand.add(tempCard7);
+		chief.hand.add(tempCard8);
+		chief.hand.add(tempCardS);
+		chief.hand.add(tempCardW);
+		chief.hand.orderHand();
+		
+		ArrayList<Integer> possibleSets = new ArrayList<Integer>();
+		possibleSets = chief.hand.checkSet(2,3);
+		System.out.println(possibleSets);
+		assertSame(possibleSets.get(0),1);
+		assertSame(possibleSets.get(1),3);
+		assertSame(possibleSets.get(2),99);
+		
+	}
+	
+	@Test
 	public void testBadSet(){
 		Player chief = new Player("Chief");
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
@@ -117,7 +151,7 @@ public class HandTest {
 		Card tempCard3 = new Card(7, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
 		Card tempCard5 = new Card(3, Card.cardColor.Red, Card.type.Normal);	
-		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard6 = new Card(5, Card.cardColor.Red, Card.type.Normal);
 		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
 		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
