@@ -21,8 +21,9 @@ public class LowestScore extends Strategy {
 	public void draw(Deck drawPile, Deck discardPile){
 
 	Card tempDiscardPile = discardPile.draw();
+	System.out.println(tempDiscardPile);
 	if(tempDiscardPile.getNumber() < 10){
-		player.hand.draw(discardPile);
+		player.hand.add(tempDiscardPile);
 	}else{
 		player.hand.draw(drawPile);
 		discardPile.add(tempDiscardPile);

@@ -20,7 +20,6 @@ public class LowestScorerTest {
 		assertSame(l.player, null);
 		l.setPlayer(cortona);
 		assertSame(l.player, cortona);
-		System.out.println(l.strat);
 	}
 	
 	@Test
@@ -43,12 +42,11 @@ public class LowestScorerTest {
 	LowestScore l  = new LowestScore();
 	l.setPlayer(cortona);
 	assertSame(10, l.player.hand.size());
-	l.discard();
-	assertSame(tempCard3, l.player.hand.get(0));
-	l.discard();
+	Card tempCard12 = l.discard();
+	assertSame(tempCard12.getNumber(), 0);
+	Card tempCard13 = l.discard();
+	assertSame(tempCard13.getNumber(), 0);
 	assertSame(8, l.player.hand.size());
-	System.out.println(l.player.hand);
-
 	}
 	
 	@Test
@@ -64,13 +62,12 @@ public class LowestScorerTest {
 		discardPile.add(tempCard1);
 		discardPile.add(tempCard2);
 		discardPile.add(tempCard3);
-		drawPile.add(tempCard4);
-		drawPile.add(tempCard5);
+		discardPile.add(tempCard4);
+		discardPile.add(tempCard5);
 		LowestScore l = new LowestScore();
 		l.setPlayer(cortona);
 		l.draw(drawPile,discardPile);
-		assertSame(tempCard1, l.player.hand.get(0));
-		System.out.println(l.player.hand);
+		assertSame(tempCard5, cortona.hand.get(cortona.hand.size()-1));
 	}
 
 }
