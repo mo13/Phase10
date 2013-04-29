@@ -17,8 +17,8 @@ public class LowestScore extends Strategy {
 		return strat;
 	}
 
-	public void setPlayer(Player p){
-		player = p;
+	public void setPlayer(Player l){
+		player = l;
 	}
 	public void discard(){
 		player.hand.orderHand();

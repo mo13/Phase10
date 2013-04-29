@@ -7,7 +7,7 @@ import model.Card.cardColor;
 
 import org.junit.Test;
 
-import strategy.LowestScore;
+import strategy.*;
 
 
 public class LowestScorerTest {
@@ -16,11 +16,11 @@ public class LowestScorerTest {
 	@Test
 	public void testConstructor() {
 		
-		LowestScore p = new LowestScore();
-		assertSame(p.player, null);
-		p.setPlayer(cortona);
-		assertSame(p.player, cortona);
-		System.out.println(p.strat);
+		LowestScore l = new LowestScore();
+		assertSame(l.player, null);
+		l.setPlayer(cortona);
+		assertSame(l.player, cortona);
+		System.out.println(l.strat);
 	}
 	
 	@Test
@@ -40,13 +40,13 @@ public class LowestScorerTest {
 	cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 	cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-	LowestScore p  = new LowestScore();
-	p.setPlayer(cortona);
-	assertSame(p.player.hand.size(),10);
-	Card tempCard = p.discard();
-	assertSame(p.player.hand.get(0), tempCard1);
-	p.discard();
-	assertSame(p.player.hand.size(),8);
+	LowestScore l  = new LowestScore();
+	l.setPlayer(cortona);
+	assertSame(l.player.hand.size(),5);
+	l.discard();
+	assertSame(l.player.hand.get(0), tempCard1);
+	l.discard();
+	assertSame(l.player.hand.size(),3);
 	}
 	
 	@Test
@@ -56,19 +56,19 @@ public class LowestScorerTest {
 		Deck discardPile = new Deck(Deck.deckType.DiscardPile);
 		Card tempCard1 = new Card(6, cardColor.Red, Card.type.Normal);
 		Card tempCard2 = new Card(8, cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(9, cardColor.Red, Card.type.Normal);
+		Card tempCard3 = new Card(11, cardColor.Red, Card.type.Normal);
+		Card tempCard4 = new Card(2, cardColor.Green, Card.type.Normal);
+		Card tempCard5 = new Card(4, cardColor.Red, Card.type. Normal);
 		discardPile.add(tempCard1);
 		discardPile.add(tempCard2);
 		discardPile.add(tempCard3);
-		LowestScore p = new LowestScore();
-		p.setPlayer(cortona);
-		p.draw(drawPile,discardPile);
-		assertSame(p.player.hand.get(0),tempCard3);
-		p.draw(drawPile, discardPile);
-		assertSame(p.player.hand.size(), 2);
-		p.draw(drawPile, discardPile);
-		assertSame(p.player.hand.size(),3);
-		System.out.println(p.player.hand);
+		drawPile.add(tempCard4);
+		drawPile.add(tempCard5);
+		LowestScore l = new LowestScore();
+		l.setPlayer(cortona);
+		l.draw(drawPile,discardPile);
+		assertSame(l.player.hand.get(0),tempCard1);
+		System.out.println(l.player.hand);
 	}
 
 }
