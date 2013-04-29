@@ -261,6 +261,7 @@ public class ControllerTest {
 	}
 	@Test 
 	public void testdiscard(){
+		
 		cortona = new Player("cortona");
 		chief = new Player("chief");
 		johnson = new Player("johnson");

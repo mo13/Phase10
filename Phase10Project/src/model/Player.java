@@ -7,7 +7,7 @@ import model.Card.cardColor;
 import strategy.*;
 import strategy.Strategy.strategyType;
 
-
+// I am just making a test change.
 public class Player {
 	
   private String name;
