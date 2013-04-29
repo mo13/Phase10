@@ -425,7 +425,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void testDiscard() {
+	public void testDiscardDrunk() {
 		Player cortona = new Player("cortona");
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
 		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
@@ -446,15 +446,60 @@ public class PlayerTest {
 		cortona.discard();
 		assertSame(cortona.hand.size(),9);
 		//
-		cortona.hand.add(tempCard5);
+		
+		//
+	}
+	
+	@Test
+	public void testDiscardPrevent(){
+		Player cortona = new Player("cortona");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(1, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.hand.orderHand();
 		cortona.setStrategy(strategyType.preventer);
-		System.out.println(cortona.hand.toString());
 		Card tempCard69 = cortona.discard();
 		assertSame(tempCard69,tempCard2);
 		Card tempCard68 = cortona.discard();
 		assertSame(tempCard68,tempCard5);
-		//
+	}
+	
+	@Test
+	public void testDiscardRecklessPlayer(){
+		Player cortona = new Player("cortona");
+		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
+		Card tempCard2 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(8, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(10, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(9, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(3, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
+		cortona.hand.add(tempCard1);	cortona.hand.add(tempCard2);
+		cortona.hand.add(tempCard3);	cortona.hand.add(tempCard4);
+		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
+		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
+		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
+		cortona.hand.orderHand();
+		cortona.setStrategy(strategyType.preventer);
+		Card tempCard69 = cortona.discard();
+		assertSame(tempCard69,tempCard2);
+		Card tempCard68 = cortona.discard();
+		assertSame(tempCard68,tempCard5);
 	}
 	
 	@Test
