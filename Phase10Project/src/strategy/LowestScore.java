@@ -16,7 +16,7 @@ public class LowestScore extends Strategy {
 	}
 	public Card discard(){
 		player.hand.orderHand();
-		return player.hand.remove(player.hand.size());
+		return player.hand.remove(player.hand.size()-1);
 	}
 	public void draw(Deck drawPile, Deck discardPile){
 
