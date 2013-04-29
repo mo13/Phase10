@@ -8,7 +8,7 @@ public class DrunkPlayerTest {
 	Player cortona = new Player("Cortona");
 	
 	@Test
-	public void testConstructor() {
+	public void testSetPlayer() {
 		DrunkPlayer d = new DrunkPlayer();
 		assertSame(d.player, null);
 		d.setPlayer(cortona);

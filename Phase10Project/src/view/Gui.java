@@ -138,7 +138,7 @@ public class Gui implements ActionListener {
 		scoring.add(scorePlayers);
 		
 		displayScore = new JMenuItem("Display Score");
-		displayScore.addActionListener(Menu_Click("Cortona:" + cont.displayScore(cortona)));
+		//displayScore.addActionListener(Menu_Click("Cortona:" + cont.displayScore(cortona)));
 		scoring.add(displayScore);
 		
 		phaseTracker = new JMenuItem("Display Phases");

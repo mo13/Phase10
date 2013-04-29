@@ -54,7 +54,6 @@ public class Player {
   	}
 	public void setStrategy(strategyType strategy) {
 		currentStrategy = strategy;
-		System.out.println(currentStrategy);
 		
 	}
 	
@@ -423,11 +422,33 @@ public class Player {
 	public void doTurn(){
 		  
 	}
-	
-	public void discard(){
+	DrunkPlayer d = new DrunkPlayer();
+	Preventer p = new Preventer();
+	LowestScore l = new LowestScore();
+	RecklessPlayer r = new RecklessPlayer();
+	public Card discard(){
 		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
-			DrunkPlayer 
-		}
+			d.setPlayer(this);
+			Card tempCard = d.discard();
+			return tempCard;
+		} else if (this.getStrategy() == Strategy.strategyType.preventer){
+			p.setPlayer(this);
+			Card tempCard = p.discard();
+			return tempCard;
+		} 
+//		else if (this.getStrategy() == Strategy.strategyType.lowestScore){
+//			l.setPlayer(this);
+//			Card tempCard = l.discard();
+//			return tempCard;
+//		}
+		return null;
+	}
+	
+	public void draw(Deck drawPile, Deck discardPile){
+		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
+			d.setPlayer(this);
+			d.draw(drawPile, discardPile);
+			}
 		
 	}
 	
