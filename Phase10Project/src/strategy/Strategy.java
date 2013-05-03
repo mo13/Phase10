@@ -4,7 +4,7 @@ public class Strategy {
 	
 	
   public enum strategyType{
-	drunkPlayer, recklessPlayer, preventer, lowestScore
+	randomPlayer, recklessPlayer, preventer, lowestScore
   }
 
   public void chooseDiscard(){

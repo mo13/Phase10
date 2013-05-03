@@ -3,35 +3,81 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
-import strategy.*;
+import strategy.Strategy;
 import view.*;
 
 import model.*;
 
 public class Controller {
-	Deck drawPile = new Deck(Deck.deckType.DrawPile);
-	Deck discardPile = new Deck(Deck.deckType.DiscardPile);
 	
-
 	
-	public ArrayList<Player> setPlayerOrder(Player p1, Player p2, Player p3, Player p4){
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(p1);
-		playerList.add(p2);
-		playerList.add(p3);
-		playerList.add(p4);
-		return playerList;
+	GameModel model = new GameModel();
+	GameObserver view;
+	public Deck drawPile = new Deck(Deck.deckType.DrawPile);
+	public Deck discardPile = new Deck(Deck.deckType.DiscardPile);
+	Card topDiscard;
+	public ArrayList<Player> playerList = new ArrayList<Player>();
+	Player chief = new Player("Master Chief");
+	Player johnson = new Player("Sgt. Johnson");
+	Player arbiter = new Player("The Arbiter");
+	Player cortona = new Player("Cortona");
+	
+	
+	public Controller(GameModel model, GameObserver view) {
+		this.model = model;
+		this.view = view;
+		view.registerController(this);
+		view.createUI();
 	}
-  
-  public void dealCards(ArrayList<Player> playerList) {
-	  drawPile.createDeck();
-	  for(int i = 0; i < 10; i++){
-		  for(int player = 0; player < playerList.size(); player++){
-			  playerList.get(player).hand.draw(drawPile);
-		  } 
+	
+	public void dealCards() {
+		  if(playerList.isEmpty()){
+			  this.setPlayerOrder();
+		  }
+		  drawPile.createDeck();
+		  for(int i = 0; i < 10; i++){
+			  for(int player = 0; player < playerList.size(); player++){
+				  playerList.get(player).hand.draw(drawPile);
+			  } 
+		  }
+		  topDiscard = drawPile.remove((int)(Math.random()* drawPile.size()-1));
 	  }
-  }
+	  
+	public Card getTopDiscard(){
+		  return this.topDiscard;
+	  }
+		
+	public void setPlayerOrder(){
+		playerList.add(chief);
+		playerList.add(johnson);
+		playerList.add(arbiter);
+		playerList.add(cortona);
+	}
+	
+	public String showPlayerOrder(){
+		String str = "";
+		for(int i = 0; i < playerList.size(); i++){
+			str+= "Player " + (i+1) + " is ";
+			str+= playerList.get(i).getName();
+			str+= "\n";
+		}
+		return str;
+		
+	}
 
+	public void drawCard(Integer i){
+		  if(drawPile.isEmpty()){
+			  System.out.println(topDiscard	);
+			  drawPile = discardPile;
+		  }else{
+			  if(playerList.get(i).draw(drawPile, topDiscard)){  
+				  topDiscard = discardPile.remove(discardPile.size()-1);  
+			  }
+		  }
+	  }
+/*
+ * score Round is not done yet.
+ */
   public void scoreRound(ArrayList<Player> playerList) {
 	  int tempScore  = 0;
 	  Player currPlayer;
@@ -62,56 +108,15 @@ public class Controller {
 				}
 		  int originalScore =  currPlayer.getScore();
 		  playerList.get(player).setScore(originalScore + tempScore);
-		  tempScore = 0;
 		  }
 	  }
-
-  public void phasetracker(){
+     
+  public void showOrder(){
+//	  setPlayerOrder();
+  }
+    
+  public void checkRound() {
 	  
-  }
-  
-  public void emptyHand(ArrayList<Player> playerList){
-	  Player currPlayer;
-	  boolean empty = false;
-	  for(int player = 0; player < playerList.size(); player++){
-		  currPlayer = playerList.get(player);
-		  System.out.println(currPlayer.getName());
-		  for (int i = 0; i < currPlayer.hand.size(); i++){
-			  if (currPlayer.hand.size() == 0){
-				  empty = true;
-			  }else{ 
-				  empty = false;
-			  }
-		  }
-	  }
-  }
-  
-
-  
-  public void exitGame(){
-//				if (Gui.ActionEvent.event.getSource() == Gui.exitMenu){
-//					Gui.frame.setVisible(false);
-//					Gui.frame.dispose();
-//					System.exit(0);
-//				
-//			}
-  }
-  
-
-  public void checkRound(ArrayList<Player> playerList) {
-	  boolean roundOver = false;
-	  Player currPlayer;
-	  for(int player = 0; player < playerList.size(); player++){
-		  currPlayer = playerList.get(player);
-		  System.out.println(currPlayer.getName());
-		  for (int i = 0; i < currPlayer.hand.size(); i++){
-			  if (currPlayer.hand.size() == 0){
-				  roundOver = true;
-			  }else{ 
-				  roundOver = false;
-	    }
-	  }
-	}
   }
 
   public void doTurn() {
@@ -121,12 +126,12 @@ public class Controller {
   public void displayScore(){
 	  
   }
-  
-  public void resetDrawPile(){
+
+  public void exitRound(){
 	  
   }
   
-  
+
   public void checkHit(){
 	  
   }
@@ -135,42 +140,16 @@ public class Controller {
 	  
   }
   
-
- //can't be implemented with out first finishing other parts.
-  
-  
-  public void draw(ArrayList<Player> playerList){
-	  Player currPlayer;
-	  for(int player = 0; player < playerList.size(); player++){
-		  currPlayer = playerList.get(player);
-		  System.out.println(currPlayer.getName());
-		  for (int i = 0; i < currPlayer.hand.size(); i++){
-		  }
-	  }
-	  
-  }
-  
   public void hit(){
 	  
   }
-  
-  public void setupBoard(){
-	  
-  }
-  
-  public void discard(ArrayList<Player> playerList){
-	  Player currPlayer;
-	  for(int player = 0; player < playerList.size(); player++){
-		  currPlayer = playerList.get(player);
-		  System.out.println(currPlayer.getName());
-		  for (int i = 0; i < currPlayer.hand.size(); i++){
-		  }
-	  }
+
+  public void discard(){
 	  
   }
 
-  public void setStrategy(){
-	  
+  public void setStrategy(Integer i, Strategy.strategyType strategy){
+	  playerList.get(i).setStrategy(strategy);
   }
   
  public void phaseOut(){
@@ -178,5 +157,4 @@ public class Controller {
   }
 
 }
-
 

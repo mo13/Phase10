@@ -1,11 +1,11 @@
 package strategy;
 import model.*;
-public class DrunkPlayer extends Strategy {
+public class RandomPlayer extends Strategy {
 	public Player player;
-	public strategyType strat = strategyType.drunkPlayer;
+	public strategyType strat = strategyType.randomPlayer;
 	
 	
-	public DrunkPlayer(){
+	public RandomPlayer(){
 		
 	}
 	
@@ -21,13 +21,16 @@ public class DrunkPlayer extends Strategy {
 		int i =  (int)(Math.random()*player.hand.size());
 		return player.hand.remove(i);
 	}
-	public void draw(Deck drawPile, Deck discardPile){
-		int i = (int)(Math.random()*2);
-		if (i == 1){
+	public Boolean draw(Deck drawPile, Card discard){
+		int i = (int)(Math.random()*10);
+
+		if (i >5){
 			player.hand.draw(drawPile);
+			return false;
 			
 		}else{
-			player.hand.draw(discardPile);
+			player.hand.add(discard);
+			return true;
 		}
 	}
 

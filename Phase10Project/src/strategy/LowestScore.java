@@ -18,15 +18,14 @@ public class LowestScore extends Strategy {
 		player.hand.orderHand();
 		return player.hand.remove(player.hand.size()-1);
 	}
-	public void draw(Deck drawPile, Deck discardPile){
+	public Boolean draw(Deck drawPile, Card tempDiscardPile){
 
-	Card tempDiscardPile = discardPile.draw();
-	System.out.println(tempDiscardPile);
 	if(tempDiscardPile.getNumber() < 10){
 		player.hand.add(tempDiscardPile);
+		return true;
 	}else{
 		player.hand.draw(drawPile);
-		discardPile.add(tempDiscardPile);
+		return false;
 		}
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import view.*;
 import strategy.*;
+import strategy.Strategy.strategyType;
 import model.*;
 
 import org.junit.Test;
@@ -18,7 +19,6 @@ import view.*;
 
 public class ControllerTest {
 	
-	Controller gameController = new Controller();
 	
 	
 	
@@ -30,15 +30,14 @@ public class ControllerTest {
 	
 	@Test
 	public void testDealCards(){
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller gameController = new Controller(model, view);
 		Deck drawpile = new Deck(Deck.deckType.DrawPile);
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
-		gameController.dealCards(playerList);
-		for(int i = 0; i < playerList.size(); i ++){
-			assertSame(10,playerList.get(i).hand.size());
+		gameController.setPlayerOrder();
+		gameController.dealCards();
+		for(int i = 0; i < gameController.playerList.size(); i ++){
+			assertEquals("10",gameController.playerList.get(i).getHandSize());
 		}
 		
 	}
@@ -57,305 +56,164 @@ public class ControllerTest {
 	}
 	@Test
 	public void scoreRound(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
-		
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
-		
-		Card tempCard7 = new Card(12, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard8 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard9 = new Card(6, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard10 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
-		
-		cortona.hand.add(tempCard1);
-		cortona.hand.add(tempCard2);
-		cortona.hand.add(tempCard3);
-		cortona.hand.add(tempCard4);
-		cortona.hand.add(tempCard5);
-		cortona.hand.add(tempCard6);
-		cortona.hand.orderHand();
-		
-		chief.hand.add(tempCard7);
-		chief.hand.add(tempCard8);
-		chief.hand.add(tempCard9);
-		chief.hand.add(tempCard10);
-		chief.hand.orderHand();
-		
-		johnson.hand.add(tempCard2);
-		johnson.hand.add(tempCard4);
-		johnson.hand.add(tempCard6);
-		johnson.hand.add(tempCard8);
-		johnson.hand.add(tempCard10);
-		johnson.hand.orderHand();
-		gameController.scoreRound(playerList);
-		
-		assertSame(65,cortona.getScore() );
-		assertSame(45,chief.getScore() );
-		assertSame(70,johnson.getScore());
-		assertSame(0,arbiter.getScore());
+//		cortona = new Player("cortona");
+//		chief = new Player("chief");
+//		arbiter = new Player("arbiter");
+//		johnson = new Player("johnson");
+//		
+//		ArrayList<Player> playerList = new ArrayList<Player>();
+//		playerList.add(cortona);
+//		playerList.add(chief);
+//		playerList.add(johnson);
+//		playerList.add(arbiter);
+//		
+//		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
+//		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
+//		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
+//		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+//		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
+//		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
+//		
+//		Card tempCard7 = new Card(12, Card.cardColor.Green, Card.type.Normal);
+//		Card tempCard8 = new Card(0, Card.cardColor.Black, Card.type.Wild);
+//		Card tempCard9 = new Card(6, Card.cardColor.Red, Card.type.Normal);
+//		Card tempCard10 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
+//		
+//		cortona.hand.add(tempCard1);
+//		cortona.hand.add(tempCard2);
+//		cortona.hand.add(tempCard3);
+//		cortona.hand.add(tempCard4);
+//		cortona.hand.add(tempCard5);
+//		cortona.hand.add(tempCard6);
+//		cortona.hand.orderHand();
+//		
+//		chief.hand.add(tempCard7);
+//		chief.hand.add(tempCard8);
+//		chief.hand.add(tempCard9);
+//		chief.hand.add(tempCard10);
+//		chief.hand.orderHand();
+//		
+//		johnson.hand.add(tempCard2);
+//		johnson.hand.add(tempCard4);
+//		johnson.hand.add(tempCard6);
+//		johnson.hand.add(tempCard8);
+//		johnson.hand.add(tempCard10);
+//		johnson.hand.orderHand();
+//		gameController.scoreRound(playerList);
+//		assertSame(55,chief.getScore() );
+//		assertSame(45,cortona.getScore() );
+//		assertSame(70,johnson.getScore());
+//		assertSame(0,arbiter.getScore());
 	}
-
+	@Test
+	public void testexitRound(){
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testshowOrder(){
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testresetOrder(){
+		fail("Not yet implemented");
+	}
 	@Test
 	public void testsetupBoard(){
 		fail("Not yet implemented");
 	}
 	@Test
 	public void testresetDrawPile(){
-		fail("Not yet implemented");
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller controller = new Controller(model, view);
+		
+		
+		controller.setPlayerOrder();
+		controller.dealCards();
+		System.out.println(controller.drawPile.size());
+		for(int i =0; i < 65; i++){
+			controller.discardPile.add(controller.drawPile.remove((int)(Math.random()*controller.drawPile.size()-1)));
+		}
+		System.out.println(controller.drawPile.size());
+		
+		ArrayList<Integer> playerList = new ArrayList<Integer>();
+		playerList.add(0);
+		playerList.add(1);
+		playerList.add(2);
+		playerList.add(3);
+		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
+		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		controller.drawCard(0);
+		
+		controller.drawCard(1);
+		
+		controller.drawCard(2);
+		
+		controller.drawCard(3);
+		
 	}
 	@Test
 	public void testemptyHand(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
-		
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		
-		
-		cortona.hand.add(tempCard1);
-		cortona.hand.add(tempCard2);
-		cortona.hand.add(tempCard3);
-		cortona.hand.add(tempCard4);
-		cortona.hand.add(tempCard5);
-		cortona.hand.add(tempCard6);
-		cortona.hand.orderHand();
-		
-		chief.hand.add(tempCard7);
-		chief.hand.orderHand();
-		
-		assertSame(6,cortona.hand.size() );
-		assertSame(1,chief.hand.size() );
-		assertSame(0,johnson.hand.size());
-		assertSame(0,arbiter.hand.size());
-		
-		
+		fail("Not yet implemented");
 	}
 	@Test
 	public void testdraw(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller controller = new Controller(model, view);
+		controller.setPlayerOrder();
+		controller.dealCards();
 		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
+		for(int i =0; i < 25; i++){
+			controller.discardPile.add(controller.drawPile.remove((int)(Math.random()*controller.drawPile.size()-1)));
+		}
 		
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(4, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard5 = new Card(3, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard8 = new Card(11, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard9 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard10 = new Card(9, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard11 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard12 = new Card(9, Card.cardColor.Red, Card.type.Normal);
+		ArrayList<Integer> playerList = new ArrayList<Integer>();
+		playerList.add(0);
+		playerList.add(1);
+		playerList.add(2);
+		playerList.add(3);
+		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(0).setStrategy(strategyType.randomPlayer);
+		controller.playerList.get(0).setStrategy(strategyType.recklessPlayer);
+		controller.playerList.get(0).setStrategy(strategyType.lowestScore);
+		int i = 0;
+		// seeing when i have discard so when i do use it make sure not to get another one.
+		while (i < 3){
+			for(Integer t : playerList){
+				controller.drawCard(t);
+			}
+			i++;
+		}
 		
-		
-		cortona.hand.add(tempCard1);
-		cortona.hand.add(tempCard2);
-		cortona.hand.add(tempCard3);
-		cortona.hand.orderHand();
-		
-		
-		chief.hand.add(tempCard4);
-		chief.hand.add(tempCard5);
-		chief.hand.add(tempCard6);
-		chief.hand.add(tempCard7);
-		chief.hand.orderHand();
-		
-		johnson.hand.add(tempCard8);
-		johnson.hand.add(tempCard9);
-		johnson.hand.add(tempCard10);
-		johnson.hand.orderHand();
-		
-		arbiter.hand.add(tempCard11);
-		arbiter.hand.add(tempCard12);
-		arbiter.hand.orderHand();
-		
-		
-		assertSame(4,cortona.hand.size() );
-		assertSame(5,chief.hand.size() );
-		assertSame(4,johnson.hand.size());
-		assertSame(3,arbiter.hand.size());
 		
 	}
 	@Test
 	public void testplayPhase(){
 		fail("Not yet implemented");
-		
 	}
 	@Test
 	public void testexitGame(){
-		fail(" Not Yet Implemented" );
+		fail("Not yet implemented");
 	}
 	@Test
 	public void testCheckPhase(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
+		fail("Not yet implemented");
 	}
 	@Test 
 	public void testhit(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
+		fail("Not yet implemented");
 	}
 	@Test 
 	public void testcheckHit(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
+		fail("Not yet implemented");
 	}
 	@Test 
 	public void testdiscard(){
-		
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
-		
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(4, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard5 = new Card(3, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard8 = new Card(11, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard9 = new Card(2, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard10 = new Card(9, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard11 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard12 = new Card(9, Card.cardColor.Red, Card.type.Normal);
-		
-		
-		cortona.hand.add(tempCard1);
-		cortona.hand.add(tempCard2);
-		cortona.hand.add(tempCard3);
-		cortona.hand.orderHand();
-		
-		
-		chief.hand.add(tempCard4);
-		chief.hand.add(tempCard5);
-		chief.hand.add(tempCard6);
-		chief.hand.add(tempCard7);
-		chief.hand.orderHand();
-		
-		johnson.hand.add(tempCard8);
-		johnson.hand.add(tempCard9);
-		johnson.hand.add(tempCard10);
-		johnson.hand.orderHand();
-		
-		arbiter.hand.add(tempCard11);
-		arbiter.hand.add(tempCard12);
-		arbiter.hand.orderHand();
-		
-		
-		assertSame(2,cortona.hand.size() );
-		assertSame(3,chief.hand.size() );
-		assertSame(2,johnson.hand.size());
-		assertSame(1,arbiter.hand.size());
+		fail("Not yet implemented");
 	}
-	
-	@Test
-	public void testcheckRound(){
-		
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
-		
-		Card tempCard1 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard2 = new Card(11, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(1, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard4 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		Card tempCard5 = new Card(0, Card.cardColor.Black, Card.type.Skip);
-		Card tempCard6 = new Card(9, Card.cardColor.Green, Card.type.Normal);
-		Card tempCard7 = new Card(0, Card.cardColor.Black, Card.type.Wild);
-		
-		
-		cortona.hand.add(tempCard1);
-		cortona.hand.add(tempCard2);
-		cortona.hand.add(tempCard3);
-		cortona.hand.add(tempCard4);
-		cortona.hand.add(tempCard5);
-		cortona.hand.add(tempCard6);
-		cortona.hand.orderHand();
-		
-		chief.hand.add(tempCard7);
-		chief.hand.orderHand();
-		
-		assertSame(6,cortona.hand.size() );
-		assertSame(1,chief.hand.size() );
-		assertSame(0,johnson.hand.size());
-		assertSame(0,arbiter.hand.size());
-		
-	}
-	
 	@Test 
 	public void testturn(){
 		fail("Not yet implemented");
@@ -366,24 +224,32 @@ public class ControllerTest {
 	}
 	@Test
 	public void setStrategy(){
-		cortona = new Player("cortona");
-		chief = new Player("chief");
-		johnson = new Player("johnson");
-		arbiter = new Player("arbiter");
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.add(cortona);
-		playerList.add(chief);
-		playerList.add(johnson);
-		playerList.add(arbiter);
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller gameController = new Controller(model, view);
+		gameController.setPlayerOrder();
+		gameController.setStrategy(0, strategyType.lowestScore);
+		gameController.setStrategy(1, strategyType.recklessPlayer);
+		gameController.setStrategy(2, strategyType.preventer);
+		gameController.setStrategy(3, strategyType.randomPlayer);
+		assertSame(gameController.playerList.get(0).getStrategy(), strategyType.lowestScore);
+		assertSame(gameController.playerList.get(1).getStrategy(), strategyType.recklessPlayer);
+		assertSame(gameController.playerList.get(2).getStrategy(), strategyType.preventer);
+		assertSame(gameController.playerList.get(3).getStrategy(), strategyType.randomPlayer);
 	}
+	
+	
 	@Test
 	public void testSetPlayerOrder() {
-		ArrayList<Player> playerList = gameController.setPlayerOrder(cortona, johnson, chief, arbiter);
-		assertSame(playerList.get(0), cortona);
-		assertSame(playerList.get(1), johnson);
-		assertSame(playerList.get(2), chief);
-		assertSame(playerList.get(3), arbiter);
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller gameController = new Controller(model, view);
+		gameController.setPlayerOrder();
+		assertSame(gameController.playerList.get(3).getName(), "Cortona");
+		assertSame(gameController.playerList.get(0).getName(), "Master Chief");
+		assertSame(gameController.playerList.get(1).getName(), "Sgt. Johnson");
+		assertSame(gameController.playerList.get(2).getName(), "The Arbiter");
+		
 	}
 	
 

@@ -56,12 +56,15 @@ public class PreventerStrategy {
 		discardPile.add(tempCard2);
 		discardPile.add(tempCard3);
 		Preventer p = new Preventer();
+		Card tempCard = discardPile.draw();
 		p.setPlayer(cortona);
-		p.draw(drawPile,discardPile);
+		p.draw(drawPile, tempCard);
 		assertSame(p.player.hand.get(0),tempCard3);
-		p.draw(drawPile, discardPile);
+		Card tempDiscard2 = discardPile.draw();
+		p.draw(drawPile, tempDiscard2);
 		assertSame(p.player.hand.size(), 2);
-		p.draw(drawPile, discardPile);
+		Card tempDiscard3 = discardPile.draw();
+		p.draw(drawPile, tempDiscard3);
 		assertSame(p.player.hand.size(),3);
 		System.out.println(p.player.hand);
 	}

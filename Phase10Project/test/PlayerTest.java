@@ -449,7 +449,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.drunkPlayer);
+		cortona.setStrategy(strategyType.randomPlayer);
 		cortona.discard();
 		assertSame(cortona.hand.size(),9);
 		//
@@ -560,10 +560,16 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.drunkPlayer);
-		cortona.draw(drawPile,discardPile);
+		cortona.setStrategy(strategyType.randomPlayer);
+		Card tempDiscard = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),11);
-		cortona.draw(drawPile, discardPile);
+		Card tempDiscard2 = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard2)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),12);
 	}
 	
@@ -594,9 +600,15 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setStrategy(strategyType.lowestScore);
-		cortona.draw(drawPile,discardPile);
+		Card tempDiscard = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),11);
-		cortona.draw(drawPile, discardPile);
+		Card tempDiscard2 = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard2)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),12);
 	}
 	
@@ -610,7 +622,7 @@ public class PlayerTest {
 		for(int i=0; i < 10; i++){
 			discardPile.add(drawPile.remove(  (int)(Math.random()*drawPile.size())  ));
 		}
-		
+		discardPile.add(new Card(1, Card.cardColor.Red, Card.type.Normal));
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
 		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
 		Card tempCard3 = new Card(1, Card.cardColor.Red, Card.type.Normal);	
@@ -627,9 +639,15 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setStrategy(strategyType.preventer);
-		cortona.draw(drawPile,discardPile);
+		Card tempDiscard = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),11);
-		cortona.draw(drawPile, discardPile);
+		Card tempDiscard2 = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard2)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),12);
 	}
 	
@@ -661,9 +679,15 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setStrategy(strategyType.recklessPlayer);
-		cortona.draw(drawPile,discardPile);
+		Card tempDiscard = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),11);
-		cortona.draw(drawPile, discardPile);
+		Card tempDiscard2 = discardPile.remove(discardPile.size()-1);
+		if(cortona.draw(drawPile,tempDiscard2)){
+			System.out.println("Discard pile");
+		}
 		assertSame(cortona.hand.size(),12);
 	}
 	

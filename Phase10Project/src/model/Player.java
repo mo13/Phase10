@@ -21,7 +21,7 @@ public class Player {
 
 
 
-ArrayList<Card> phasedOutSecondSet = new ArrayList<Card>();
+  ArrayList<Card> phasedOutSecondSet = new ArrayList<Card>();
   ArrayList<Card> phasedOutRun = new ArrayList<Card>();
   ArrayList<Card> phasedOutColoredSet = new ArrayList<Card>();
   ArrayList<Card> phasedOutSet = new ArrayList<Card>();
@@ -67,6 +67,10 @@ public int numSets;
 	public void setStrategy(strategyType strategy) {
 		currentStrategy = strategy;
 		
+	}
+	
+	public String getHandSize(){
+		return Integer.toString(this.hand.size());
 	}
 	
 	public int getPhaseNumber() {
@@ -561,12 +565,12 @@ public int numSets;
 		  
 	}
 	
-	DrunkPlayer d = new DrunkPlayer();
+	RandomPlayer d = new RandomPlayer();
 	Preventer p = new Preventer();
 	LowestScore l = new LowestScore();
 	RecklessPlayer r = new RecklessPlayer();
 	public Card discard(){
-		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
+		if(this.getStrategy() == Strategy.strategyType.randomPlayer){
 			d.setPlayer(this);
 			Card tempCard = d.discard();
 			return tempCard;
@@ -585,19 +589,19 @@ public int numSets;
 		}
 	}
 	
-	public void draw(Deck drawPile, Deck discardPile){
-		if(this.getStrategy() == Strategy.strategyType.drunkPlayer){
+	public Boolean draw(Deck drawPile, Card discard){
+		if(this.getStrategy() == Strategy.strategyType.randomPlayer){
 			d.setPlayer(this);
-			d.draw(drawPile, discardPile);
+			return d.draw(drawPile, discard);
 		} else if(this.getStrategy() == Strategy.strategyType.preventer){
 			p.setPlayer(this);
-			p.draw(drawPile,discardPile);
+			return p.draw(drawPile,discard);
 		} else if (this.getStrategy() == Strategy.strategyType.lowestScore){
 			l.setPlayer(this);
-			l.draw(drawPile, discardPile);
+			return l.draw(drawPile, discard);
 		} else {
 			r.setPlayer(this);
-			r.draw(drawPile, discardPile);
+			return r.draw(drawPile, discard);
 		}
 		
 	}

@@ -9,7 +9,7 @@ public class DrunkPlayerTest {
 	
 	@Test
 	public void testSetPlayer() {
-		DrunkPlayer d = new DrunkPlayer();
+		RandomPlayer d = new RandomPlayer();
 		assertSame(d.player, null);
 		d.setPlayer(cortona);
 		assertSame(d.player, cortona);
@@ -34,7 +34,7 @@ public class DrunkPlayerTest {
 	cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 	cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-	DrunkPlayer d = new DrunkPlayer();
+	RandomPlayer d = new RandomPlayer();
 	d.setPlayer(cortona);
 	assertSame(d.player.hand.size(),10);
 	d.discard();
@@ -51,13 +51,20 @@ public class DrunkPlayerTest {
 		for(int i= 0; i< 10; i++){
 			discardPile.add(drawPile.remove((int)(Math.random()*drawPile.size())));
 		}
-		DrunkPlayer d = new DrunkPlayer();
+		Card discard = discardPile.remove(discardPile.size()-1);
+		RandomPlayer d = new RandomPlayer();
 		d.setPlayer(cortona);
-		d.draw(drawPile,discardPile);
+		if(d.draw(drawPile,discard)){
+			System.out.println("discard Pile");
+		}
 		assertSame(d.player.hand.size(),1);
-		d.draw(drawPile, discardPile);
+		if(d.draw(drawPile,discard)){
+			System.out.println("discard Pile");
+		}
 		assertSame(d.player.hand.size(), 2);
-		d.draw(drawPile, discardPile);
+		if(d.draw(drawPile,discard)){
+			System.out.println("discard Pile");
+		}
 		assertSame(d.player.hand.size(),3);
 		System.out.println(d.player.hand);
 	}

@@ -53,13 +53,18 @@ public class RecklessPlayerTest {
 		discardPile.add(tempCard3);
 		RecklessPlayer r = new RecklessPlayer();
 		r.setPlayer(cortona);
-		r.draw(drawPile,discardPile);
+		Card tempCard11 = discardPile.draw();
+		r.draw(drawPile,tempCard11);
 		assertSame(r.player.hand.get(0),tempCard3);
-		r.draw(drawPile, discardPile);
+		Card tempCard12 = discardPile.draw();
+		r.draw(drawPile, tempCard12);
 		assertSame(r.player.hand.size(), 2);
-		r.draw(drawPile, discardPile);
+		Card tempCard13 = discardPile.draw();
+		
+		r.draw(drawPile, tempCard13);
+		System.out.println(r.player.hand);
 		assertSame(r.player.hand.size(),3);
-		assertSame(discardPile.get(1), tempCard2);
+		
 	}
 
 }

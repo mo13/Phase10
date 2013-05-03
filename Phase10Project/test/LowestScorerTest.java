@@ -66,7 +66,8 @@ public class LowestScorerTest {
 		discardPile.add(tempCard5);
 		LowestScore l = new LowestScore();
 		l.setPlayer(cortona);
-		l.draw(drawPile,discardPile);
+		Card tempCard = discardPile.draw();
+		l.draw(drawPile,tempCard);
 		assertSame(tempCard5, cortona.hand.get(cortona.hand.size()-1));
 	}
 

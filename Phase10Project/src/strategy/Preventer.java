@@ -33,13 +33,13 @@ public class Preventer extends Strategy {
 			return player.hand.remove(i);
 		
 	}
-	public void draw(Deck drawPile, Deck discardPile){
-		Card tempdiscardPile = discardPile.draw();
+	public Boolean draw(Deck drawPile, Card tempdiscardPile){
 		if(tempdiscardPile.getColor() == cardColor.Red){
 			player.hand.add(tempdiscardPile);
+			return true;
 		} else{
 			player.hand.draw(drawPile);
-			discardPile.add(tempdiscardPile);
+			return false;
 		}
 			
 	}
