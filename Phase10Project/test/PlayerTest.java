@@ -179,8 +179,8 @@ public class PlayerTest {
 		chief.hand.orderHand();
 		chief.setPhaseNumber(8);
 		chief.getPhaseInfo();
-		chief.checkPhase();
-		assertTrue(chief.getPhasedOut());
+		
+		assertTrue(chief.checkPhase());
 	}
 		// check 2 sets with different sizes
 	@Test
@@ -202,42 +202,47 @@ public class PlayerTest {
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setPhaseNumber(9);
 		cortona.getPhaseInfo();
-		cortona.checkPhase();
-		assertTrue(cortona.getPhasedOut());
+		assertTrue(cortona.checkPhase());
 	}
 	
 	@Test
 	public void testCheckPhaseSetRun(){
 		// check a set and a run
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
-		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
-		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard5 = new Card(3, Card.cardColor.Green, Card.type.Normal);	
-		Card tempCard6 = new Card(5, Card.cardColor.Red, Card.type.Normal);
-		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
-		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
-		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
+		Card tempCard2 = new Card(8, Card.cardColor.Blue, Card.type.Normal);
+		Card tempCard3 = new Card(6, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard4 = new Card(7, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard5 = new Card(9, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard6 = new Card(10, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard7 = new Card(10, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard8 = new Card(10, Card.cardColor.Red, Card.type.Normal);
+		Card tempCardS = new Card(11, Card.cardColor.Green, Card.type.Normal);	
+		Card tempCard9 = new Card(12, Card.cardColor.Blue, Card.type.Normal);
 		Card tempCardW = new Card(0, Card.cardColor.Black, Card.type.Wild);
 		arbiter.hand.add(tempCard1);	arbiter.hand.add(tempCard2);
 		arbiter.hand.add(tempCard3);	arbiter.hand.add(tempCard4);
 		arbiter.hand.add(tempCard5);	arbiter.hand.add(tempCard6);
 		arbiter.hand.add(tempCard7);	arbiter.hand.add(tempCard8);
 		arbiter.hand.add(tempCardS);	arbiter.hand.add(tempCardW);
-		arbiter.setPhaseNumber(2);
+		arbiter.hand.add(tempCard9);
+		arbiter.hand.orderHand();
+		arbiter.setPhaseNumber(3);
 		arbiter.getPhaseInfo();
-		arbiter.checkPhase();
-		assertTrue(arbiter.getPhasedOut());
+		System.out.println(arbiter.numSets);
+		System.out.println(arbiter.setSize);
+		System.out.println(arbiter.runSize);
+		
+		assertTrue(arbiter.checkPhase());
 	}
 		
 	@Test
 	public void testCheckPhaseNormalSets(){
 		Card tempCard1 = new Card(1, Card.cardColor.Red, Card.type.Normal); 
 		Card tempCard2 = new Card(1, Card.cardColor.Blue, Card.type.Normal);
-		Card tempCard3 = new Card(9, Card.cardColor.Red, Card.type.Normal);	
+		Card tempCard3 = new Card(2, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard4 = new Card(2, Card.cardColor.Red, Card.type.Normal);
 		Card tempCard5 = new Card(2, Card.cardColor.Green, Card.type.Normal);	
-		Card tempCard6 = new Card(2, Card.cardColor.Red, Card.type.Normal);
+		Card tempCard6 = new Card(4, Card.cardColor.Red, Card.type.Normal);
 		Card tempCard7 = new Card(4, Card.cardColor.Red, Card.type.Normal);	
 		Card tempCard8 = new Card(6, Card.cardColor.Red, Card.type.Normal);
 		Card tempCardS = new Card(0, Card.cardColor.Black, Card.type.Skip);	
@@ -251,9 +256,7 @@ public class PlayerTest {
 		// check 2 normal sets
 		drHalsey.setPhaseNumber(1);
 		drHalsey.getPhaseInfo();
-		drHalsey.checkPhase();
-
-		assertTrue(drHalsey.getPhasedOut());
+		assertTrue(drHalsey.checkPhase());
 	}
 	
 	@Test
@@ -276,8 +279,7 @@ public class PlayerTest {
 		// check a run
 		guiltySpark.setPhaseNumber(4);
 		guiltySpark.getPhaseInfo();
-		guiltySpark.checkPhase();
-		assertTrue(guiltySpark.getPhasedOut());
+		assertTrue(guiltySpark.checkPhase());
 		
 	}
 	
@@ -964,6 +966,7 @@ public class PlayerTest {
 		cortona.setPhaseNumber(1);
 		cortona.getPhaseInfo();
 		cortona.checkPhase();
+		System.out.println(cortona.hand);
 		cortona.phaseOut();
 		System.out.println(cortona.hand);
 		assertSame(cortona.hand.size(),3);

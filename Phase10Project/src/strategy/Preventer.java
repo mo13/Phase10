@@ -25,6 +25,11 @@ public class Preventer extends Strategy {
 
 	public Card discard(){
 		for(int i = 0; i < player.hand.size(); i++){
+			if (player.hand.get(i).getType() == Card.type.Skip){
+				return player.hand.remove(i);
+			}
+		}
+		for(int i = 0; i < player.hand.size(); i++){
 			if(player.hand.get(i).getColor() != Card.cardColor.Red){
 				return player.hand.remove(i);		
 			} 

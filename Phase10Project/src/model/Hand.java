@@ -84,80 +84,52 @@ public class Hand  {
   
   
   public ArrayList<Integer> checkSet(int numSets, int setSize){
+	  ArrayList<Card> tempHand = new ArrayList<Card>();
+	  tempHand.addAll(cardsInHand);
 	  int setsToGo = numSets;
+	  int numWilds = 0;
 	  ArrayList<Integer> integerList = new ArrayList<Integer>();
-	  ArrayList<Integer> cardNumberList = new ArrayList<Integer>();
+	  ArrayList<Integer> cardNumList = new ArrayList<Integer>();
 	  ArrayList<Integer> possibleSetNumbers = new ArrayList<Integer>();
 	  // this will iterate through the original cards 
-	  for(int originalCardIndex = 0; originalCardIndex < cardsInHand.size(); originalCardIndex++){
-		  int tempNum = cardsInHand.get(originalCardIndex).getNumber();
-		  if (cardsInHand.get(originalCardIndex).getType() == Card.type.Normal){
-			  if(cardNumberList.isEmpty()){
-				  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
-				  integerList.add(1);
-			  } else {
-				  int currentIndexOf = cardNumberList.indexOf(cardsInHand.get(originalCardIndex).getNumber());
-				  if (currentIndexOf == -1){
-					  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
-					  integerList.add(1);
-				  } else {
-					  int previousNumber = integerList.get(currentIndexOf);
-					  integerList.set(currentIndexOf,(previousNumber +1));
-					  
-				  }
+	  for(int oci = 0; oci < tempHand.size(); oci++){
+		  int tempNum = tempHand.get(oci).getNumber();
+		  if(tempHand.get(oci).getType() == Card.type.Normal){		// if the card is normal
+			  if(cardNumList.indexOf(tempNum) == -1){	// if the card isn't in the list already.
+				  cardNumList.add(tempNum);
+				  integerList.add(cardNumList.size()-1, 1);
+			  } else{											// the card is in the list already.
+				  int tempIndex = cardNumList.indexOf(tempNum);
+				  int previousNumber = integerList.get(tempIndex);
+				  integerList.set(tempIndex, (previousNumber +1));
 			  }
-		  } else if (cardsInHand.get(originalCardIndex).getType() == Card.type.Wild){
-			  for(int integerListIndex = 0; integerListIndex < integerList.size(); integerListIndex++){
-				  if(setsToGo == 0){
-					  break;
-				  }
-				  if(integerList.get(integerListIndex) == setSize){
-					  setsToGo--;
-					  
-				  } else if (integerList.get(integerListIndex) == setSize -1){
-					  int previousNumber = integerList.get(integerListIndex);
-					  integerList.set(integerListIndex, previousNumber +1);
-					  cardNumberList.add(99);
-					  setsToGo--;
-					  
-				  } 
-			  }
-		  } else if(cardsInHand.get(originalCardIndex).getType() == Card.type.Skip){
-			  cardNumberList.add(cardsInHand.get(originalCardIndex).getNumber());
-			  integerList.add(999);
+		  } else if (tempHand.get(oci).getType() == Card.type.Wild){
+			  numWilds++;
+			  tempHand.remove(oci);
+			  oci--;
+		  } else if (tempHand.get(oci).getType() == Card.type.Skip){
+			  tempHand.remove(oci);
+			  oci--;
 		  }
-
-	  }
-	  // create the difference between the set size and the number of cards we have
-	  ArrayList<Integer> difference = new ArrayList<Integer>();
-	  for(int i =0; i < integerList.size(); i++){
-		  difference.add(setSize-integerList.get(i));
 	  }
 	  
-	  
-	  for(int i = 0; i < difference.size(); i++){
-		  int tempNum = numSets;
-		  if (tempNum != 0){
-			 if (difference.get(i) <= setSize-setSize & difference.get(i) > -900){
-				 possibleSetNumbers.add(cardNumberList.get(i));
-				 tempNum--;
-
-			  } else if (difference.get(i) == setSize-(setSize-1) && difference.indexOf(0) == -1){
-				 // possibleSetNumbers.add(cardNumberList.get(i));
-			 
-			  } else if (difference.get(i) == setSize-(setSize-2) && (difference.indexOf(0) == -1 && difference.indexOf(1) == -1)){
-				  possibleSetNumbers.add(cardNumberList.get(i));
-			  }	else if (difference.get(i) == setSize-(setSize-3) && ((difference.indexOf(0) == -1 && difference.indexOf(1) == -1) && difference.indexOf(2) == -1)){
-				  possibleSetNumbers.add(cardNumberList.get(i));
-			  }
-		   }
+	  for(int i = 0; i < integerList.size(); i++){
+		  if(setSize - integerList.get(i) ==1 & numWilds>0	){
+			  integerList.set(i, setSize);
+			  integerList.add(99);
+			  numWilds--;
+		  }
 	  }
-	  for(int i = 0; i < cardNumberList.size(); i++){
-		  if (cardNumberList.get(i) == 99) {
+	  
+	  for(int i = 0; i < integerList.size(); i++){
+		  if(integerList.get(i) - setSize >= 0 & integerList.get(i)- setSize <= 50){
+			  possibleSetNumbers.add(cardNumList.get(i));
+			  setsToGo--;
+		  }
+		  if(integerList.get(i)==99){
 			  possibleSetNumbers.add(99);
 		  }
 	  }
-	  
 		return possibleSetNumbers;
   }
   
@@ -166,39 +138,65 @@ public class Hand  {
   }
   
  
-  public ArrayList<Integer> checkRun(ArrayList<Integer> setNumbers, int runSize){
-	  Hand tempHand = new Hand();
-	  for(int i = 0; i < cardsInHand.size(); i++){
-		  if (cardsInHand.get(i).getType() == Card.type.Wild ){
-			  if (!setNumbers.contains(99)){
-				  tempHand.add(cardsInHand.get(i));
+  public ArrayList<Integer> checkRun(ArrayList<Integer> setNumbers, int setSize, int runSize){
+	  ArrayList<Card> tempHand = new ArrayList<Card>();
+	  tempHand.addAll(cardsInHand);
+	  int setCardsRemoved = 0;
+//	  System.out.println("The number of sets " + setNumbers);
+//	  System.out.println("The size of the sets "+ setSize);
+//	  System.out.println("The size of the run is "+ runSize);
+//	  System.out.println(tempHand);
+	  
+	  // remove the cards that are being used for the sets. 
+	  for(int i = 0; i < setNumbers.size(); i++){
+		  for(int c = 0; c< tempHand.size(); c++){
+			  if (tempHand.get(c).getNumber() == setNumbers.get(i)){
+				  if(setCardsRemoved == setSize){
+					  break;
+				  }else{
+					  tempHand.remove(c);
+					  c--;
+					  setCardsRemoved++;
+				  }
+			  } else if (tempHand.get(c).getType() == Card.type.Wild & setNumbers.get(i)==99){
+				  tempHand.remove(c);
+				  c--;
 			  }
-		  } else if (cardsInHand.get(i).getType() == Card.type.Normal){
-			  if(cardsInHand.get(i).getNumber() != setNumbers.get(0)){
-			  
-				  tempHand.add(cardsInHand.get(i));
-			  }
-		  } else if (cardsInHand.get(i).getType() == Card.type.Skip){
-			  tempHand.add(cardsInHand.get(i));
 		  }
 	  }
+//	  System.out.println("after getting rid of "+ setNumbers + " here is the hand \n"+ tempHand);
+	  // remove the wilds and skips keeping count of the wilds that are left in the hand.
+	  int wildCount = 0;
+	  for(int i = 0; i < tempHand.size(); i ++){
+		  if (tempHand.get(i).getType() == Card.type.Wild){
+			  wildCount++;
+			  tempHand.remove(i);
+			  i--;
+		  } else if(tempHand.get(i).getType() == Card.type.Skip){
+			  tempHand.remove(i);
+			  i--;
+		  }
+	  }
+//	  System.out.println("The wild count is " + wildCount);
+//	  System.out.println("after getting rid of wilds and skips here is the hand \n"+ tempHand);
 
 	  int previousNumber = 0;
 	  int tempRunSize = runSize;
-	  int wildCount = 0;
-	  for(int i = 0; i < tempHand.size(); i++){
-		  if( tempHand.get(i).getType() == Card.type.Wild){
-			  wildCount++;
-		  }
-	  }
+
+
 	  ArrayList<Integer> possibleRun = new ArrayList<Integer>();
+//	  System.out.println("######################## inside the check run ");
 	  for(int runIndex = 0; runIndex < tempHand.size(); runIndex++){
-		  if(tempRunSize != 0){
-				  if (runIndex == 0){
-				  previousNumber = tempHand.get(runIndex).getNumber();
-				  possibleRun.add(previousNumber);
-				  tempRunSize--;
-			  } else{
+//		  System.out.println("The card number is" +tempHand.get(runIndex).getNumber());
+//		  System.out.println("The previous number is " + previousNumber);
+		  if(possibleRun.size() == runSize){
+			  return possibleRun;
+		  } else if(tempRunSize != 0){
+			  if (runIndex == 0){
+			  previousNumber = tempHand.get(runIndex).getNumber();
+			  possibleRun.add(previousNumber);
+			  tempRunSize--;
+			  }  else{
 				  if(tempHand.get(runIndex).getNumber() == previousNumber+1){
 					  previousNumber = tempHand.get(runIndex).getNumber();
 					  possibleRun.add(previousNumber);
@@ -219,12 +217,19 @@ public class Hand  {
 				  else {
 					  previousNumber = tempHand.get(runIndex).getNumber();
 					  possibleRun = new ArrayList<Integer>();
+					  possibleRun.add(previousNumber);
 					  tempRunSize = runSize;
 					  }
 			  }
-		  }
+		  } else if (tempRunSize ==0){
+			  break;
+		  } 
+//		  System.out.println("the possibe run is "+ possibleRun);
 	  }
+//	  System.out.println("At the end the possible run is  "+possibleRun);
 	  return possibleRun;
+	  
+	  
   }
   
   public ArrayList<Integer> checkRun (int runSize){

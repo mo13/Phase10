@@ -15,7 +15,12 @@ public class Player {
   public  Hand hand;
   private int phaseNumber;
   private int score;
-  private boolean phasedOut;
+  private boolean canPhaseOut;
+
+public boolean displayPhasedOut;
+  
+
+private boolean phasedOut;
 
   
 
@@ -29,8 +34,30 @@ public class Player {
   
   // the phase info
   
+  public void emptyPhasedOutSets(){
+	 phasedOutSecondSet = new ArrayList<Card>();
+	 phasedOutRun = new ArrayList<Card>();
+	 phasedOutColoredSet = new ArrayList<Card>();
+	 phasedOutSet = new ArrayList<Card>();
+  }
+  
  
-
+  public String phasedOutStuffToString(){
+	  String str = "";
+	  if(!phasedOutSet.isEmpty()){
+		  str+= "First set is \n" + phasedOutSet.get(0).getNumber() +"\n";
+	  } 
+	  if(!phasedOutSecondSet.isEmpty()){
+		  str+= " The second set is  \n" + phasedOutSecondSet.get(0).getNumber() +"\n";
+	  }
+	  if (!phasedOutRun.isEmpty()){
+		  str+= " 1st num is "+ phasedOutRun.get(0) +" the num is "+ phasedOutRun.get(phasedOutRun.size()-1) +"\n";
+	  }
+	  if (!phasedOutColoredSet.isEmpty()){
+		  str+= " The phased out color is "+ phasedOutColoredSet.get(0).getColor() +"\n";
+	  }
+		return str;
+  }
 public int numSets;
   public int colorSets;
   public int setSize;
@@ -60,13 +87,24 @@ public int numSets;
 	  this.hand = new Hand();
 	  this.phasedOut = false;
   }
-  
+  	
+  public void setCanPhaseOut(boolean canPhaseOut) {
+	this.canPhaseOut = canPhaseOut;
+  }
+
+	public void setDisplayPhasedOut(boolean displayPhasedOut) {
+		this.displayPhasedOut = displayPhasedOut;
+	}
   	public Strategy.strategyType getStrategy() {
   		return currentStrategy;
   	}
 	public void setStrategy(strategyType strategy) {
 		currentStrategy = strategy;
 		
+	}
+	
+	public boolean isCanPhaseOut() {
+		return canPhaseOut;
 	}
 	
 	public String getHandSize(){
@@ -120,14 +158,15 @@ public int numSets;
 //	setSize;
 //	secondSetSize; 
 //	runSize;
-	public void checkPhase(){
+	public Boolean checkPhase(){
+		hand.orderHand();
 		// check a color set
 		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7){
 			hand.orderHand();			
 			ArrayList<Integer> tempColor = hand.checkColor();			
 			for(Integer i: tempColor){
 				if (i >= setSize){
-					this.phasedOut = true;
+					canPhaseOut = true;
 				}
 			}
 		}
@@ -163,54 +202,64 @@ public int numSets;
 				hand.add(c);
 			}
 			if(!tempSet1.isEmpty()& !tempSet2.isEmpty()){
-				phasedOut = true;
+				canPhaseOut = true;
 			} else {
-				phasedOut = false;
+				canPhaseOut = false;
 			}
 		}
 		// check a set and a run
 		else if (numSets == 1 & setSize != 0 &  runSize != 0){
 			ArrayList<Integer> possibleSets = hand.checkSet(1,setSize);			
 			hand.orderHand();
-			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets, runSize);
-			if(!possibleSets.isEmpty() & !possibleRun.isEmpty()){
-				phasedOut =  true;
+//			System.out.println(possibleSets);
+			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets,setSize, runSize);
+//			System.out.println(possibleRun);
+			if(!possibleSets.isEmpty() & possibleRun.size() == runSize){
+				canPhaseOut =  true;
+				
 			}else{
-				phasedOut =  false;
+				canPhaseOut =  false;
 			}
 			
 		}
 		// check 2 normal sets
 		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0){
-			
+			hand.orderHand();
 			ArrayList<Integer> possibleSets = hand.checkSet(numSets, setSize);
+			hand.orderHand();
 			int counter = 0;
 			for(int i = 0; i < possibleSets.size(); i++){
 				if (possibleSets.get(i) != 99){
 					counter++;
 				}
 			}
+			System.out.println(possibleSets);
 			if (counter >=numSets){
-				
-				phasedOut =  true;
+				canPhaseOut =  true;
+			} else {
+				canPhaseOut = false;
 			}
 		}
 		// check a run
 		else if (numSets == 0 & setSize == 0 & runSize != 0) {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(runSize);
-			if (!possibleRun.isEmpty()){
-				phasedOut =  true;
+//			System.out.println(possibleRun);
+			if (possibleRun.size()== runSize){
+				canPhaseOut =  true;
+
 			} else{
-				phasedOut =  false;
+				canPhaseOut =  false;
 			}
 		} else {
-			phasedOut =  false;
-		}	
+			canPhaseOut =  false;
+		} 
+//		System.out.println(canPhaseOut);
+		return canPhaseOut;
 	}
 	
 	public void phaseOut(){
-		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7 & phasedOut){
+		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7 & canPhaseOut){
 			hand.orderHand();			
 			ArrayList<Integer> tempColor =  hand.checkColor();	
 			
@@ -254,11 +303,11 @@ public int numSets;
 				}
 				i++;
 			}
-			
+			phasedOut = true;
 			phasedOutColoredSet = done;
 		}
 		// check 2 sets with different sizes
-		else if (numSets == 2 & setSize != 0 & secondSetSize != 0 & runSize == 0 & phasedOut){
+		else if (numSets == 2 & setSize != 0 & secondSetSize != 0 & runSize == 0 & canPhaseOut){
 			hand.orderHand();
 			ArrayList<Integer> tempSet1 = hand.checkSet(1, setSize);
 			
@@ -299,14 +348,14 @@ public int numSets;
 					}
 				}
 			}
-			this.phasedOut = true;
+			phasedOut = true;
 			
 		}
 		// check a set and a run
-		else if (numSets == 1 & setSize != 0 &  runSize != 0 & phasedOut){
+		else if (numSets == 1 & setSize != 0 &  runSize != 0 & canPhaseOut){
 			ArrayList<Integer> possibleSets = hand.checkSet(1,setSize);			
 			hand.orderHand();
-			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets, runSize);
+			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets,setSize, runSize);
 			
 			for(int i = 0; i < possibleSets.size(); i++){
 				for(int j = 0; j < hand.size(); j++){
@@ -363,11 +412,12 @@ public int numSets;
 					}
 					l++;
 				}
+				phasedOut = true;
 		}
 			
 		
 		// check 2 normal sets
-		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0 & phasedOut){
+		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0 & canPhaseOut){
 			ArrayList<Integer> possibleSets = hand.checkSet(numSets, setSize);
 			int counter = 0;
 			for(int j = 0; j < hand.size(); j++){
@@ -424,12 +474,13 @@ public int numSets;
 				}
 				k++;
 			}
+			phasedOut = true;
 		}
 		// check a run
-		else if (numSets == 0 & setSize == 0 & runSize != 0 & phasedOut) {
+		else if (numSets == 0 & setSize == 0 & runSize != 0 & canPhaseOut) {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(runSize);
-			System.out.println("possible run "+possibleRun);
+//			System.out.println("possible run "+possibleRun);
 			ArrayList<Card> done = new ArrayList<Card>();
 			for(int k = 0; k < possibleRun.size(); k++){
 				for(int j = 0; j < hand.size(); j++){
@@ -445,7 +496,7 @@ public int numSets;
 					}
 				}
 			}
-			System.out.println(done);
+//			System.out.println(done);
 			int l = 0;
 			while (l < done.size()){
 				for(int j = 0; j< hand.size(); j++){
@@ -461,7 +512,7 @@ public int numSets;
 				}
 				l++;
 			}
-			
+			phasedOut = true;
 			phasedOutRun= done;
 		} 	
 		  
@@ -471,23 +522,23 @@ public int numSets;
 		if(phasedOut){
 			for(Player p: players){
 				if(p.phasedOut){
-					System.out.println("I phased out.");
+//					System.out.println("I phased out.");
 					if(!p.getPhasedOutColoredSet().isEmpty()){
-						System.out.println("In a colored set.");
+//						System.out.println("In a colored set.");
 						Card.cardColor daColor = p.getPhasedOutColoredSet().get(0).getColor();
 						for(int j = 0; j < 6; j++){
-						for(int i = 0; i < hand.size(); i ++){
-							if(hand.get(i).getColor()== daColor){
-								hand.remove(i);
-								i--;
-							} else if(hand.get(i).getType() == Card.type.Wild){
-								hand.remove(i);
+							for(int i = 0; i < hand.size(); i ++){
+								if(hand.get(i).getColor()== daColor){
+									hand.remove(i);
+									i--;
+								} else if(hand.get(i).getType() == Card.type.Wild){
+									hand.remove(i);
+								}
 							}
-						}
 						}
 					} 
 					if(!p.getPhasedOutRun().isEmpty()){
-						System.out.println("In a run set");
+//						System.out.println("In a run set");
 						int lowerNumber;
 						int higherNumber;
 						if(p.getPhasedOutRun().get(0).getNumber() != 1){
@@ -506,7 +557,7 @@ public int numSets;
 						} else { // the last card is 12
 							higherNumber = -99;
 						}
-						System.out.println(lowerNumber + " fjdkafj;aslfd " + higherNumber);
+//						System.out.println(lowerNumber + " fjdkafj;aslfd " + higherNumber);
 						for(int j = 0; j < 6; j++){
 						for(int i=0; i<hand.size();i++){
 							
@@ -532,7 +583,7 @@ public int numSets;
 						}
 					} 
 					if(!p.getPhasedOutSet().isEmpty()){
-						System.out.println("In the first set.");
+//						System.out.println("In the first set.");
 						int daNumba = p.getPhasedOutSet().get(0).getNumber();
 						for(int j = 0; j < 6; j++){
 						for(int i =0; i < hand.size(); i++){
@@ -546,7 +597,7 @@ public int numSets;
 						}
 					} 
 					if(!p.getPhasedOutSecondSet().isEmpty()){
-						System.out.println("In the second set.");
+//						System.out.println("In the second set.");
 						int daNumba = p.getPhasedOutSecondSet().get(0).getNumber();
 						for(int j = 0; j < 6; j++){
 						for(int i =0; i < hand.size(); i++){

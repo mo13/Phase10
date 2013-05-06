@@ -1,5 +1,9 @@
 package controller;
 
+
+
+import static org.junit.Assert.assertTrue;
+
 import java.awt.event.ActionEvent;
 import java.util.*;
 
@@ -21,6 +25,8 @@ public class Controller {
 	Player johnson = new Player("Sgt. Johnson");
 	Player arbiter = new Player("The Arbiter");
 	Player cortona = new Player("Cortona");
+	public boolean roundDone;
+	
 	
 	
 	public Controller(GameModel model, GameObserver view) {
@@ -31,6 +37,7 @@ public class Controller {
 	}
 	
 	public void dealCards() {
+		roundDone = false;
 		  if(playerList.isEmpty()){
 			  this.setPlayerOrder();
 		  }
@@ -38,9 +45,12 @@ public class Controller {
 		  for(int i = 0; i < 10; i++){
 			  for(int player = 0; player < playerList.size(); player++){
 				  playerList.get(player).hand.draw(drawPile);
+				  playerList.get(player).displayPhasedOut = true;
 			  } 
 		  }
 		  topDiscard = drawPile.remove((int)(Math.random()* drawPile.size()-1));
+		  discardPile.add(topDiscard);
+		  
 	  }
 	  
 	public Card getTopDiscard(){
@@ -48,10 +58,12 @@ public class Controller {
 	  }
 		
 	public void setPlayerOrder(){
+		if(playerList.isEmpty()){
 		playerList.add(chief);
 		playerList.add(johnson);
 		playerList.add(arbiter);
 		playerList.add(cortona);
+		}
 	}
 	
 	public String showPlayerOrder(){
@@ -67,18 +79,27 @@ public class Controller {
 
 	public void drawCard(Integer i){
 		  if(drawPile.isEmpty()){
-			  System.out.println(topDiscard	);
 			  drawPile = discardPile;
 		  }else{
-			  if(playerList.get(i).draw(drawPile, topDiscard)){  
-				  topDiscard = discardPile.remove(discardPile.size()-1);  
+			  if(playerList.get(i).draw(drawPile, topDiscard)){  // the player drew a card from the discard pile
+				  System.out.println("the player took from the discard pile");
+				  discardPile.remove(discardPile.indexOf(topDiscard));
+				 try{
+					 topDiscard = discardPile.get(discardPile.size()-1);
+				 } catch (ArrayIndexOutOfBoundsException e){
+					 topDiscard = null;
+					 System.out.println("the player took the topdiscard the new discard is is now empty.");
+				 }	
+				  
 			  }
 		  }
+		  playerList.get(i).hand.orderHand();
 	  }
 /*
  * score Round is not done yet.
  */
-  public void scoreRound(ArrayList<Player> playerList) {
+  public void scoreRound() {
+	  if(roundDone){
 	  int tempScore  = 0;
 	  Player currPlayer;
 	  for(int player = 0; player < playerList.size(); player++){
@@ -108,51 +129,109 @@ public class Controller {
 				}
 		  int originalScore =  currPlayer.getScore();
 		  playerList.get(player).setScore(originalScore + tempScore);
+		  tempScore = 0;
 		  }
 	  }
-     
-  public void showOrder(){
-//	  setPlayerOrder();
   }
+  
+  public String displayScore(){
+	  String str = "";
+	  for(Player p: playerList){
+		  str+= p.getName() + " score is " + p.getScore() + " and is now on phase " + p.getPhaseNumber() + "\n";
+	  }
+	  return str;
+  }
+     
+  public void setStrategy(Integer i, Strategy.strategyType strategy){
+	  playerList.get(i).setStrategy(strategy);
+  }
+  public void discard(Integer i ){
+	 topDiscard = playerList.get(i).discard(); 
+	 discardPile.add(topDiscard);
+	 playerList.get(i).hand.orderHand();
+  }
+  
     
   public void checkRound() {
 	  
   }
 
-  public void doTurn() {
+  public void doTurn(Integer i) {
+	  playerList.get(i).hand.orderHand();
+	  playerList.get(i).getPhaseInfo();
+	  drawCard(i);
+	  System.out.println("Drew a card");
+	  if(!playerList.get(i).getPhasedOut()){
+		  phaseOut(i);
+	  }
+	  hit(i);
+	  discard(i);
+	  if(playerList.get(i).hand.size()== 0){
+			roundDone = true;
+		}
 	  
   }
   
-  public void displayScore(){
+  public void DoAWholeRound(){
+	  int i = 0;
+	  boolean roundIsDone = false;
+	  while(i < 5){
+		  for(int j =0; j< playerList.size(); j++){
+			 doTurn(j); 
+			 if(roundDone){
+				 roundIsDone = true;
+				 break;
+			 }
+		  }
+		  if(roundIsDone){
+			  i =5;
+			  break;
+		  }
+		  i++;
+	  }
 	  
+  }
+  
+  public void resetPlayer(){
+	  for(Player p: playerList){
+		  p.emptyPhasedOutSets();
+		  p.setPhasedOut(false);
+		  p.setCanPhaseOut(false);
+		  p.setDisplayPhasedOut(false);
+	  }
+  }
+  
+  public void emptyHands(){
+	  for(Player p : playerList){
+		  for(int i = 0; i<p.hand.size(); i++){
+			  p.hand.remove(i);
+			  i--;
+		  }
+		  
+	  }
+  }
+  
+  public void hit(Integer i){
+	  playerList.get(i).hit(playerList);
   }
 
-  public void exitRound(){
-	  
-  }
   
-
-  public void checkHit(){
-	  
-  }
-  
-  public void finishTurn(){
-	  
-  }
-  
-  public void hit(){
-	  
-  }
-
-  public void discard(){
-	  
-  }
-
-  public void setStrategy(Integer i, Strategy.strategyType strategy){
-	  playerList.get(i).setStrategy(strategy);
-  }
-  
- public void phaseOut(){
+ public Boolean phaseOut(Integer i){
+	playerList.get(i).hand.orderHand();
+	playerList.get(i).getPhaseInfo();
+	
+	if(playerList.get(i).checkPhase() & !playerList.get(i).getPhasedOut()){
+		System.out.println("The player can phase out");
+		playerList.get(i).phaseOut();
+		int previousPhase = playerList.get(i).getPhaseNumber();
+		playerList.get(i).setPhaseNumber(previousPhase + 1);
+		
+		return true;
+	} else{
+		System.out.println("The player can't phase out yet");
+		return false;
+	}
+	
 	  
   }
 

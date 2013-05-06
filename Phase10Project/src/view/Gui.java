@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 
+import strategy.Strategy.strategyType;
+
 import controller.Controller;
 
 import model.*;
@@ -37,14 +39,19 @@ public class Gui implements ActionListener, GameObserver {
 	private JPanel contentPane, leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 	private JLabel img, chiefImg, johnsonImg, cortonaImg, arbiterImg, tempLabel;
 	private JMenuBar menuBar;
-	private JMenuItem startRound, showOrder, resetDrawPile,
+	private JMenuItem startRound, showOrder, resetDrawPile, doAWholeRound, emptyHands, resetPlayer,
 					  player1LowestScoreStrategy, player1PreventerStrategy, player1RandomStrategy, player1RecklessStrategy,
 					  player2LowestScoreStrategy, player2PreventerStrategy, player2RandomStrategy, player2RecklessStrategy,
 					  player3LowestScoreStrategy, player3PreventerStrategy, player3RandomStrategy, player3RecklessStrategy,
 					  player4LowestScoreStrategy, player4PreventerStrategy, player4RandomStrategy, player4RecklessStrategy,
+					  autoSetStrategies,
+					  draw, player1Draw, player2Draw, player3Draw, player4Draw, 
+					  discard, player1Discard, player2Discard, player3Discard, player4Discard,
+					  phaseOut, player1PhaseOut, player2PhaseOut,player3PhaseOut, player4PhaseOut,
+					  doTurn, player1DoTurn, player2DoTurn, player3DoTurn,player4DoTurn,
+					  hit, player1Hit, player2Hit, player3Hit, player4Hit,
 					  setPlayerStrategy, player1, player2, player3, player4,
-					  scorePlayers, phaseTracker, displayScore,  
-					  draw, playPhase, hit,  checkHit, discard, finishTurn;
+					  scorePlayers, phaseTracker, displayScore;
 	private JMenu menu, round, playerOptions, scoring;
 	public JMenuItem exitRound;
 
@@ -130,14 +137,22 @@ public class Gui implements ActionListener, GameObserver {
 		showOrder.addActionListener(this);
 		round.add(showOrder);
 		
+		doAWholeRound = new JMenuItem("Do 5 turns");
+		doAWholeRound.addActionListener(this);
+		round.add(doAWholeRound);
+		
+		emptyHands = new JMenuItem("Empty hands.");
+		emptyHands.addActionListener(this);
+		round.add(emptyHands);
+		
+		resetPlayer = new JMenuItem("Reset players");
+		resetPlayer.addActionListener(this);
+		round.add(resetPlayer);
+		
 		startRound = new JMenuItem("Start Round");
 		startRound.addActionListener(this);
 		round.add(startRound);
-		
-		resetDrawPile = new JMenuItem("Reset Draw Pile");
-		resetDrawPile.addActionListener(unimplementedMenu_Click("This will reset the draw pile. "));
-		round.add(resetDrawPile);
-		
+			
 		exitRound= new JMenuItem("Exit Round");
 		exitRound.addActionListener(unimplementedMenu_Click("This will exit the round."));
 		round.add(exitRound);
@@ -147,46 +162,105 @@ public class Gui implements ActionListener, GameObserver {
 		menuBar.add(scoring);
 		
 		scorePlayers = new JMenuItem("Score Players");
-		scorePlayers.addActionListener(unimplementedMenu_Click("This will score the players at the end of the round. "));
+		scorePlayers.addActionListener(this);
 		scoring.add(scorePlayers);
 		
 		displayScore = new JMenuItem("Display Score");
-		displayScore.addActionListener(unimplementedMenu_Click("This will display each players score.  "));
+		displayScore.addActionListener(this);
 		scoring.add(displayScore);
 		
-		phaseTracker = new JMenuItem("Display Phases");
-		phaseTracker.addActionListener(unimplementedMenu_Click("This will display each players phase they are on."));
-		scoring.add(phaseTracker);
+
 		
 	//Player Options Menu
 		playerOptions = new JMenu("Player Options");
 		menuBar.add(playerOptions);
 		
-		draw = new JMenuItem("Draw");
+		draw = new JMenu("Draw");
 		draw.addActionListener(unimplementedMenu_Click("This will make the player draw a card."));
+		player1Draw = new JMenuItem("Master Chief Draw");
+		player1Draw.addActionListener(this);
+		player2Draw = new JMenuItem("Sgt.Johnson Draw");
+		player2Draw.addActionListener(this);
+		player3Draw = new JMenuItem("Arbiter Draw");
+		player3Draw.addActionListener(this);
+		player4Draw = new JMenuItem("Cortona Draw");
+		player4Draw.addActionListener(this);
+		draw.add(player1Draw);
+		draw.add(player2Draw);
+		draw.add(player3Draw);
+		draw.add(player4Draw);
 		playerOptions.add(draw);
 		
-		hit = new JMenuItem("Hit");
+		
+		phaseOut = new JMenu("Phase Out");
+		phaseOut.addActionListener(unimplementedMenu_Click("This will make the player phase out when he has a phase completed."));
+		player1PhaseOut = new JMenuItem("Master Chief phase out");
+		player1PhaseOut.addActionListener(this);
+		player2PhaseOut = new JMenuItem("Sgt. Johnson phase out");
+		player2PhaseOut.addActionListener(this);
+		player3PhaseOut = new JMenuItem("Arbiter phase out");
+		player3PhaseOut.addActionListener(this);
+		player4PhaseOut = new JMenuItem("Cortona phase out");
+		player4PhaseOut.addActionListener(this);
+		phaseOut.add(player1PhaseOut);
+		phaseOut.add(player2PhaseOut);
+		phaseOut.add(player3PhaseOut);
+		phaseOut.add(player4PhaseOut);
+		playerOptions.add(phaseOut);
+
+		
+		hit = new JMenu("Hit");
 		hit.addActionListener(unimplementedMenu_Click("This will make the player hit a collection someone already played."));
+		player1Hit = new JMenuItem("Master Chief Hit");
+		player1Hit.addActionListener(this);
+		player2Hit = new JMenuItem("Sgt. Johnson Hit");
+		player2Hit.addActionListener(this);
+		player3Hit = new JMenuItem("Arbiter Hit");
+		player3Hit.addActionListener(this);
+		player4Hit = new JMenuItem("Cortona Hit");
+		player4Hit.addActionListener(this);
+		hit.add(player1Hit);
+		hit.add(player2Hit);
+		hit.add(player3Hit);
+		hit.add(player4Hit);
+		playerOptions.add(hit);
 		playerOptions.add(hit);
 
-		playPhase = new JMenuItem("Phase Out");
-		playPhase.addActionListener(unimplementedMenu_Click("This will make the player phase out when he has a phase completed."));
-		playerOptions.add(playPhase);
 		
-		checkHit = new JMenuItem("Check Hit");
-		checkHit.addActionListener(unimplementedMenu_Click("This will make the player check other players phases to see if he can hit them. "));
-		playerOptions.add(checkHit);
+		discard = new JMenu("Discard");
+ 		discard.addActionListener(unimplementedMenu_Click("This will make the player discard a card."));
+		player1Discard = new JMenuItem("Master Chief Discard");
+		player1Discard.addActionListener(this);
+		player2Discard = new JMenuItem("Sgt. Johnson Discard");
+		player2Discard.addActionListener(this);
+		player3Discard = new JMenuItem("Arbiter Discard");
+		player3Discard.addActionListener(this);
+		player4Discard = new JMenuItem("Cortona Discard");
+		player4Discard.addActionListener(this);
 		
-		discard = new JMenuItem("Discard");
-		discard.addActionListener(unimplementedMenu_Click("This will make the player discard a card."));
+		discard.add(player1Discard);
+		discard.add(player2Discard);
+		discard.add(player3Discard);
+		discard.add(player4Discard);
 		playerOptions.add(discard);
 		
-		finishTurn = new JMenuItem("Finish turn");
-		finishTurn.addActionListener(unimplementedMenu_Click("This will make the player end his turn."));
-		playerOptions.add(finishTurn);
+		doTurn = new JMenu("Do Turn");
+		doTurn.addActionListener(unimplementedMenu_Click("This will do a players turn"));
+		player1DoTurn = new JMenuItem("Master Chief Do Turn");
+		player1DoTurn.addActionListener(this);
+		player2DoTurn = new JMenuItem("Sgt. Johnson Do Turn");
+		player2DoTurn.addActionListener(this);
+		player3DoTurn = new JMenuItem("Arbiter Do Turn");
+		player3DoTurn.addActionListener(this);
+		player4DoTurn = new JMenuItem("Cortona Do Turn");
+		player4DoTurn.addActionListener(this);
 		
-		
+		doTurn.add(player1DoTurn);
+		doTurn.add(player2DoTurn);
+		doTurn.add(player3DoTurn);
+		doTurn.add(player4DoTurn);
+		playerOptions.add(doTurn);
+
 		/*
 		 * Create the players for the strategy menu
 		 */
@@ -201,14 +275,14 @@ public class Gui implements ActionListener, GameObserver {
 		player1PreventerStrategy.addActionListener(this);
 		player1LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
 		player1LowestScoreStrategy.addActionListener(this);
-		player1RecklessStrategy = new JMenuItem("Card Counter Strategy");
+		player1RecklessStrategy = new JMenuItem("Reckless Strategy");
 		player1RecklessStrategy.addActionListener(this);
 		player1.add(player1RandomStrategy);
 		player1.add(player1PreventerStrategy);
 		player1.add(player1LowestScoreStrategy);
 		player1.add(player1RecklessStrategy);
 		setPlayerStrategy.add(player1);
-		player2 = new JMenu("Cortona");
+		player2 = new JMenu("Johnson");
 		//player2.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player2RandomStrategy = new JMenuItem("Random Strategy");
 		player2RandomStrategy.addActionListener(this);
@@ -216,14 +290,14 @@ public class Gui implements ActionListener, GameObserver {
 		player2PreventerStrategy.addActionListener(this);
 		player2LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
 		player2LowestScoreStrategy.addActionListener(this);
-		player2RecklessStrategy = new JMenuItem("Card Counter Strategy");
+		player2RecklessStrategy = new JMenuItem("Reckless Strategy");
 		player2RecklessStrategy.addActionListener(this);
 		player2.add(player2RandomStrategy);
 		player2.add(player2PreventerStrategy);
 		player2.add(player2LowestScoreStrategy);
 		player2.add(player2RecklessStrategy);
 		setPlayerStrategy.add(player2);
-		player3 = new JMenu("Johnson");
+		player3 = new JMenu("Arbiter");
 	//	player3.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player3RandomStrategy = new JMenuItem("Random Strategy");
 		player3RandomStrategy.addActionListener(this);
@@ -231,14 +305,14 @@ public class Gui implements ActionListener, GameObserver {
 		player3PreventerStrategy.addActionListener(this);
 		player3LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
 		player3LowestScoreStrategy.addActionListener(this);
-		player3RecklessStrategy = new JMenuItem("Card Counter Strategy");
+		player3RecklessStrategy = new JMenuItem("Reckless Strategy");
 		player3RecklessStrategy.addActionListener(this);
 		player3.add(player3RandomStrategy);
 		player3.add(player3PreventerStrategy);
 		player3.add(player3LowestScoreStrategy);
 		player3.add(player3RecklessStrategy);
 		setPlayerStrategy.add(player3);
-		player4 = new JMenu("Arbiter");
+		player4 = new JMenu("Cortona");
 		//player4.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player4RandomStrategy = new JMenuItem("Random Strategy");
 		player4RandomStrategy.addActionListener(this);
@@ -246,13 +320,17 @@ public class Gui implements ActionListener, GameObserver {
 		player4PreventerStrategy.addActionListener(this);
 		player4LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
 		player4LowestScoreStrategy.addActionListener(this);
-		player4RecklessStrategy = new JMenuItem("Card Counter Strategy");
+		player4RecklessStrategy = new JMenuItem("Reckless Strategy");
 		player4RecklessStrategy.addActionListener(this);
 		player4.add(player4RandomStrategy);
 		player4.add(player4PreventerStrategy);
 		player4.add(player4LowestScoreStrategy);
 		player4.add(player4RecklessStrategy);
 		setPlayerStrategy.add(player4);
+		
+		autoSetStrategies = new JMenuItem("Auto set strategies");
+		autoSetStrategies.addActionListener(this);
+		setPlayerStrategy.add(autoSetStrategies);
 	
 		exitMenu = new JMenu("Exit game");
 		exitMenu.addActionListener(this);
@@ -266,22 +344,21 @@ public class Gui implements ActionListener, GameObserver {
 		
 
 	
-	public void updateHandSize(JPanel playerArea, JLabel handSize, JLabel img, JLabel phasedOut){
+	public void updatePlayerArea(JPanel playerArea, JLabel handSize, JLabel img, JLabel phasedOutCards,  JLabel phasedOut){
 		playerArea.removeAll();
-		if (playerArea == centerPanel){
-			playerArea.add(handSize, playerArea.CENTER_ALIGNMENT);
-		} else {
-			playerArea.add(handSize);
-		}
-	
-		
+		playerArea.add(handSize);
 		playerArea.add(img);
+		if(phasedOutCards != null){
+			playerArea.add(phasedOutCards);
+		}
+		playerArea.add(phasedOut);
 		playerArea.validate();
-//		else
-//			tempLabel = new JLabel("Not phased out yet.", JLabel.RIGHT);	
-//			playerArea.add(tempLabel, JLabel.RIGHT);
-//		
-//	}
+	}
+	public void updateCenterArea(JPanel centerPanel, JLabel drawPile, JLabel discardPile){
+		centerPanel.removeAll();
+		centerPanel.add(drawPile);
+		centerPanel.add(discardPile);
+		centerPanel.validate();
 	}
 	Deck drawPile;
 	Deck discardPile;
@@ -296,73 +373,524 @@ public class Gui implements ActionListener, GameObserver {
 			System.out.println(str);
 		} else if (event.getSource() == startRound){
 			controller.dealCards();
-			//System.out.println(controller.playerList.get(0).getHandSize())
 			
-			JLabel topHand = new JLabel(controller.playerList.get(0).getHandSize(), JLabel.LEFT);
-			JLabel rightHand = new JLabel(controller.playerList.get(0).getHandSize());
-			JLabel bottomHand = new JLabel(controller.playerList.get(0).getHandSize(), JLabel.LEFT);
-			JLabel leftHand = new JLabel(controller.playerList.get(0).getHandSize());
-			JLabel topPhase = new JLabel("Not phased out yet", JLabel.RIGHT	);
-			
-			JOptionPane.showMessageDialog(null, "Cards dealt");
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()));
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize(), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize());
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
 			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
-			drawPile.setSize(100, 100);
-			drawPile.setBackground(Color.WHITE);
 			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
 			JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
-			topDiscardPile.setSize(100, 100);
-			topDiscardPile.setBackground(Color.WHITE);
 			topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
-			updateHandSize(centerPanel, drawPile, topDiscardPile,null);
-			updateHandSize(topPanel, topHand , chiefImg, null);
-			updateHandSize(rightPanel, rightHand, johnsonImg, null);
-			updateHandSize(bottomPanel, bottomHand, arbiterImg, null);
-			updateHandSize(leftPanel, leftHand, cortonaImg, null);
 			
-//			player1.add(player1RandomStrategy);
-//			player1.add(player1PreventerStrategy);
-//			player1.add(player1LowestScoreStrategy);
-//			player1.add(player1RecklessStrategy);
+			
+			updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			updatePlayerArea(topPanel, topHand , chiefImg, null, topPhase);
+			updatePlayerArea(rightPanel, rightHand, johnsonImg, null, rightPhase);
+			updatePlayerArea(bottomPanel, bottomHand, arbiterImg, null, bottomPhase);
+			updatePlayerArea(leftPanel, leftHand, cortonaImg, null, leftPhase); 
+	/*
+	 * Set Player strategies
+	 */
 		} else if (event.getSource() == player1RandomStrategy ){
-			System.out.println("Random Strategy");
+			controller.setStrategy(0, strategyType.randomPlayer);
 		} else if (event.getSource() ==  player2RandomStrategy ){
-			System.out.println("Random Strategy");
+			controller.setStrategy(1, strategyType.randomPlayer);
 		} else if (event.getSource() == player3RandomStrategy){
-			System.out.println("Random Strategy");
+			controller.setStrategy(2, strategyType.randomPlayer);
 		}else if (event.getSource() == player4RandomStrategy){
-			System.out.println("Random Strategy");
+			controller.setStrategy(3, strategyType.randomPlayer);
 		}else if (event.getSource() == player1PreventerStrategy){
-			System.out.println("Preventer strategy");
+			controller.setStrategy(0, strategyType.preventer);
 		} else if (event.getSource() == player2PreventerStrategy){
-			System.out.println("Preventer strategy");
+			controller.setStrategy(1, strategyType.preventer);
 		} else if (event.getSource() == player3PreventerStrategy){
-			System.out.println("Preventer strategy");
+			controller.setStrategy(2, strategyType.preventer);
 		} else if (event.getSource() == player4PreventerStrategy){
-			System.out.println("Preventer strategy");
+			controller.setStrategy(3, strategyType.preventer);
 		} else if (event.getSource() == player1LowestScoreStrategy){
-			System.out.println("Lowest Score Strategy");
+			controller.setStrategy(0, strategyType.lowestScore);
 		} else if (event.getSource() == player2LowestScoreStrategy){
-			System.out.println("Lowest Score Strategy");
+			controller.setStrategy(1, strategyType.lowestScore);
 		} else if (event.getSource() == player3LowestScoreStrategy){
-			System.out.println("Lowest Score Strategy");
+			controller.setStrategy(2, strategyType.lowestScore);
 		} else if (event.getSource() == player4LowestScoreStrategy){
-			System.out.println("Lowest Score Strategy");
+			controller.setStrategy(3, strategyType.lowestScore);
 		} else if (event.getSource() == player1RecklessStrategy){
-			System.out.println("Reckless Strategy");
-		} else if (event.getSource() == player1RecklessStrategy){
-			System.out.println("Reckless Strategy");
+			controller.setStrategy(0, strategyType.recklessPlayer);
 		} else if (event.getSource() == player2RecklessStrategy){
-			System.out.println("Reckless Strategy");
+			controller.setStrategy(1, strategyType.recklessPlayer);
 		} else if (event.getSource() == player3RecklessStrategy){
-			System.out.println("Reckless Strategy");
+			controller.setStrategy(2, strategyType.recklessPlayer);
 		} else if (event.getSource() == player4RecklessStrategy){
-			System.out.println("Reckless Strategy");
+			controller.setStrategy(3, strategyType.recklessPlayer);
+		}else if (event.getSource() == autoSetStrategies){
+			controller.setStrategy(0,strategyType.randomPlayer);
+			controller.setStrategy(1, strategyType.recklessPlayer);
+			controller.setStrategy(2, strategyType.preventer);
+			controller.setStrategy(3, strategyType.lowestScore);
+		} 
+		/*
+		 * Draw card options
+		 */
+		
+		else if(event.getSource() == player1Draw){
+			System.out.println("Player1 draw");
+			controller.drawCard(0);
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+		} else if(event.getSource() == player2Draw){
+			System.out.println("Player2 draw");
+			controller.drawCard(1);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()));
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, null, rightPhase);
+		} else if(event.getSource() == player3Draw){
+			System.out.println("Player3 draw");
+			controller.drawCard(2);
+			JLabel bottomHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize(), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, null, bottomPhase);
+
+			
+		} else if(event.getSource() == player4Draw){
+			System.out.println("Player4 draw");
+			controller.drawCard(3);
+			JLabel leftHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize());
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, null, leftPhase);
 		}
+		/*
+		 * Discard options
+		 */
+		
+		else if (event.getSource() == player1Discard){
+			System.out.println("Player 1 Discard");
+			controller.discard(0);
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+		} else if (event.getSource() == player2Discard){
+			System.out.println("Player 2 Discard");
+			controller.discard(1);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+		} else if (event.getSource() == player3Discard){
+			System.out.println("Player 3 Discard");
+			controller.discard(2);
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+		} else if (event.getSource() == player4Discard){
+			System.out.println("Player 4 Discard");
+			controller.discard(3);
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+		} 
+		
+		/*
+		 * Phase out options
+		 */
+		else if (event.getSource() == player1PhaseOut){
+				controller.phaseOut(0);
+				JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+				JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+				JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+//				JOptionPane.showMessageDialog(null, "Chief phased out "+ controller.playerList.get(0).phasedOutStuffToString());
+				updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+		} else if (event.getSource() == player2PhaseOut){
+			controller.phaseOut(1);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+//			JOptionPane.showMessageDialog(null, "Johnson phased out");
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+		} else if (event.getSource() == player3PhaseOut){
+			System.out.println("Arbiter phase out");
+			controller.phaseOut(2);
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+//			JOptionPane.showMessageDialog(null, "Arbiter phased out");
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+		
+		} else if (event.getSource() == player4PhaseOut){
+			System.out.println("Corotona phase out");
+			controller.phaseOut(3);
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+//			JOptionPane.showMessageDialog(null, "Cortona phased out");
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+		} 
+		
+		/*
+		 * Do turn options
+		 */
+		
+		else if (event.getSource() == player1DoTurn){
+			controller.doTurn(0);
+			System.out.println(controller.playerList.get(0).hand);
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			if(controller.playerList.get(0).getPhasedOut() & controller.playerList.get(0).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "Chief phased out "+ controller.playerList.get(0).phasedOutStuffToString());
+				controller.playerList.get(2).displayPhasedOut = false;
+			}
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+			if(controller.roundDone){
+				JOptionPane.showMessageDialog(null, "Chief emptied his hand the round is over");
+				controller.scoreRound();
+			}
+		} else if (event.getSource() == player2DoTurn){
+			controller.doTurn(1);
+			System.out.println(controller.playerList.get(1).hand);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			if(controller.playerList.get(1).getPhasedOut()& controller.playerList.get(1).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "Josnson phased out "+ controller.playerList.get(1).phasedOutStuffToString());
+				controller.playerList.get(1).displayPhasedOut = false;
+			}
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+			if(controller.roundDone){
+				JOptionPane.showMessageDialog(null, "Sgt. Johnson emptied his hand the round is over");
+				controller.scoreRound();
+			}
+		} else if (event.getSource() == player3DoTurn){
+			controller.doTurn(2);
+			System.out.println(controller.playerList.get(2).hand);
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			if(controller.playerList.get(2).getPhasedOut() & controller.playerList.get(2).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "arbiter phased out "+ controller.playerList.get(2).phasedOutStuffToString());
+				controller.playerList.get(2).displayPhasedOut = false;
+			}
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+			if(controller.roundDone){
+				JOptionPane.showMessageDialog(null, "The Arbiter emptied his hand the round is over");
+				controller.scoreRound();
+			}
+		} else if (event.getSource() == player4DoTurn){
+			controller.doTurn(3);
+			System.out.println(controller.playerList.get(3).hand);
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			if(controller.playerList.get(3).getPhasedOut()& controller.playerList.get(3).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "cortona phased out "+ controller.playerList.get(3).phasedOutStuffToString());
+				controller.playerList.get(3).displayPhasedOut = false;
+			}
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+			if(controller.roundDone){
+				JOptionPane.showMessageDialog(null, "Cortona emptied her hand the round is over");
+				controller.scoreRound();
+			}
+		} 
+		
+		/*
+		 * Hit options
+		 */
+		
+		else if (event.getSource() == player1Hit){
+			controller.hit(0);
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+		} else if (event.getSource() == player2Hit){
+			controller.hit(1);
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()));
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+		} else if (event.getSource() == player3Hit){
+			controller.hit(2);
+			JLabel bottomHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize(), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+		} else if (event.getSource() == player4Hit){
+			controller.hit(3);
+			JLabel leftHand = new JLabel("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize());
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+		} else if (event.getSource() == scorePlayers	){
+			controller.scoreRound();
+		} else if (event.getSource() == displayScore){
+			JOptionPane.showMessageDialog(null, controller.displayScore());
+		} else if (event.getSource() == doAWholeRound){
+			controller.DoAWholeRound();
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
+			if(controller.getTopDiscard() == null){
+				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}else{
+				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
+				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				updateCenterArea(centerPanel, drawPile, topDiscardPile);
+			}
+			if(controller.playerList.get(0).getPhasedOut() & controller.playerList.get(0).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "Chief phased out "+ controller.playerList.get(0).phasedOutStuffToString());
+				controller.playerList.get(2).displayPhasedOut = false;
+			}
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+			if(controller.playerList.get(1).getPhasedOut()& controller.playerList.get(1).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "Josnson phased out "+ controller.playerList.get(1).phasedOutStuffToString());
+				controller.playerList.get(1).displayPhasedOut = false;
+			}
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+			if(controller.playerList.get(2).getPhasedOut() & controller.playerList.get(2).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "arbiter phased out "+ controller.playerList.get(2).phasedOutStuffToString());
+				controller.playerList.get(2).displayPhasedOut = false;
+			}
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+			if(controller.playerList.get(3).getPhasedOut()& controller.playerList.get(3).displayPhasedOut){
+				JOptionPane.showMessageDialog(null, "cortona phased out "+ controller.playerList.get(3).phasedOutStuffToString());
+				controller.playerList.get(3).displayPhasedOut = false;
+			}
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+			if(controller.roundDone){
+				JOptionPane.showMessageDialog(null, "Someone emptied their hand the round is over");
+				controller.scoreRound();
+			}
+			
+		} else if (event.getSource() == emptyHands){
+			controller.emptyHands();
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+		} else if (event.getSource() == resetPlayer){
+			controller.resetPlayer();
+		}
+
+		
+		
 		else if (event.getSource() == exitMenu){
 			frame.setVisible(false);
 			frame.dispose();
 			System.exit(0);
-		}
+		} 
 		
 	}
 	

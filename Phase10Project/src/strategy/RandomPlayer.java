@@ -18,6 +18,11 @@ public class RandomPlayer extends Strategy {
 		player = p;
 	}
 	public Card discard(){
+		for(int i = 0; i < player.hand.size(); i++){
+			if (player.hand.get(i).getType() == Card.type.Skip){
+				return player.hand.remove(i);
+			}
+		}
 		int i =  (int)(Math.random()*player.hand.size());
 		return player.hand.remove(i);
 	}
