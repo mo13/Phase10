@@ -151,11 +151,6 @@ public class Controller {
 	 playerList.get(i).hand.orderHand();
   }
   
-    
-  public void checkRound() {
-	  
-  }
-
   public void doTurn(Integer i) {
 	  playerList.get(i).hand.orderHand();
 	  playerList.get(i).getPhaseInfo();

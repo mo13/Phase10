@@ -31,7 +31,7 @@ public class Gui implements ActionListener, GameObserver {
 		
 	}
     
-	private PlayerArea player1Area, player2Area,player3Area, player4Area;
+	
 
 	private JTextField textField;
 	public static JFrame frame;
@@ -137,7 +137,7 @@ public class Gui implements ActionListener, GameObserver {
 		showOrder.addActionListener(this);
 		round.add(showOrder);
 		
-		doAWholeRound = new JMenuItem("Do 5 turns");
+		doAWholeRound = new JMenuItem("Do 10 turns");
 		doAWholeRound.addActionListener(this);
 		round.add(doAWholeRound);
 		

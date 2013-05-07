@@ -1,6 +1,6 @@
 package strategy;
 import model.*;
-public class Strategy {
+public abstract class Strategy {
 	
 	
   public enum strategyType{

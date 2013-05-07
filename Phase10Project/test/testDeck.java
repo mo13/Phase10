@@ -88,9 +88,5 @@ public class testDeck {
 		assertTrue(checkCard3 != drawPile.get(107));
 	}
 	
-	@Test 
-	public void testRefillDrawPile(){
-		fail("Not yet implemented.");
-	}
 
 }

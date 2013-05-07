@@ -35,9 +35,9 @@ public class RecklessPlayerTest {
 	RecklessPlayer r = new RecklessPlayer();
 	r.setPlayer(cortona);
 	Card tempCard11 = r.discard();
-	assertSame(tempCard11,tempCard1);
+	assertSame(tempCard11,tempCardS);
 	Card tempCard12 = r.discard();
-	assertSame(tempCard12,tempCard5);
+	assertSame(tempCard12,tempCard1);
 	}
 	
 	@Test

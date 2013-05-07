@@ -13,5 +13,4 @@ public class GameSimulation {
 		Controller controller = new Controller(model, gui );
 
 	}
-
 }

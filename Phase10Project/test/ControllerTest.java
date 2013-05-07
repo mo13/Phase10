@@ -43,18 +43,6 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testsetPlayerArea(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testPhaseTrack(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testdisplayScore(){
-		fail("Not yet implemented");
-	}
-	@Test
 	public void scoreRound(){
 		GameModel model = new GameModel();
 		GameObserver view = new Gui(model);
@@ -100,24 +88,12 @@ public class ControllerTest {
 		controller.playerList.get(3).hand.add(tempCard6);
 		controller.playerList.get(3).hand.orderHand();
 		
-		
+		controller.roundDone=true;
 		controller.scoreRound();
 		assertSame(45,controller.playerList.get(0).getScore() );
 		assertSame(65,controller.playerList.get(3).getScore() );
 		assertSame(70,controller.playerList.get(1).getScore());
 		assertSame(0,arbiter.getScore());
-	}
-	@Test
-	public void testexitRound(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testshowOrder(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testresetOrder(){
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -146,7 +122,24 @@ public class ControllerTest {
 	}
 	@Test
 	public void testemptyHand(){
-		fail("Not yet implemented");
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller controller = new Controller(model, view);
+		controller.setPlayerOrder();
+		controller.dealCards();
+		ArrayList<Integer> playerList = new ArrayList<Integer>();
+		playerList.add(0);
+		playerList.add(1);
+		playerList.add(2);
+		playerList.add(3);
+		for(Integer i : playerList){
+			assertSame(controller.playerList.get(i).hand.size(), 10	);
+		}
+		controller.emptyHands();
+		for(Integer i : playerList){
+			assertSame(controller.playerList.get(i).hand.size(), 0	);
+		}
+		
 	}
 	@Test
 	public void testdraw(){
@@ -179,15 +172,7 @@ public class ControllerTest {
 			i++;
 		}
 	}
-	
-	@Test
-	public void testplayPhase(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testexitGame(){
-		fail("Not yet implemented");
-	}
+
 	@Test
 	public void testCheckPhase(){
 		GameModel model = new GameModel();
@@ -347,21 +332,30 @@ public class ControllerTest {
 		
 	}
 	@Test 
-	public void testcheckHit(){
-		fail("Not yet implemented");
-	}
-	@Test 
 	public void testdiscard(){
-		fail("Not yet implemented");
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller controller = new Controller(model, view);
+		controller.setPlayerOrder();
+		controller.dealCards();
+		controller.drawPile.shuffle();
+
+		ArrayList<Integer> playerList = new ArrayList<Integer>();
+		playerList.add(0);
+		playerList.add(1);
+		playerList.add(2);
+		playerList.add(3);
+		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
+		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		assertSame(controller.playerList.get(0).hand.size(), 10);
+		controller.drawCard(0);
+		assertSame(controller.playerList.get(0).hand.size(), 11);
+		controller.discard(0);
+		assertSame(controller.playerList.get(0).hand.size(), 10);
 	}
-	@Test 
-	public void testturn(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testfinishTurn(){
-		fail("Not yet implemented");
-	}
+
 	@Test
 	public void setStrategy(){
 		GameModel model = new GameModel();

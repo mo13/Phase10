@@ -480,9 +480,9 @@ public class PlayerTest {
 		cortona.hand.orderHand();
 		cortona.setStrategy(strategyType.preventer);
 		Card tempCard69 = cortona.discard();
-		assertSame(tempCard69,tempCard2);
+		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
-		assertSame(tempCard68,tempCard5);
+		assertSame(tempCard68,tempCard2);
 	}
 	
 	@Test
@@ -506,9 +506,9 @@ public class PlayerTest {
 		cortona.hand.orderHand();
 		cortona.setStrategy(strategyType.recklessPlayer);
 		Card tempCard69 = cortona.discard();
-		assertSame(tempCard69,tempCard1);
+		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
-		assertSame(tempCard68,tempCard2);
+		assertSame(tempCard68,tempCard1);
 	}
 	
 	@Test
@@ -532,9 +532,9 @@ public class PlayerTest {
 		cortona.hand.orderHand();
 		cortona.setStrategy(strategyType.lowestScore);
 		Card tempCard69 = cortona.discard();
-		assertSame(tempCard69,tempCardW);
+		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
-		assertSame(tempCard68,tempCardS);
+		assertSame(tempCard68,tempCardW);
 	}
 	
 	
