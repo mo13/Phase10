@@ -3,8 +3,13 @@ package strategy;
 import model.*;
 import java.util.*;
 
+import strategy.Strategy.strategyType;
+
 public class newLowestScore extends Strategy {
 
+	
+
+	public strategyType strat = strategyType.newLowestScore;
 	@Override
 	public Card discard(){
 		analyzeHand();

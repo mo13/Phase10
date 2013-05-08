@@ -1,9 +1,13 @@
 package strategy;
 
+import strategy.Strategy.strategyType;
 import model.Card;
 import model.Deck;
 
 public class newReckless extends Strategy {
+	
+
+	public strategyType strat = strategyType.newRecklessPlayer;
 	
 	
 	@Override
