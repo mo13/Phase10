@@ -1049,7 +1049,9 @@ public class Gui implements ActionListener, GameObserver {
 			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
 			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
 		} else if(event.getSource()== doGame){
-			controller.doGame();
+			if(	controller.doGame()){
+				JOptionPane.showMessageDialog(null, controller.displayScore());
+			}
 		}
 
 		

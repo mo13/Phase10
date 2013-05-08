@@ -139,6 +139,9 @@ public class Controller {
   public String displayScore(){
 	  String str = "";
 	  for(Player p: playerList){
+		  if (p.getPhaseNumber() == 11){
+			  p.setPhaseNumber(10);
+		  }
 		  str+= p.getName() + " score is " + p.getScore() + " and is now on phase " + p.getPhaseNumber() + "\n";
 	  }
 	  return str;
@@ -194,7 +197,7 @@ public class Controller {
   }
   
   
-  public void doGame(){
+  public Boolean doGame(){
 	  Boolean gameDone = false;
 	  setPlayerOrder();
 	  setStrategy(0,Strategy.strategyType.newLowestScore);
@@ -219,6 +222,7 @@ public class Controller {
 			resetPlayer();
 		}
 	  System.out.println(displayScore());
+	  return true;
 	}
   
   public void resetPlayer(){
