@@ -36,6 +36,8 @@ public class Controller {
 		view.createUI();
 	}
 	
+	
+	
 	public void dealCards() {
 		roundDone = false;
 		  if(playerList.isEmpty()){
@@ -149,6 +151,7 @@ public class Controller {
 	 topDiscard = playerList.get(i).discard(); 
 	 discardPile.add(topDiscard);
 	 playerList.get(i).hand.orderHand();
+	 playerList.get(i).emptyPossiblePhaseOutCard();
   }
   
   public void doTurn(Integer i) {
@@ -167,7 +170,7 @@ public class Controller {
 	  
   }
   
-  public void DoAWholeRound(){
+  public Boolean DoAWholeRound(){
 	  int i = 0;
 	  boolean roundIsDone = false;
 	  while(i < 5){
@@ -184,12 +187,40 @@ public class Controller {
 		  }
 		  i++;
 	  }
+	  return roundIsDone;
 	  
   }
   
+  
+  public void doGame(){
+	  Boolean gameDone = false;
+	  setPlayerOrder();
+	  setStrategy(0,Strategy.strategyType.newLowestScore);
+	  setStrategy(1,Strategy.strategyType.newRecklessPlayer);
+	  setStrategy(2,Strategy.strategyType.newRed);
+	  setStrategy(3,Strategy.strategyType.randomPlayer);	
+	  while(!gameDone){
+			dealCards();
+			boolean roundIsDone = false;
+			while(!roundIsDone){
+				roundIsDone = DoAWholeRound();
+			}
+			scoreRound();
+			for(Player p : playerList){
+				if(p.getPhaseNumber() == 11){
+					gameDone = true;
+				}
+			}
+			resetPlayer();
+		}
+	  System.out.println(displayScore());
+	}
+  
   public void resetPlayer(){
+	  emptyHands();
 	  for(Player p: playerList){
 		  p.emptyPhasedOutSets();
+		  
 		  p.setPhasedOut(false);
 		  p.setCanPhaseOut(false);
 		  p.setDisplayPhasedOut(false);

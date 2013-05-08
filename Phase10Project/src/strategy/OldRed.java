@@ -7,14 +7,11 @@ import model.Card.cardColor;
 import model.Deck.deckType;
 
 
-public class Preventer extends Strategy {
+public class OldRed extends Strategy {
 	
 	public Player player;
-	public strategyType strat = strategyType.preventer;
+	public strategyType strat = strategyType.oldRed;
 	
-	public Preventer(){
-		
-	}
 	
 	public void setPlayer(Player p){
 		player = p;
@@ -22,7 +19,7 @@ public class Preventer extends Strategy {
 	public strategyType getStrat() {
 		return strat;
 	}
-
+	@Override
 	public Card discard(){
 		for(int i = 0; i < player.hand.size(); i++){
 			if (player.hand.get(i).getType() == Card.type.Skip){
@@ -36,8 +33,8 @@ public class Preventer extends Strategy {
 		}
 			int i =  (int)(Math.random()*player.hand.size());
 			return player.hand.remove(i);
-		
 	}
+	@Override
 	public Boolean draw(Deck drawPile, Card tempdiscardPile){
 		if(tempdiscardPile.getColor() == cardColor.Red){
 			player.hand.add(tempdiscardPile);

@@ -3,9 +3,9 @@ package strategy;
 import model.*;
 
 
-public class LowestScore extends Strategy {
+public class OldLowestScore extends Strategy {
 	public Player player;
-	public strategyType strat = strategyType.lowestScore;
+	public strategyType strat = strategyType.oldLowestScore;
 	
 	public strategyType getStrat() {
 		return strat;
@@ -14,6 +14,7 @@ public class LowestScore extends Strategy {
 	public void setPlayer(Player l){
 		player = l;
 	}
+	@Override
 	public Card discard(){
 		player.hand.orderHand();
 		for(int i = 0; i < player.hand.size(); i++){
@@ -23,6 +24,7 @@ public class LowestScore extends Strategy {
 		}
 		return player.hand.remove(player.hand.size()-1);
 	}
+	@Override
 	public Boolean draw(Deck drawPile, Card tempDiscardPile){
 
 	if(tempDiscardPile.getNumber() < 10){

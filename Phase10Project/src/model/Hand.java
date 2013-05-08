@@ -27,6 +27,10 @@ public class Hand  {
 		 cardsInHand.add(c);
   }
   
+  public int indexOf(Card c){
+	  return cardsInHand.indexOf(c);
+  }
+  
   public void add(int i, Card c){
 	  cardsInHand.add(i,c);
   }
@@ -242,6 +246,8 @@ public class Hand  {
 		  }
 	  }
 	  ArrayList<Integer> possibleRun = new ArrayList<Integer>();
+	  ArrayList<Integer> temporaryRun = new ArrayList<Integer>();
+	  int oldRun = 0;
 	  for(int runIndex = 0; runIndex < cardsInHand.size(); runIndex++){
 		  if(tempRunSize != 0){
 				  if (runIndex == 0){
@@ -268,13 +274,21 @@ public class Hand  {
 				  }
 				  else {
 					  previousNumber = cardsInHand.get(runIndex).getNumber();
+					  if(possibleRun.size() > oldRun){
+						  oldRun = possibleRun.size();
+						  temporaryRun= possibleRun;
+					  }
 					  possibleRun = new ArrayList<Integer>();
 					  tempRunSize = runSize;
 					  }
 			  }
 		  }
 	  }
+	  if (temporaryRun.size() > possibleRun.size()){
+		  return temporaryRun;
+	  }else{
 	  return possibleRun;
+	  }
   }
   
   public ArrayList<Integer> checkColor(){
@@ -316,8 +330,9 @@ public class Hand  {
 		 String NEW_LINE = System.getProperty("line.separator");
 
 		for(int i = 0; i < this.size(); i++){
-			result.append(this.get(i).toString());
+			result.append(this.get(i).toString() + " ");
 			result.append(NEW_LINE);
+			
 		}
 		return result.toString();
 	}

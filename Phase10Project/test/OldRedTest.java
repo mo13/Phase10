@@ -6,12 +6,12 @@ import org.junit.Test;
 import model.*;
 import model.Card.cardColor;
 import strategy.*;
-public class PreventerStrategy {
+public class OldRedTest {
 	Player cortona = new Player("Cortona");
 	@Test
 	public void testConstructor() {
 		
-		Preventer p = new Preventer();
+		OldRed p = new OldRed();
 		assertSame(p.player, null);
 		p.setPlayer(cortona);
 		assertSame(p.player, cortona);
@@ -35,7 +35,7 @@ public class PreventerStrategy {
 	cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 	cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-	Preventer p  = new Preventer();
+	OldRed p  = new OldRed();
 	p.setPlayer(cortona);
 	assertSame(p.player.hand.size(),10);
 	Card tempCard = p.discard();
@@ -55,7 +55,7 @@ public class PreventerStrategy {
 		discardPile.add(tempCard1);
 		discardPile.add(tempCard2);
 		discardPile.add(tempCard3);
-		Preventer p = new Preventer();
+		OldRed p = new OldRed();
 		Card tempCard = discardPile.draw();
 		p.setPlayer(cortona);
 		p.draw(drawPile, tempCard);

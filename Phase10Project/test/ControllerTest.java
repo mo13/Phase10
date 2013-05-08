@@ -41,6 +41,13 @@ public class ControllerTest {
 		}
 		
 	}
+	@Test
+	public void testDoGame(){
+		GameModel model = new GameModel();
+		GameObserver view = new Gui(model);
+		Controller controller = new Controller(model, view);
+		controller.doGame();
+	}
 
 	@Test
 	public void scoreRound(){
@@ -111,10 +118,10 @@ public class ControllerTest {
 		playerList.add(1);
 		playerList.add(2);
 		playerList.add(3);
-		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(0).setStrategy(strategyType.oldRed);
 		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
-		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
-		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		controller.playerList.get(2).setStrategy(strategyType.oldRecklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.oldLowestScore);
 		controller.drawCard(0);
 		controller.drawCard(1);
 		controller.drawCard(2);
@@ -157,10 +164,10 @@ public class ControllerTest {
 		playerList.add(1);
 		playerList.add(2);
 		playerList.add(3);
-		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(0).setStrategy(strategyType.oldRed);
 		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
-		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
-		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		controller.playerList.get(2).setStrategy(strategyType.oldRecklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.oldLowestScore);
 		int i = 0;	
 		while (i < 3){
 			for(Integer t : playerList){
@@ -187,10 +194,10 @@ public class ControllerTest {
 		playerList.add(1);
 		playerList.add(2);
 		playerList.add(3);
-		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(0).setStrategy(strategyType.oldRed);
 		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
-		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
-		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		controller.playerList.get(2).setStrategy(strategyType.oldRecklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.oldLowestScore);
 		controller.playerList.get(0).setPhaseNumber(3);
 		controller.playerList.get(1).setPhaseNumber(4);
 		controller.playerList.get(2).setPhaseNumber(8);
@@ -345,10 +352,10 @@ public class ControllerTest {
 		playerList.add(1);
 		playerList.add(2);
 		playerList.add(3);
-		controller.playerList.get(0).setStrategy(strategyType.preventer);
+		controller.playerList.get(0).setStrategy(strategyType.oldRed);
 		controller.playerList.get(1).setStrategy(strategyType.randomPlayer);
-		controller.playerList.get(2).setStrategy(strategyType.recklessPlayer);
-		controller.playerList.get(3).setStrategy(strategyType.lowestScore);
+		controller.playerList.get(2).setStrategy(strategyType.oldRecklessPlayer);
+		controller.playerList.get(3).setStrategy(strategyType.oldLowestScore);
 		assertSame(controller.playerList.get(0).hand.size(), 10);
 		controller.drawCard(0);
 		assertSame(controller.playerList.get(0).hand.size(), 11);
@@ -362,13 +369,13 @@ public class ControllerTest {
 		GameObserver view = new Gui(model);
 		Controller gameController = new Controller(model, view);
 		gameController.setPlayerOrder();
-		gameController.setStrategy(0, strategyType.lowestScore);
-		gameController.setStrategy(1, strategyType.recklessPlayer);
-		gameController.setStrategy(2, strategyType.preventer);
+		gameController.setStrategy(0, strategyType.oldLowestScore);
+		gameController.setStrategy(1, strategyType.oldRecklessPlayer);
+		gameController.setStrategy(2, strategyType.oldRed);
 		gameController.setStrategy(3, strategyType.randomPlayer);
-		assertSame(gameController.playerList.get(0).getStrategy(), strategyType.lowestScore);
-		assertSame(gameController.playerList.get(1).getStrategy(), strategyType.recklessPlayer);
-		assertSame(gameController.playerList.get(2).getStrategy(), strategyType.preventer);
+		assertSame(gameController.playerList.get(0).getStrategy(), strategyType.oldLowestScore);
+		assertSame(gameController.playerList.get(1).getStrategy(), strategyType.oldRecklessPlayer);
+		assertSame(gameController.playerList.get(2).getStrategy(), strategyType.oldRed);
 		assertSame(gameController.playerList.get(3).getStrategy(), strategyType.randomPlayer);
 	}
 	

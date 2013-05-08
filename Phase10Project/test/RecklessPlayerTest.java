@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 import strategy.*;
+import strategy.Strategy.strategyType;
 import model.*;
 import model.Card.cardColor;
 
@@ -8,7 +9,7 @@ public class RecklessPlayerTest {
 	Player cortona = new Player("cortona");
 	@Test
 	public void testSetPlayer() {
-		RecklessPlayer r = new RecklessPlayer();
+		OldReckless r = new OldReckless();
 		assertSame(r.player, null);
 		r.setPlayer(cortona);
 		assertSame(r.player, cortona);
@@ -32,7 +33,7 @@ public class RecklessPlayerTest {
 	cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 	cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 	cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-	RecklessPlayer r = new RecklessPlayer();
+	OldReckless r = new OldReckless();
 	r.setPlayer(cortona);
 	Card tempCard11 = r.discard();
 	assertSame(tempCard11,tempCardS);
@@ -51,7 +52,7 @@ public class RecklessPlayerTest {
 		discardPile.add(tempCard1);
 		discardPile.add(tempCard2);
 		discardPile.add(tempCard3);
-		RecklessPlayer r = new RecklessPlayer();
+		OldReckless r = new OldReckless();
 		r.setPlayer(cortona);
 		Card tempCard11 = discardPile.draw();
 		r.draw(drawPile,tempCard11);
@@ -66,5 +67,6 @@ public class RecklessPlayerTest {
 		assertSame(r.player.hand.size(),3);
 		
 	}
+	
 
 }

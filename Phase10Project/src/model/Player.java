@@ -23,7 +23,11 @@ public boolean displayPhasedOut;
 private boolean phasedOut;
 
   
+	
+	ArrayList<Integer> possiblePhasedOutRun = new ArrayList<Integer>();
 
+	ArrayList<Integer> possiblePhasedOutSets = new ArrayList<Integer>();
+	ArrayList<Card.cardColor> possiblePhasedOutColor = new ArrayList<Card.cardColor>();
 
 
   ArrayList<Card> phasedOutSecondSet = new ArrayList<Card>();
@@ -33,6 +37,14 @@ private boolean phasedOut;
   
   
   // the phase info
+  
+  
+  public void emptyPossiblePhaseOutCard(){
+
+	 possiblePhasedOutRun = new ArrayList<Integer>();
+	 possiblePhasedOutSets = new ArrayList<Integer>();
+	 possiblePhasedOutColor = new ArrayList<Card.cardColor>();
+  }
   
   public void emptyPhasedOutSets(){
 	 phasedOutSecondSet = new ArrayList<Card>();
@@ -152,22 +164,50 @@ public int numSets;
 	public void setPhasedOut(boolean phasedOut) {
 		this.phasedOut = phasedOut;
 	}
+	
 
-//	numSets;
-//	colorSets;
-//	setSize;
-//	secondSetSize; 
-//	runSize;
+
+
+	public ArrayList<Integer> getPossiblePhasedOutRun() {
+		return possiblePhasedOutRun;
+	}
+
+
+	public ArrayList<Integer> getPossiblePhasedOutSet() {
+		return possiblePhasedOutSets;
+	}
+
+
+	public ArrayList<Card.cardColor> getPossiblePhaseColor() {
+		return possiblePhasedOutColor;
+	}
+
 	public Boolean checkPhase(){
 		hand.orderHand();
+		// red blue green yellow
 		// check a color set
+		int mostColor =0;
+		int bestColor = 0; 
 		if (colorSets != 0 & numSets == 0 & runSize == 0 & setSize == 7){
 			hand.orderHand();			
 			ArrayList<Integer> tempColor = hand.checkColor();			
-			for(Integer i: tempColor){
-				if (i >= setSize){
+			for(int  i= 0; i < tempColor.size();i++){
+				if(tempColor.get(i) > mostColor){
+					mostColor = tempColor.get(i);
+					bestColor = i;
+				}
+				if (tempColor.get(i)>= setSize){
 					canPhaseOut = true;
 				}
+			}
+			if (bestColor ==0 ){
+				possiblePhasedOutColor.add(Card.cardColor.Red);
+			} else if(bestColor == 1){
+				possiblePhasedOutColor.add(Card.cardColor.Blue);
+			} else if (bestColor == 2){
+				possiblePhasedOutColor.add(Card.cardColor.Green);
+			} else if (bestColor == 3){
+				possiblePhasedOutColor.add(Card.cardColor.Yellow);
 			}
 		}
 		// check 2 sets with different sizes
@@ -201,6 +241,15 @@ public int numSets;
 			for(Card c: tempHand){
 				hand.add(c);
 			}
+			
+			
+			for(Integer z : tempSet1){
+				possiblePhasedOutSets.add(z);
+			}
+			for(Integer z : tempSet2){
+				possiblePhasedOutSets.add(z);
+			}
+			System.out.println(possiblePhasedOutSets);
 			if(!tempSet1.isEmpty()& !tempSet2.isEmpty()){
 				canPhaseOut = true;
 			} else {
@@ -210,10 +259,10 @@ public int numSets;
 		// check a set and a run
 		else if (numSets == 1 & setSize != 0 &  runSize != 0){
 			ArrayList<Integer> possibleSets = hand.checkSet(1,setSize);			
+			possiblePhasedOutSets = possibleSets;
 			hand.orderHand();
-//			System.out.println(possibleSets);
 			ArrayList<Integer> possibleRun = hand.checkRun(possibleSets,setSize, runSize);
-//			System.out.println(possibleRun);
+			possiblePhasedOutRun = possibleRun;
 			if(!possibleSets.isEmpty() & possibleRun.size() == runSize){
 				canPhaseOut =  true;
 				
@@ -226,6 +275,7 @@ public int numSets;
 		else if (numSets == 2 & setSize != 0 & secondSetSize == 0 & runSize == 0){
 			hand.orderHand();
 			ArrayList<Integer> possibleSets = hand.checkSet(numSets, setSize);
+			possiblePhasedOutSets = possibleSets;
 			hand.orderHand();
 			int counter = 0;
 			for(int i = 0; i < possibleSets.size(); i++){
@@ -233,7 +283,7 @@ public int numSets;
 					counter++;
 				}
 			}
-			System.out.println(possibleSets);
+		//	System.out.println(possibleSets);
 			if (counter >=numSets){
 				canPhaseOut =  true;
 			} else {
@@ -244,7 +294,7 @@ public int numSets;
 		else if (numSets == 0 & setSize == 0 & runSize != 0) {
 			hand.orderHand();
 			ArrayList<Integer> possibleRun = hand.checkRun(runSize);
-//			System.out.println(possibleRun);
+			possiblePhasedOutRun = possibleRun;
 			if (possibleRun.size()== runSize){
 				canPhaseOut =  true;
 
@@ -616,44 +666,68 @@ public int numSets;
 		  
 	}
 	
-	RandomPlayer d = new RandomPlayer();
-	Preventer p = new Preventer();
-	LowestScore l = new LowestScore();
-	RecklessPlayer r = new RecklessPlayer();
+	Strategy random = new RandomPlayer();
+	Strategy olRed = new OldRed();
+	Strategy olLow = new OldLowestScore();
+	Strategy olReck = new OldReckless();
+	Strategy mewRed = new newRed();
+	Strategy mewLow = new newLowestScore();
+	Strategy mewReck = new newReckless();
 	public Card discard(){
 		if(this.getStrategy() == Strategy.strategyType.randomPlayer){
-			d.setPlayer(this);
-			Card tempCard = d.discard();
+			random.setPlayer(this);
+			Card tempCard = random.discard();
 			return tempCard;
-		} else if (this.getStrategy() == Strategy.strategyType.preventer){
-			p.setPlayer(this);
-			Card tempCard = p.discard();
+		} else if (this.getStrategy() == Strategy.strategyType.oldRed){
+			olRed.setPlayer(this);
+			Card tempCard = olRed.discard();
 			return tempCard;
-		} else if (this.getStrategy() == Strategy.strategyType.lowestScore){
-			l.setPlayer(this);
-			Card tempCard = l.discard();
+		} else if (this.getStrategy() == Strategy.strategyType.oldLowestScore){
+			olLow.setPlayer(this);
+			Card tempCard = olLow.discard();
+			return tempCard;
+		} else if(this.getStrategy() == Strategy.strategyType.newRed){
+			mewRed.setPlayer(this);
+			Card tempCard = mewRed.discard();
+			return tempCard;
+		} else if (this.getStrategy() == Strategy.strategyType.newLowestScore){
+			mewLow.setPlayer(this);
+			Card tempCard = mewLow.discard();
+			return tempCard;
+		} else if (this.getStrategy() == Strategy.strategyType.newRecklessPlayer){
+			mewReck.setPlayer(this);
+			Card tempCard = mewReck.discard();
 			return tempCard;
 		} else {
-			r.setPlayer(this);
-			Card tempCard = r.discard();
+			olReck.setPlayer(this);
+			Card tempCard = olReck.discard();
 			return tempCard;
 		}
 	}
 	
 	public Boolean draw(Deck drawPile, Card discard){
 		if(this.getStrategy() == Strategy.strategyType.randomPlayer){
-			d.setPlayer(this);
-			return d.draw(drawPile, discard);
-		} else if(this.getStrategy() == Strategy.strategyType.preventer){
-			p.setPlayer(this);
-			return p.draw(drawPile,discard);
-		} else if (this.getStrategy() == Strategy.strategyType.lowestScore){
-			l.setPlayer(this);
-			return l.draw(drawPile, discard);
+			random.setPlayer(this);
+			return random.draw(drawPile, discard);
+		} else if(this.getStrategy() == Strategy.strategyType.oldRed){
+			olRed.setPlayer(this);
+			return olRed.draw(drawPile,discard);
+		} else if (this.getStrategy() == Strategy.strategyType.oldLowestScore){
+			olLow.setPlayer(this);
+			return olLow.draw(drawPile, discard);
+		} else if(this.getStrategy()== Strategy.strategyType.oldRecklessPlayer){
+			olReck.setPlayer(this);
+			return olReck.draw(drawPile, discard);
+		} else if (this.getStrategy() == Strategy.strategyType.newRed){
+			mewRed.setPlayer(this);
+			return mewRed.draw(drawPile, discard);
+		} else if (this.getStrategy() == Strategy.strategyType.newLowestScore){
+			mewLow.setPlayer(this);
+			return mewLow.draw(drawPile, discard);
 		} else {
-			r.setPlayer(this);
-			return r.draw(drawPile, discard);
-		}
+			mewReck.setPlayer(this);
+			return mewReck.draw(drawPile, discard);
+		} 
 		
 	}
 	

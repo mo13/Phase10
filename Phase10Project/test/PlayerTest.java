@@ -22,10 +22,10 @@ public class PlayerTest {
 	@Test
 	// This test to see if the setStrategy and the getStartegy methods work. 
 	public void testGetAndSetStrategy() {
-		Strategy preventer = new Preventer();
-		cortona.setStrategy(Strategy.strategyType.preventer);
+		Strategy preventer = new OldRed();
+		cortona.setStrategy(Strategy.strategyType.oldRed);
 		System.out.println(cortona.getStrategy());
-		assertSame(cortona.getStrategy(), Strategy.strategyType.preventer);
+		assertSame(cortona.getStrategy(), Strategy.strategyType.oldRed);
 	}
 
 
@@ -202,7 +202,9 @@ public class PlayerTest {
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.setPhaseNumber(9);
 		cortona.getPhaseInfo();
+		
 		assertTrue(cortona.checkPhase());
+		System.out.println(cortona.getPossiblePhasedOutSet());
 	}
 	
 	@Test
@@ -228,11 +230,10 @@ public class PlayerTest {
 		arbiter.hand.orderHand();
 		arbiter.setPhaseNumber(3);
 		arbiter.getPhaseInfo();
-		System.out.println(arbiter.numSets);
-		System.out.println(arbiter.setSize);
-		System.out.println(arbiter.runSize);
 		
 		assertTrue(arbiter.checkPhase());
+		System.out.println(arbiter.getPossiblePhasedOutRun());
+		System.out.println(arbiter.getPossiblePhasedOutSet());
 	}
 		
 	@Test
@@ -257,6 +258,7 @@ public class PlayerTest {
 		drHalsey.setPhaseNumber(1);
 		drHalsey.getPhaseInfo();
 		assertTrue(drHalsey.checkPhase());
+		System.out.println(drHalsey.getPossiblePhasedOutSet());
 	}
 	
 	@Test
@@ -279,7 +281,10 @@ public class PlayerTest {
 		// check a run
 		guiltySpark.setPhaseNumber(4);
 		guiltySpark.getPhaseInfo();
+		guiltySpark.checkPhase();
+		System.out.println(guiltySpark.getPossiblePhasedOutRun());
 		assertTrue(guiltySpark.checkPhase());
+		
 		
 	}
 	
@@ -478,7 +483,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.hand.orderHand();
-		cortona.setStrategy(strategyType.preventer);
+		cortona.setStrategy(strategyType.oldRed);
 		Card tempCard69 = cortona.discard();
 		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
@@ -504,7 +509,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.hand.orderHand();
-		cortona.setStrategy(strategyType.recklessPlayer);
+		cortona.setStrategy(strategyType.oldRecklessPlayer);
 		Card tempCard69 = cortona.discard();
 		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
@@ -530,7 +535,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
 		cortona.hand.orderHand();
-		cortona.setStrategy(strategyType.lowestScore);
+		cortona.setStrategy(strategyType.oldLowestScore);
 		Card tempCard69 = cortona.discard();
 		assertSame(tempCard69,tempCardS);
 		Card tempCard68 = cortona.discard();
@@ -601,7 +606,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.lowestScore);
+		cortona.setStrategy(strategyType.oldLowestScore);
 		Card tempDiscard = discardPile.remove(discardPile.size()-1);
 		if(cortona.draw(drawPile,tempDiscard)){
 			System.out.println("Discard pile");
@@ -640,7 +645,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.preventer);
+		cortona.setStrategy(strategyType.oldRed);
 		Card tempDiscard = discardPile.remove(discardPile.size()-1);
 		if(cortona.draw(drawPile,tempDiscard)){
 			System.out.println("Discard pile");
@@ -680,7 +685,7 @@ public class PlayerTest {
 		cortona.hand.add(tempCard5);	cortona.hand.add(tempCard6);
 		cortona.hand.add(tempCard7);	cortona.hand.add(tempCard8);
 		cortona.hand.add(tempCardS);	cortona.hand.add(tempCardW);
-		cortona.setStrategy(strategyType.recklessPlayer);
+		cortona.setStrategy(strategyType.oldRecklessPlayer);
 		Card tempDiscard = discardPile.remove(discardPile.size()-1);
 		if(cortona.draw(drawPile,tempDiscard)){
 			System.out.println("Discard pile");

@@ -41,10 +41,15 @@ public class Gui implements ActionListener, GameObserver {
 	private JMenuBar menuBar;
 	private JMenuItem startRound, showOrder, resetDrawPile, doAWholeRound, emptyHands, resetPlayer,
 					  player1LowestScoreStrategy, player1PreventerStrategy, player1RandomStrategy, player1RecklessStrategy,
+					  player1newLowestScore, player1newRed, player1newReckless, 
 					  player2LowestScoreStrategy, player2PreventerStrategy, player2RandomStrategy, player2RecklessStrategy,
+					  player2newLowestScore, player2newRed, player2newReckless,
 					  player3LowestScoreStrategy, player3PreventerStrategy, player3RandomStrategy, player3RecklessStrategy,
+					  player3newLowestScore, player3newRed, player3newReckless,
 					  player4LowestScoreStrategy, player4PreventerStrategy, player4RandomStrategy, player4RecklessStrategy,
+					  player4newLowestScore, player4newRed, player4newReckless,
 					  autoSetStrategies,
+					  viewHand, player1Hand, player2Hand, player3Hand, player4Hand,
 					  draw, player1Draw, player2Draw, player3Draw, player4Draw, 
 					  discard, player1Discard, player2Discard, player3Discard, player4Discard,
 					  phaseOut, player1PhaseOut, player2PhaseOut,player3PhaseOut, player4PhaseOut,
@@ -71,7 +76,7 @@ public class Gui implements ActionListener, GameObserver {
 		//top
 		topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		topPanel.setBackground(Color.RED);
+		topPanel.setBackground(Color.WHITE);
 		
 		//topPanel.setPreferredSize(new Dimension(400,550));
 		topPanel.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -81,26 +86,28 @@ public class Gui implements ActionListener, GameObserver {
 		//left
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel,BoxLayout.Y_AXIS));
-		leftPanel.setBackground(Color.RED);
+		leftPanel.setBackground(Color.WHITE);
 		leftPanel.setBorder(BorderFactory.createLineBorder(Color.white));
 		cortonaImg = new JLabel(new ImageIcon("cortona.jpg"), JLabel.CENTER);
 		leftPanel.add(cortonaImg);
 		//center
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		centerPanel.setBorder(BorderFactory.createLineBorder(Color.white));
+		
+		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+		centerPanel.setBounds(25, 25, 25, 25);
+		centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		centerPanel.setBackground(Color.RED);
 		//right
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS	));
-		rightPanel.setBackground(Color.RED);
+		rightPanel.setBackground(Color.WHITE);
 		rightPanel.setBorder(BorderFactory.createLineBorder(Color.white));
 		johnsonImg = new JLabel(new ImageIcon("johnson.jpg"));
 		rightPanel.add(johnsonImg);
 		//bottom
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		bottomPanel.setBackground(Color.RED);
+		bottomPanel.setBackground(Color.WHITE);
 		bottomPanel.setBorder(BorderFactory.createLineBorder(Color.white));
 		arbiterImg = new JLabel(new ImageIcon("arbiter.jpg"));
 		bottomPanel.add(arbiterImg);
@@ -225,6 +232,24 @@ public class Gui implements ActionListener, GameObserver {
 		hit.add(player4Hit);
 		playerOptions.add(hit);
 		playerOptions.add(hit);
+		
+		
+		viewHand = new JMenu("View Hand");
+		viewHand.addActionListener(unimplementedMenu_Click("View the players hand"));
+		player1Hand = new JMenuItem("Player 1's Hand");
+		player1Hand.addActionListener(this);
+		player2Hand = new JMenuItem("Player 2's Hand");
+		player1Hand.addActionListener(this);
+		player3Hand = new JMenuItem("Player 3's Hand");
+		player1Hand.addActionListener(this);
+		player4Hand = new JMenuItem("Player 4's Hand");
+		player1Hand.addActionListener(this);
+		viewHand.add(player1Hand);
+		viewHand.add(player2Hand);
+		viewHand.add(player3Hand);
+		viewHand.add(player4Hand);
+		playerOptions.add(viewHand);
+		
 
 		
 		discard = new JMenu("Discard");
@@ -269,14 +294,26 @@ public class Gui implements ActionListener, GameObserver {
 		playerOptions.add(setPlayerStrategy);
 		player1 = new JMenu("Master Chief");
 		//player1.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
-		player1RandomStrategy = new JMenuItem("Random Strategy");
+		player1RandomStrategy = new JMenuItem(" Random Strategy");
 		player1RandomStrategy.addActionListener(this);
-		player1PreventerStrategy = new JMenuItem("Preventer Strategy");
+		player1PreventerStrategy = new JMenuItem("Old Red Strategy");
 		player1PreventerStrategy.addActionListener(this);
-		player1LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
+		player1LowestScoreStrategy = new JMenuItem("Old Lowest Score Strategy");
 		player1LowestScoreStrategy.addActionListener(this);
-		player1RecklessStrategy = new JMenuItem("Reckless Strategy");
+		player1RecklessStrategy = new JMenuItem("Old Reckless Strategy");
 		player1RecklessStrategy.addActionListener(this);
+		
+		
+		player1newLowestScore = new JMenuItem("New Lowest Strategy");
+		player1newLowestScore.addActionListener(this);
+		player1newReckless = new JMenuItem("New Reckless Strategy");
+		player1newReckless.addActionListener(this);
+		player1newRed = new JMenuItem("New Red Strategy");
+		player1newRed.addActionListener(this);
+		
+		player1.add(player1newRed);
+		player1.add(player1newReckless);
+		player1.add(player1newLowestScore);
 		player1.add(player1RandomStrategy);
 		player1.add(player1PreventerStrategy);
 		player1.add(player1LowestScoreStrategy);
@@ -286,12 +323,25 @@ public class Gui implements ActionListener, GameObserver {
 		//player2.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player2RandomStrategy = new JMenuItem("Random Strategy");
 		player2RandomStrategy.addActionListener(this);
-		player2PreventerStrategy = new JMenuItem("Preventer Strategy");
+		player2PreventerStrategy = new JMenuItem("Old Red Strategy");
 		player2PreventerStrategy.addActionListener(this);
-		player2LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
+		player2LowestScoreStrategy = new JMenuItem("Old Lowest Score Strategy");
 		player2LowestScoreStrategy.addActionListener(this);
-		player2RecklessStrategy = new JMenuItem("Reckless Strategy");
+		player2RecklessStrategy = new JMenuItem("Old Reckless Strategy");
 		player2RecklessStrategy.addActionListener(this);
+		
+		player2newLowestScore = new JMenuItem("New Lowest Strategy");
+		player2newLowestScore.addActionListener(this);
+		player2newReckless = new JMenuItem("New Reckless Strategy");
+		player2newReckless.addActionListener(this);
+		player2newRed = new JMenuItem("New Red Strategy");
+		player2newRed.addActionListener(this);
+		
+		player2.add(player2newRed);
+		player2.add(player2newReckless);
+		player2.add(player2newLowestScore);
+		
+		
 		player2.add(player2RandomStrategy);
 		player2.add(player2PreventerStrategy);
 		player2.add(player2LowestScoreStrategy);
@@ -301,12 +351,24 @@ public class Gui implements ActionListener, GameObserver {
 	//	player3.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player3RandomStrategy = new JMenuItem("Random Strategy");
 		player3RandomStrategy.addActionListener(this);
-		player3PreventerStrategy = new JMenuItem("Preventer Strategy");
+		player3PreventerStrategy = new JMenuItem("Old Red Strategy");
 		player3PreventerStrategy.addActionListener(this);
-		player3LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
+		player3LowestScoreStrategy = new JMenuItem("Old Lowest Score Strategy");
 		player3LowestScoreStrategy.addActionListener(this);
-		player3RecklessStrategy = new JMenuItem("Reckless Strategy");
+		player3RecklessStrategy = new JMenuItem("Old Reckless Strategy");
 		player3RecklessStrategy.addActionListener(this);
+		
+		player3newLowestScore = new JMenuItem("New Lowest Strategy");
+		player3newLowestScore.addActionListener(this);
+		player3newReckless = new JMenuItem("New Reckless Strategy");
+		player3newReckless.addActionListener(this);
+		player3newRed = new JMenuItem("New Red Strategy");
+		player3newRed.addActionListener(this);
+		
+		player3.add(player3newRed);
+		player3.add(player3newReckless);
+		player3.add(player3newLowestScore);
+		
 		player3.add(player3RandomStrategy);
 		player3.add(player3PreventerStrategy);
 		player3.add(player3LowestScoreStrategy);
@@ -316,12 +378,24 @@ public class Gui implements ActionListener, GameObserver {
 		//player4.addActionListener(unimplementedMenu_Click("This allows you to set player 1's strategy"));
 		player4RandomStrategy = new JMenuItem("Random Strategy");
 		player4RandomStrategy.addActionListener(this);
-		player4PreventerStrategy = new JMenuItem("Preventer Strategy");
+		player4PreventerStrategy = new JMenuItem("Old Red Strategy");
 		player4PreventerStrategy.addActionListener(this);
-		player4LowestScoreStrategy = new JMenuItem("Lowest Score Strategy");
+		player4LowestScoreStrategy = new JMenuItem("Old Lowest Score Strategy");
 		player4LowestScoreStrategy.addActionListener(this);
-		player4RecklessStrategy = new JMenuItem("Reckless Strategy");
+		player4RecklessStrategy = new JMenuItem("Old Reckless Strategy");
 		player4RecklessStrategy.addActionListener(this);
+		
+		player4newLowestScore = new JMenuItem("New Lowest Strategy");
+		player4newLowestScore.addActionListener(this);
+		player4newReckless = new JMenuItem("New Reckless Strategy");
+		player4newReckless.addActionListener(this);
+		player4newRed = new JMenuItem("New Red Strategy");
+		player4newRed.addActionListener(this);
+		
+		player4.add(player4newRed);
+		player4.add(player4newReckless);
+		player4.add(player4newLowestScore);
+		
 		player4.add(player4RandomStrategy);
 		player4.add(player4PreventerStrategy);
 		player4.add(player4LowestScoreStrategy);
@@ -352,12 +426,26 @@ public class Gui implements ActionListener, GameObserver {
 			playerArea.add(phasedOutCards);
 		}
 		playerArea.add(phasedOut);
-		playerArea.validate();
+		playerArea.revalidate();
 	}
 	public void updateCenterArea(JPanel centerPanel, JLabel drawPile, JLabel discardPile){
 		centerPanel.removeAll();
-		centerPanel.add(drawPile);
-		centerPanel.add(discardPile);
+		centerPanel.invalidate();
+		drawPile.setSize(1000, 1000);
+		JPanel idk = new JPanel();
+		idk.setLayout(new BoxLayout(idk, BoxLayout.X_AXIS ));
+//		discardPile.setHorizontalAlignment(SwingConstants.CENTER);
+//		drawPile.setHorizontalAlignment(SwingConstants.CENTER);
+		drawPile.setFont(new Font("ROMAN_BASELINE", Font.BOLD, 16));
+		discardPile.setFont(new Font("ROMAN_BASELINE", Font.BOLD, 16));
+		idk.add(drawPile);
+		idk.add(discardPile);
+		centerPanel.add(idk, BorderLayout.CENTER);
+//		centerPanel.add(drawPile);
+//		discardPile.setSize(500,500);
+//		
+//		centerPanel.add(discardPile);
+	
 		centerPanel.validate();
 	}
 	Deck drawPile;
@@ -404,35 +492,73 @@ public class Gui implements ActionListener, GameObserver {
 			controller.setStrategy(2, strategyType.randomPlayer);
 		}else if (event.getSource() == player4RandomStrategy){
 			controller.setStrategy(3, strategyType.randomPlayer);
-		}else if (event.getSource() == player1PreventerStrategy){
-			controller.setStrategy(0, strategyType.preventer);
+		} 
+		
+		else if (event.getSource() == player1PreventerStrategy){
+			controller.setStrategy(0, strategyType.oldRed);
 		} else if (event.getSource() == player2PreventerStrategy){
-			controller.setStrategy(1, strategyType.preventer);
+			controller.setStrategy(1, strategyType.oldRed);
 		} else if (event.getSource() == player3PreventerStrategy){
-			controller.setStrategy(2, strategyType.preventer);
+			controller.setStrategy(2, strategyType.oldRed);
 		} else if (event.getSource() == player4PreventerStrategy){
-			controller.setStrategy(3, strategyType.preventer);
-		} else if (event.getSource() == player1LowestScoreStrategy){
-			controller.setStrategy(0, strategyType.lowestScore);
+			controller.setStrategy(3, strategyType.oldRed);
+		} 
+		
+		else if (event.getSource() == player1newRed){
+			controller.setStrategy(0, strategyType.newRed); 
+		} else if (event.getSource() == player2newRed){
+			controller.setStrategy(1, strategyType.newRed); 
+		} else if (event.getSource() == player3newRed){
+			controller.setStrategy(2, strategyType.newRed); 
+		} else if (event.getSource() == player4newRed){
+			controller.setStrategy(3, strategyType.newRed); 
+		}
+		
+		else if (event.getSource() == player1LowestScoreStrategy){
+			controller.setStrategy(0, strategyType.oldLowestScore);
 		} else if (event.getSource() == player2LowestScoreStrategy){
-			controller.setStrategy(1, strategyType.lowestScore);
+			controller.setStrategy(1, strategyType.oldLowestScore);
 		} else if (event.getSource() == player3LowestScoreStrategy){
-			controller.setStrategy(2, strategyType.lowestScore);
+			controller.setStrategy(2, strategyType.oldLowestScore);
 		} else if (event.getSource() == player4LowestScoreStrategy){
-			controller.setStrategy(3, strategyType.lowestScore);
-		} else if (event.getSource() == player1RecklessStrategy){
-			controller.setStrategy(0, strategyType.recklessPlayer);
+			controller.setStrategy(3, strategyType.oldLowestScore);
+		} 
+		
+		else if (event.getSource() == player1newLowestScore){
+			controller.setStrategy(0, strategyType.newLowestScore);
+		} else if (event.getSource() == player2newLowestScore){
+			controller.setStrategy(1, strategyType.newLowestScore);
+		} else if (event.getSource() == player3newLowestScore){
+			controller.setStrategy(2, strategyType.newLowestScore);
+		} else if (event.getSource() == player4newLowestScore){
+			controller.setStrategy(3, strategyType.newLowestScore);
+		}
+		
+		else if (event.getSource() == player1RecklessStrategy){
+			controller.setStrategy(0, strategyType.oldRecklessPlayer);
 		} else if (event.getSource() == player2RecklessStrategy){
-			controller.setStrategy(1, strategyType.recklessPlayer);
+			controller.setStrategy(1, strategyType.oldRecklessPlayer);
 		} else if (event.getSource() == player3RecklessStrategy){
-			controller.setStrategy(2, strategyType.recklessPlayer);
+			controller.setStrategy(2, strategyType.oldRecklessPlayer);
 		} else if (event.getSource() == player4RecklessStrategy){
-			controller.setStrategy(3, strategyType.recklessPlayer);
-		}else if (event.getSource() == autoSetStrategies){
+			controller.setStrategy(3, strategyType.oldRecklessPlayer);
+		} 
+		
+		else if (event.getSource() == player1newReckless){
+			controller.setStrategy(0, strategyType.newRecklessPlayer);
+		} else if (event.getSource() == player2newReckless){
+			controller.setStrategy(1, strategyType.newRecklessPlayer);
+		} else if (event.getSource() == player3newReckless){
+			controller.setStrategy(2, strategyType.newRecklessPlayer);
+		} else if (event.getSource() == player4newReckless){
+			controller.setStrategy(3, strategyType.newRecklessPlayer);
+		}
+		
+		else if (event.getSource() == autoSetStrategies){
 			controller.setStrategy(0,strategyType.randomPlayer);
-			controller.setStrategy(1, strategyType.recklessPlayer);
-			controller.setStrategy(2, strategyType.preventer);
-			controller.setStrategy(3, strategyType.lowestScore);
+			controller.setStrategy(1, strategyType.oldRecklessPlayer);
+			controller.setStrategy(2, strategyType.oldRed);
+			controller.setStrategy(3, strategyType.oldLowestScore);
 		} 
 		/*
 		 * Draw card options
@@ -441,14 +567,16 @@ public class Gui implements ActionListener, GameObserver {
 		else if(event.getSource() == player1Draw){
 			System.out.println("Player1 draw");
 			controller.drawCard(0);
-			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).hand.size()), JLabel.LEFT);
 			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
 			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
 			JLabel drawPile = new JLabel("The draw Pile", JLabel.CENTER);
+			
 			drawPile.setBorder(BorderFactory.createLineBorder(Color.black));
 			if(controller.getTopDiscard() == null){
 				JLabel topDiscardPile = new JLabel("The discard pile is empty", JLabel.CENTER);
 				topDiscardPile.setBorder(BorderFactory.createLineBorder(Color.black));
+				
 				updateCenterArea(centerPanel, drawPile, topDiscardPile);
 			}else{
 				JLabel topDiscardPile= new JLabel(controller.getTopDiscard().toString(), JLabel.CENTER);
@@ -624,6 +752,21 @@ public class Gui implements ActionListener, GameObserver {
 //			JOptionPane.showMessageDialog(null, "Cortona phased out");
 			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
 		} 
+		
+		
+		
+		else if (event.getSource() == player1Hand){
+			JOptionPane.showMessageDialog(null, controller.playerList.get(0).hand.toString());
+		} else if (event.getSource() == player2Hand){
+			JOptionPane.showMessageDialog(null, controller.playerList.get(1).hand.toString());
+		} 
+		else if (event.getSource() == player3Hand){
+			JOptionPane.showMessageDialog(null, controller.playerList.get(2).hand.toString());
+		} 
+		else if (event.getSource() == player4Hand){
+			JOptionPane.showMessageDialog(null, controller.playerList.get(3).hand.toString());
+		} 
+		
 		
 		/*
 		 * Do turn options
@@ -882,6 +1025,22 @@ public class Gui implements ActionListener, GameObserver {
 			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
 		} else if (event.getSource() == resetPlayer){
 			controller.resetPlayer();
+			JLabel topHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(0).getHandSize()), JLabel.LEFT);
+			JLabel topPhase = new JLabel("Phase Number \n " + controller.playerList.get(0).getPhaseNumber(), JLabel.RIGHT);
+			JLabel topPhasedOutStuff = new JLabel(controller.playerList.get(0).phasedOutStuffToString());
+			JLabel rightHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(1).getHandSize()), JLabel.LEFT);
+			JLabel rightPhase = new JLabel("Phase Number \n " + controller.playerList.get(1).getPhaseNumber(), JLabel.RIGHT);
+			JLabel rightPhasedOutStuff = new JLabel(controller.playerList.get(1).phasedOutStuffToString());
+			JLabel bottomHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(2).getHandSize()), JLabel.LEFT);
+			JLabel bottomPhase = new JLabel("Phase Number \n " + controller.playerList.get(2).getPhaseNumber(), JLabel.RIGHT);
+			JLabel bottomPhasedOutStuff = new JLabel(controller.playerList.get(2).phasedOutStuffToString());
+			JLabel leftHand = new JLabel(("Number of Cards in hand \n" +controller.playerList.get(3).getHandSize()), JLabel.LEFT);
+			JLabel leftPhase = new JLabel("Phase Number \n " + controller.playerList.get(3).getPhaseNumber(), JLabel.RIGHT);
+			JLabel leftPhasedOutStuff = new JLabel(controller.playerList.get(3).phasedOutStuffToString());
+			updatePlayerArea(topPanel, topHand , chiefImg, topPhasedOutStuff, topPhase);
+			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
+			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
+			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
 		}
 
 		

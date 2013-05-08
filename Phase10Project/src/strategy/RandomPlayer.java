@@ -5,10 +5,6 @@ public class RandomPlayer extends Strategy {
 	public strategyType strat = strategyType.randomPlayer;
 	
 	
-	public RandomPlayer(){
-		
-	}
-	
 	
 	public strategyType getStrat() {
 		return strat;
@@ -17,6 +13,7 @@ public class RandomPlayer extends Strategy {
 	public void setPlayer(Player p){
 		player = p;
 	}
+	@Override
 	public Card discard(){
 		for(int i = 0; i < player.hand.size(); i++){
 			if (player.hand.get(i).getType() == Card.type.Skip){
@@ -26,6 +23,7 @@ public class RandomPlayer extends Strategy {
 		int i =  (int)(Math.random()*player.hand.size());
 		return player.hand.remove(i);
 	}
+	@Override
 	public Boolean draw(Deck drawPile, Card discard){
 		int i = (int)(Math.random()*10);
 
@@ -38,5 +36,6 @@ public class RandomPlayer extends Strategy {
 			return true;
 		}
 	}
+
 
 }
