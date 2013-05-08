@@ -56,7 +56,7 @@ public class Gui implements ActionListener, GameObserver {
 					  doTurn, player1DoTurn, player2DoTurn, player3DoTurn,player4DoTurn,
 					  hit, player1Hit, player2Hit, player3Hit, player4Hit,
 					  setPlayerStrategy, player1, player2, player3, player4,
-					  scorePlayers, phaseTracker, displayScore;
+					  scorePlayers, phaseTracker, displayScore, doGame;
 	private JMenu menu, round, playerOptions, scoring;
 	public JMenuItem exitRound;
 
@@ -162,7 +162,11 @@ public class Gui implements ActionListener, GameObserver {
 			
 		exitRound= new JMenuItem("Exit Round");
 		exitRound.addActionListener(unimplementedMenu_Click("This will exit the round."));
-		round.add(exitRound);
+		
+		doGame = new JMenuItem("Sim Game");
+		doGame.addActionListener(this);
+		round.add(doGame);
+		
 		
 // Scoring Menu
 		scoring = new JMenu("Scoring options ");
@@ -405,6 +409,9 @@ public class Gui implements ActionListener, GameObserver {
 		autoSetStrategies = new JMenuItem("Auto set strategies");
 		autoSetStrategies.addActionListener(this);
 		setPlayerStrategy.add(autoSetStrategies);
+		
+		
+		
 	
 		exitMenu = new JMenu("Exit game");
 		exitMenu.addActionListener(this);
@@ -1041,6 +1048,8 @@ public class Gui implements ActionListener, GameObserver {
 			updatePlayerArea(rightPanel, rightHand , johnsonImg, rightPhasedOutStuff, rightPhase);
 			updatePlayerArea(bottomPanel, bottomHand , arbiterImg, bottomPhasedOutStuff, bottomPhase);
 			updatePlayerArea(leftPanel, leftHand , cortonaImg, leftPhasedOutStuff, leftPhase);
+		} else if(event.getSource()== doGame){
+			controller.doGame();
 		}
 
 		
