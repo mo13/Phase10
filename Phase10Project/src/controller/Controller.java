@@ -163,7 +163,9 @@ public class Controller {
 		  phaseOut(i);
 	  }
 	  hit(i);
-	  discard(i);
+	  if(playerList.get(i).hand.size() != 0){
+		  discard(i);
+	  }
 	  if(playerList.get(i).hand.size()== 0){
 			roundDone = true;
 		}
@@ -201,10 +203,13 @@ public class Controller {
 	  setStrategy(3,Strategy.strategyType.randomPlayer);	
 	  while(!gameDone){
 			dealCards();
+			System.out.println("Entering a new round");
 			boolean roundIsDone = false;
 			while(!roundIsDone){
+				
 				roundIsDone = DoAWholeRound();
 			}
+			System.out.println("Done with that round");
 			scoreRound();
 			for(Player p : playerList){
 				if(p.getPhaseNumber() == 11){

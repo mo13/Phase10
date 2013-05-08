@@ -30,6 +30,9 @@ public abstract class Strategy {
 		}
 		player.checkPhase();
 		 for(int i = 0; i < tempHand.size(); i++){
+			 if(i == -1){
+				 i = 0;
+			 }
 			 if(!player.getPossiblePhasedOutSet().isEmpty()){
 					 ArrayList<Integer> tempSets = player.getPossiblePhasedOutSet();
 					 for(int j = 0; j< tempSets.size(); j++){
@@ -43,6 +46,9 @@ public abstract class Strategy {
 						 }
 					 }
 				 }
+			 if(i == -1){
+				 i = 0;
+			 }
 			 if(!player.getPossiblePhasedOutRun().isEmpty()){
 				 ArrayList<Integer> tempRun = player.getPossiblePhasedOutRun();
 				 for(int j = 0; j< tempRun.size(); j++){
@@ -54,6 +60,9 @@ public abstract class Strategy {
 						 i--;
 					 }
 				 }
+			 }
+			 if(i == -1){
+				 i = 0;
 			 }
 			 
 			 if(!player.getPossiblePhaseColor().isEmpty()){
@@ -69,7 +78,10 @@ public abstract class Strategy {
 					 }
 				 }
 			 }
-			 if (tempHand.get(i).getType() == Card.type.Wild){
+			 if(i == -1){
+				 i = 0;
+			 }
+			 if (!tempHand.isEmpty() && tempHand.get(i).getType() == Card.type.Wild ){
 				 if(i == -1){
 					 i = 0;
 				 }

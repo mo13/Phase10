@@ -706,6 +706,7 @@ public int numSets;
 	}
 	
 	public Boolean draw(Deck drawPile, Card discard){
+		try{
 		if(this.getStrategy() == Strategy.strategyType.randomPlayer){
 			random.setPlayer(this);
 			return random.draw(drawPile, discard);
@@ -727,7 +728,10 @@ public int numSets;
 		} else {
 			mewReck.setPlayer(this);
 			return mewReck.draw(drawPile, discard);
-		} 
+		} }	catch(IndexOutOfBoundsException e){
+			this.hand.draw(drawPile);
+			return false;
+		}
 		
 	}
 	
